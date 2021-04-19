@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BoolPoll, ListPoll } from "../Components/PollTypes";
 import { PollEnums } from "../PollEnums";
 
@@ -14,6 +14,7 @@ export const CreatePoll = () => {
     setDetails("");
     setRsvpDate("");
     setPolls([]);
+    setSelPoll([]);
   };
 
   const addPoll = (e, poll) => {
@@ -21,36 +22,17 @@ export const CreatePoll = () => {
     setPolls([poll, ...polls]);
   };
 
-  // const generatePollComps = () => {
-  //   polls.map((poll) => {
-  //     console.log(`poll ${poll}`);
-  //     switch (poll) {
-  //       case PollEnums.Bool:
-  //         return <BoolPoll />;
-  //       case PollEnums.Dates:
-  //         return <ListPoll />;
-  //       default:
-  //         return null;
-  //     }
-  //   });
-  // };
-
-  const generatePollComps = (poll) => {
+  const generatePollComps = (poll, index) => {
     console.log(`poll ${poll}`);
-    // let comp;
 
     switch (poll) {
       case PollEnums.Bool:
-        return <BoolPoll />;
-      // comp = <BoolPoll />;
-      // break;
-      case PollEnums.Dates:
-        return <ListPoll />;
-      // comp = <ListPoll />;
+        return <BoolPoll ind={index} />;
+      case PollEnums.List:
+        return <ListPoll ind={index} />;
       default:
         return null;
     }
-    // return comp;
   };
 
   return (
@@ -97,13 +79,7 @@ export const CreatePoll = () => {
           <input type="submit" value="Submit" />
           <input type="button" value="Clear" onClick={() => clearInputs()} />
         </div>
-        {/* <div>{polls.map((poll) => generatePollComps(poll))}</div> */}
-        <div>
-          {/* {polls.map((poll) =>
-            +poll === PollEnums.List ? <h1>list</h1> : <h1>Bool</h1>
-          )} */}
-          {polls.map((poll) => generatePollComps(poll))}
-        </div>
+        <div>{polls.map((poll, index) => generatePollComps(+poll, index))}</div>
       </form>
     </div>
   );
