@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BoolPoll, ListPoll } from "../Components/PollTypes";
+import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { PollEnums } from "../PollEnums";
 
 export const CreatePoll = () => {
@@ -30,6 +30,8 @@ export const CreatePoll = () => {
         return <BoolPoll ind={index} />;
       case PollEnums.List:
         return <ListPoll ind={index} />;
+      case PollEnums.Dates:
+        return <DatePoll />;
       default:
         return null;
     }
@@ -40,7 +42,7 @@ export const CreatePoll = () => {
       <h2>Create a Poll</h2>
       <form>
         <div>
-          <label>Name</label>
+          <label>Title</label>
           <input
             type="text"
             required={true}
@@ -75,11 +77,11 @@ export const CreatePoll = () => {
           <button onClick={(e) => addPoll(e, selPoll)}>Add Poll</button>
         </div>
         <div className="pollContainer"></div>
+        <div>{polls.map((poll, index) => generatePollComps(+poll, index))}</div>
         <div>
           <input type="submit" value="Submit" />
           <input type="button" value="Clear" onClick={() => clearInputs()} />
         </div>
-        <div>{polls.map((poll, index) => generatePollComps(+poll, index))}</div>
       </form>
     </div>
   );
