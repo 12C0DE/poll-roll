@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { PollEnums } from "../PollEnums";
 
@@ -10,6 +10,7 @@ export const CreatePoll = () => {
   const [selPoll, setSelPoll] = useState(PollEnums.None);
 
   const clearInputs = () => {
+    console.log("clear inputs");
     setName("");
     setDetails("");
     setRsvpDate("");
@@ -22,16 +23,43 @@ export const CreatePoll = () => {
     setPolls([poll, ...polls]);
   };
 
+  const delPoll = (e, pollIndex) => {
+    e.preventDefault();
+    console.log(`pollIndex ${pollIndex}`);
+    let newPolls = polls.splice(pollIndex, 1);
+
+    // setPolls(polls.splice(pollIndex, 1));
+    setPolls(newPolls);
+  };
+
   const generatePollComps = (poll, index) => {
     console.log(`poll ${poll}`);
 
     switch (poll) {
       case PollEnums.Bool:
-        return <BoolPoll ind={index} />;
+        return (
+          <BoolPoll
+            key={`bool${index}`}
+            ind={index}
+            delPoll={(e) => delPoll(e, index)}
+          />
+        );
       case PollEnums.List:
-        return <ListPoll ind={index} />;
+        return (
+          <ListPoll
+            key={`list${index}`}
+            ind={index}
+            delPoll={(e) => delPoll(e, index)}
+          />
+        );
       case PollEnums.Dates:
-        return <DatePoll />;
+        return (
+          <DatePoll
+            key={`date${index}`}
+            ind={index}
+            delPoll={(e) => delPoll(e, index)}
+          />
+        );
       default:
         return null;
     }
@@ -45,7 +73,7 @@ export const CreatePoll = () => {
           <label>Title</label>
           <input
             type="text"
-            required={true}
+            // required={true}
             onChange={(e) => setName(e.target.value)}
             value={name}
           />
@@ -61,7 +89,7 @@ export const CreatePoll = () => {
           <label>RSVP by</label>
           <input
             type="date"
-            required={true}
+            // required={true}
             onChange={(e) => setRsvpDate(e.target.value)}
             value={rsvpDate}
           />
@@ -80,7 +108,8 @@ export const CreatePoll = () => {
         <div>{polls.map((poll, index) => generatePollComps(+poll, index))}</div>
         <div>
           <input type="submit" value="Submit" />
-          <input type="button" value="Clear" onClick={() => clearInputs()} />
+          <input type="button" value="Clear" onClick={(e) => delPoll(e, 0)} />
+          {/* <input type="button" value="Clear" onClick={() => clearInputs()} /> */}
         </div>
       </form>
     </div>
