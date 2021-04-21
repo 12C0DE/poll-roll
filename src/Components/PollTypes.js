@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DeletePoll } from "../Components/DeletePoll";
 
-export const BoolPoll = ({ ind }) => {
+export const BoolPoll = ({ ind, delPoll }) => {
   // const [isTrue, setIsTrue] = useState(null);
 
   return (
@@ -23,29 +23,29 @@ export const BoolPoll = ({ ind }) => {
         // onChange={() => setIsTrue(!isTrue)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
-      <DeletePoll />
+      <DeletePoll del={delPoll(ind)} />
     </div>
   );
 };
 
-export const ListPoll = () => {
+export const ListPoll = ({ ind, delPoll }) => {
   return (
     <div>
       <label>Add Option</label>
       <input type="text" />
-      <DeletePoll />
+      <DeletePoll del={delPoll(ind)} />
     </div>
   );
 };
 
-export const DatePoll = () => {
+export const DatePoll = ({ ind, delPoll }) => {
   return (
     <div>
       <label>Start Date</label>
       <input type="date" />
       <label>End Date</label>
       <input type="date" />
-      <DeletePoll />
+      <DeletePoll del={() => delPoll(ind)} />
     </div>
   );
 };

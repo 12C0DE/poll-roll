@@ -1,5 +1,5 @@
 import React from "react";
 
-export const DeletePoll = ({ delPoll }) => {
-  return <button onClick={delPoll}> X </button>;
+export const DeletePoll = ({ del }) => {
+  return <button onClick={del()}> X </button>;
 };
