@@ -8,7 +8,12 @@ export default (state, action) => {
     case "DEL_POLL":
       return {
         ...state,
-        polls: state.polls.splice(action.payload, 1),
+        polls: state.polls.filter((poll) => poll.pollId !== action.payload),
+      };
+    case "CLEAR_POLLS":
+      return {
+        ...state,
+        polls: [],
       };
     default:
       return state;

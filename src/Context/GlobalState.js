@@ -17,12 +17,17 @@ export const GlobalProvider = ({ children }) => {
   function addPoll(poll) {
     dispatch({ type: "ADD_POLL", payload: poll });
   }
-  function delPoll(pollIndex) {
-    dispatch({ type: "DEL_POLL", payload: pollIndex });
+  function delPoll(pollId) {
+    dispatch({ type: "DEL_POLL", payload: pollId });
+  }
+  function clearPolls() {
+    dispatch({ type: "CLEAR_POLLS" });
   }
 
   return (
-    <GlobalContext.Provider value={{ polls: state.polls, addPoll, delPoll }}>
+    <GlobalContext.Provider
+      value={{ polls: state.polls, addPoll, delPoll, clearPolls }}
+    >
       {children}
     </GlobalContext.Provider>
   );

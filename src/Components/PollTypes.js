@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DeletePoll } from "../Components/DeletePoll";
 
-export const BoolPoll = ({ ind, delPoll }) => {
+export const BoolPoll = ({ id }) => {
   // const [isTrue, setIsTrue] = useState(null);
 
   return (
@@ -9,7 +9,7 @@ export const BoolPoll = ({ ind, delPoll }) => {
       <input type="text" placeholder="question" />
       <input
         type="radio"
-        name={`radioT${ind}`}
+        name={`radioT${id}`}
         disabled={true}
         // checked={isTrue}
         // onChange={() => setIsTrue(!isTrue)}
@@ -17,35 +17,35 @@ export const BoolPoll = ({ ind, delPoll }) => {
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
       <input
         type="radio"
-        name={`radioF${ind}`}
+        name={`radioF${id}`}
         disabled={true}
         // checked={!isTrue}
         // onChange={() => setIsTrue(!isTrue)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
-      <DeletePoll del={delPoll(ind)} />
+      <DeletePoll id={id} />
     </div>
   );
 };
 
-export const ListPoll = ({ ind, delPoll }) => {
+export const ListPoll = ({ id }) => {
   return (
     <div>
       <label>Add Option</label>
       <input type="text" />
-      <DeletePoll del={delPoll(ind)} />
+      <DeletePoll id={id} />
     </div>
   );
 };
 
-export const DatePoll = ({ ind, delPoll }) => {
+export const DatePoll = ({ id }) => {
   return (
     <div>
       <label>Start Date</label>
       <input type="date" />
       <label>End Date</label>
       <input type="date" />
-      <DeletePoll del={() => delPoll(ind)} />
+      <DeletePoll id={id} />
     </div>
   );
 };

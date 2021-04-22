@@ -2,75 +2,49 @@ import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { PollEnums } from "../PollEnums";
+import uuid from "react-uuid";
 
 export const CreatePoll = () => {
   const [rsvpDate, setRsvpDate] = useState("");
   const [name, setName] = useState("");
   const [details, setDetails] = useState("");
-  // const [polls, setPolls] = useState([]);
   const [selPoll, setSelPoll] = useState(PollEnums.None);
-  const { polls, addPoll, delPoll } = useContext(GlobalContext);
+  const { polls, addPoll, clearPolls } = useContext(GlobalContext);
 
   const clearInputs = () => {
     console.log("clear inputs");
     setName("");
     setDetails("");
     setRsvpDate("");
-    // setPolls([]);
-    setSelPoll([]);
+    clearPolls();
+    setSelPoll(PollEnums.None);
   };
 
   const add2Polls = (e, poll) => {
     e.preventDefault();
-    // addPoll([poll, ...polls]);
+
+    if (+poll === PollEnums.None) {
+      return;
+    }
+
     const newPoll = {
-      val: poll,
-      pollIndex: polls.length,
+      pollType: +poll,
+      pollId: uuid(),
     };
 
     addPoll(newPoll);
   };
 
-  const delPolls = (pollIndex) => {
-    // e.preventDefault();
-    console.log(`pollIndex ${pollIndex}`);
-    let newPolls = polls.splice(pollIndex, 1);
-
-    // setPolls(polls.splice(pollIndex, 1));
-    // setPolls(newPolls);
-  };
-
-  const generatePollComps = (poll, index) => {
+  const generatePollComps = (poll, pollID) => {
     console.log(`poll ${poll}`);
 
     switch (poll) {
       case PollEnums.Bool:
-        return (
-          <BoolPoll
-            key={`bool${index}`}
-            ind={index}
-            // delPoll={(e) => delPoll(e, index)}
-            delPoll={delPolls}
-          />
-        );
+        return <BoolPoll key={`bool${pollID}`} id={pollID} />;
       case PollEnums.List:
-        return (
-          <ListPoll
-            key={`list${index}`}
-            ind={index}
-            // delPoll={(e) => delPoll(e, index)}
-            delPoll={delPolls}
-          />
-        );
+        return <ListPoll key={`list${pollID}`} id={pollID} />;
       case PollEnums.Dates:
-        return (
-          <DatePoll
-            key={`date${index}`}
-            ind={index}
-            // delPoll={(e) => delPoll(e, index)}
-            delPoll={delPolls}
-          />
-        );
+        return <DatePoll key={`date${pollID}`} id={pollID} />;
       default:
         return null;
     }
@@ -108,7 +82,7 @@ export const CreatePoll = () => {
         <div>
           <label>Type of poll</label>
           <select value={selPoll} onChange={(e) => setSelPoll(e.target.value)}>
-            <option>- Select One -</option>
+            <option value={PollEnums.None}>- Select One -</option>
             <option value={PollEnums.Dates}>Dates</option>
             <option value={PollEnums.List}>List</option>
             <option value={PollEnums.Bool}>T/F</option>
@@ -116,11 +90,12 @@ export const CreatePoll = () => {
           <button onClick={(e) => add2Polls(e, selPoll)}>Add Poll</button>
         </div>
         <div className="pollContainer"></div>
-        <div>{polls.map((poll, index) => generatePollComps(+poll, index))}</div>
+        <div>
+          {polls.map((poll) => generatePollComps(+poll.pollType, poll.pollId))}
+        </div>
         <div>
           <input type="submit" value="Submit" />
-          <input type="button" value="Clear" onClick={(e) => delPoll(e, 0)} />
-          {/* <input type="button" value="Clear" onClick={() => clearInputs()} /> */}
+          <input type="button" value="Clear" onClick={() => clearInputs()} />
         </div>
       </form>
     </div>
