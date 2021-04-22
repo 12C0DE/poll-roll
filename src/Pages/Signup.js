@@ -5,18 +5,40 @@ import { GlobalContext } from "../Context/GlobalState";
 import { auth, db } from "../Firebase/firebase";
 
 const Signup = ({ history }) => {
-  const { user } = useContext(GlobalContext);
-  const handleSignUp = useCallback(async (event) => {
-    event.preventDefault();
-    const {
-      email,
-      password,
-      confirmpwd,
-      fname,
-      lname,
-      phone,
-    } = event.target.elements;
-  });
+  // const { user } = useContext(GlobalContext);
+  const handleSignUp = useCallback(
+    async (event) => {
+      event.preventDefault();
+      const {
+        email,
+        password,
+        confirmpwd,
+        fname,
+        lname,
+        phone,
+      } = event.target.elements;
+
+      if (password.value !== confirmpwd.value) {
+        alert("Password does not match");
+        return;
+      }
+
+      try {
+        await auth.createUserWithEmailAndPassword(email.value, password.value);
+
+        db.collection("users")
+          .doc(auth.currentUser.uid)
+          .collection("info")
+          .add({ fname: fname.value, lname: lname.value })
+          .then(() => {
+            history.push("/home");
+          });
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
 
   return (
     <div className="signUpContainer">
@@ -35,14 +57,8 @@ const Signup = ({ history }) => {
           <input name="confirmpwd" type="password" />
         </div>
         <div className="center" id="logInDiv">
-          <Button
-            variant="contained"
-            style={saveBtn}
-            size="large"
-            type="submit"
-          >
-            Sign Up
-          </Button>
+          <button>Sign Up</button>
+          Sign Up
         </div>
       </form>
       <div>
