@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { DeletePoll } from "../Components/DeletePoll";
 
 export const BoolPoll = ({ id }) => {
-  // const [isTrue, setIsTrue] = useState(null);
-
   return (
     <div>
       <input type="text" placeholder="question" />

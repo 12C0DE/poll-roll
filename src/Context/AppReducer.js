@@ -15,6 +15,11 @@ export default (state, action) => {
         ...state,
         polls: [],
       };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Landing = () => {
   return (
@@ -10,8 +11,12 @@ export const Landing = () => {
         need answers in one place. Take your roll call with Poll Roll.
       </blockquote>
       <div>
-        <button>Log In</button>
-        <button>Sign Up</button>
+        <button>
+          <Link to="/login">Log In</Link>
+        </button>
+        <button>
+          <Link to="/signup">Sign Up</Link>
+        </button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import AppReducer from "./AppReducer";
 //initial state
 const initialState = {
   polls: [],
+  user: null,
 };
 
 //create context
@@ -24,9 +25,20 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "CLEAR_POLLS" });
   }
 
+  function setUser(user) {
+    dispatch({ type: "SET_USER", payload: user });
+  }
+
   return (
     <GlobalContext.Provider
-      value={{ polls: state.polls, addPoll, delPoll, clearPolls }}
+      value={{
+        polls: state.polls,
+        user: state.user,
+        addPoll,
+        delPoll,
+        clearPolls,
+        setUser,
+      }}
     >
       {children}
     </GlobalContext.Provider>

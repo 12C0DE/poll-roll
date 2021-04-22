@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
-import { PollEnums } from "../PollEnums";
+import { PollEnums } from "../Enums/PollEnums";
 import uuid from "react-uuid";
 
 export const CreatePoll = () => {
