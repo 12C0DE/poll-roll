@@ -1,59 +1,50 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router";
-import { Link, useHistory } from "react-router-dom";
+import React, { useCallback, useContext, useState } from "react";
+import { withRouter, Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
+import { AuthContext } from "../Firebase/Auth";
 import { SignInEnums } from "../Enums/SignInEnums";
 
-const Login = () => {
-  const history = useHistory();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ history }) => {
   const [phone, setPhone] = useState(0);
   const [code, setCode] = useState(0);
 
-  const LogInHandler = (e, signInType) => {
-    e.preventDefault();
+  const handleLogin = useCallback(
+    async (event) => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
 
-    switch (signInType) {
-      case SignInEnums.Phone:
-        break;
-      case SignInEnums.Email:
-        auth
-          .signInWithEmailAndPassword(email, password)
-          .then((authUser) => {
-            if (authUser) {
-              history.push("/home");
-            }
-          })
-          .catch((error) => alert(error.message));
-        break;
-      default:
-        return;
-    }
-  };
+      try {
+        await auth.signInWithEmailAndPassword(email.value, password.value);
+        history.push("/home");
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
+
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    return <Redirect to="/home" />;
+  }
 
   return (
     <div className="loginContainer">
       <h1>Log In</h1>
-      <form>
+      <form onSubmit={handleLogin}>
         <h4>E-mail</h4>
         <input
           id="txtEmail"
           type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={"test7@gmail.com"}
         />
         <h4>Password</h4>
-        <input
-          id="txtpwd"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input id="txtpwd" type="password" value={123456789} name="password" />
         <div className="center" id="logInDiv">
-          <button onClick={(e) => LogInHandler(e, SignInEnums.Email)}>
-            Log In with Email
-          </button>
+          <button>Log In with Email</button>
         </div>
         <h4>Phone Number</h4>
         <input
@@ -63,9 +54,9 @@ const Login = () => {
           onChange={(e) => setPhone(e.target.value)}
         />
         <div className="center" id="logInDiv">
-          <button onClick={(e) => LogInHandler(e, SignInEnums.Phone)}>
+          {/* <button onClick={(e) => LogInHandler(e, SignInEnums.Phone)}>
             Log In with Phone
-          </button>
+          </button> */}
         </div>
       </form>
       <div>

@@ -6,7 +6,7 @@ export const Header = () => {
   return (
     <div className="headerDiv">
       <h1>
-        <Link to="/">Poll Roll</Link>
+        <Link to="/home">Poll Roll</Link>
       </h1>
     </div>
   );

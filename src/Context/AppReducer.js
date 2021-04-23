@@ -15,6 +15,16 @@ export default (state, action) => {
         ...state,
         polls: [],
       };
+    case "SET_CODE":
+      return {
+        ...state,
+        code: action.payload,
+      };
+    case "SET_PHONE":
+      return {
+        ...state,
+        phone: action.payload,
+      };
     case "SET_USER":
       return {
         ...state,

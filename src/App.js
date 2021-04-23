@@ -1,5 +1,6 @@
 import React from "react";
 import { Header } from "./Components/Header";
+import { Logout } from "./Components/Logout";
 import { Landing } from "./Pages/Landing";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -17,6 +18,7 @@ function App() {
     <GlobalProvider>
       <AuthProvider>
         <BrowserRouter>
+          <Logout />
           <Header />
           <Switch>
             <PrivateRoute exact path="/home" component={Home} />
