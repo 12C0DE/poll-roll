@@ -3,9 +3,9 @@ import AppReducer from "./AppReducer";
 
 //initial state
 const initialState = {
-  code: 0,
+  code: "",
   polls: [],
-  phone: 0,
+  phone: "",
   user: null,
 };
 

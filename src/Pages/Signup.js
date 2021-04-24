@@ -8,6 +8,11 @@ import { GlobalContext } from "../Context/GlobalState";
 
 const Signup = ({ history }) => {
   const { phone, code } = useContext(GlobalContext);
+  const [fname, setFName] = useState("");
+  const [lname, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPwd, setConfirmPwd] = useState("");
   const [signInType, setSignInType] = useState(SignInEnums.None);
 
   const signInTypeHandler = (e, signEnum) => {
@@ -16,56 +21,23 @@ const Signup = ({ history }) => {
     setSignInType(signEnum);
   };
 
-  const displaySignIn = (type) => {
-    switch (type) {
-      case SignInEnums.Email:
-        return (
-          <React.Fragment>
-            <h4>Email</h4>
-            <input name="emailS" type="email" />
-            <h4>Password</h4>
-            <input name="passwordS" type="password" />
-            <h4>Confirm Password</h4>
-            <input name="confirmpwdS" type="password" />
-            <div className="center" id="logInDiv">
-              <button onClick={handleSignUp}>Sign Up</button>
-            </div>
-          </React.Fragment>
-        );
-      case SignInEnums.Phone:
-        return <PhoneVerification />;
-      default:
-        return null;
-    }
-  };
-
   const handleSignUp = useCallback(
     async (event) => {
       event.preventDefault();
-      const {
-        emailS,
-        passwordS,
-        confirmpwdS,
-        fnameS,
-        lnameS,
-      } = event.target.elements;
 
       if (signInType === SignInEnums.Email) {
-        if (passwordS.value !== confirmpwdS.value) {
+        if (password !== confirmPwd) {
           alert("Password does not match");
           return;
         }
 
         try {
-          await auth.createUserWithEmailAndPassword(
-            emailS.value,
-            passwordS.value
-          );
+          await auth.createUserWithEmailAndPassword(email, password);
 
           db.collection("users")
             .doc(auth.currentUser.uid)
             .collection("info")
-            .add({ fname: fnameS.value, lname: lnameS.value })
+            .add({ fname: fname, lname: lname })
             .then(() => {
               history.push("/home");
             });
@@ -75,18 +47,59 @@ const Signup = ({ history }) => {
         }
       } else {
         //phone sign in
-        try {
-          await auth.signInWithPhoneNumber(phone, code).then(() => {
-            history.push("/home");
-          });
-        } catch (error) {
-          console.log(error);
-          alert(error);
-        }
+        // await auth.signInWithPhoneNumber(phone, code).then(() => {
+        //   history.push("/home");
+        // });
       }
     },
     [history]
   );
+
+  const displaySignIn = (type) => {
+    switch (type) {
+      case SignInEnums.Email:
+        return (
+          <React.Fragment>
+            <h4>Email</h4>
+            <input
+              name="emailS"
+              type="email"
+              required={true}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <h4>Password</h4>
+            <input
+              name="passwordS"
+              type="password"
+              required={true}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <h4>Confirm Password</h4>
+            <input
+              name="confirmpwdS"
+              type="password"
+              required={true}
+              value={confirmPwd}
+              onChange={(e) => setConfirmPwd(e.target.value)}
+            />
+            <div className="center" id="logInDiv">
+              <button onClick={handleSignUp}>Sign Up</button>
+            </div>
+          </React.Fragment>
+        );
+      case SignInEnums.Phone:
+        return (
+          <React.Fragment>
+            <PhoneVerification />
+            <button onClick={handleSignUp}>Verify</button>
+          </React.Fragment>
+        );
+      default:
+        return null;
+    }
+  };
 
   const signInDiv = displaySignIn(signInType);
   return (

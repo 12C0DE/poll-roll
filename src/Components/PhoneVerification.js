@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { GlobalContext } from "../Context/GlobalState";
 
 export const PhoneVerification = () => {
   const [codeSent, setCodeSent] = useState(false);
+  const { code, phone, setCode, setPhone } = useContext(GlobalContext);
 
   const maxInput = (e) => {
     e.target.value = e.target.value.replace(/[^0-9]$/gi, "");
@@ -21,12 +23,21 @@ export const PhoneVerification = () => {
 
   return (
     <div>
-      <input type="tel" placeholder="xxx-xxx-xxxxx" />
+      <input
+        type="tel"
+        placeholder="xxx-xxx-xxxxx"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
       <button onClick={(e) => sendPhoneCode(e)}>Send Code</button>
       {codeSent ? (
         <div>
-          <input placeholder="xxxxxx" onInput={(e) => maxInput(e)} />
-          <button>Verify</button>
+          <input
+            placeholder="xxxxxx"
+            value={code}
+            onInput={(e) => maxInput(e)}
+            onChange={(e) => setCode(e.target.value)}
+          />
         </div>
       ) : null}
     </div>
