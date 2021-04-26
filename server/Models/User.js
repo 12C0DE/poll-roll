@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
   fname: String,
   lname: String,
-  uid: {
+  authId: {
     type: String,
     require: true,
+    unique: true,
   },
 });
 

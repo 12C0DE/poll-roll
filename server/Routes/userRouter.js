@@ -11,11 +11,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  console.log(`userID: ${req.params.id}`);
+router.get("/:authId", async (req, res) => {
+  console.log(`userID: ${req.params.authId}`);
 
   try {
-    const specUser = await User.findById(req.params.id);
+    const specUser = await User.findOne({ authId: req.params.authId });
     res.json(specUser);
   } catch (err) {
     res.json({ message: err });
@@ -26,7 +26,7 @@ router.post("/post", async (req, res) => {
   const user = new User({
     fname: req.body.fname,
     lname: req.body.lname,
-    uid: req.body.uid,
+    authId: req.body.authId,
   });
 
   const savedUser = await user.save();

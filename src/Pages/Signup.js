@@ -5,6 +5,7 @@ import { auth, db } from "../Firebase/firebase";
 // import { SignInEnums } from "../Enums/SignInEnums";
 // import { PhoneVerification } from "../Components/PhoneVerification";
 import { GlobalContext } from "../Context/GlobalState";
+import axios from "axios";
 
 const Signup = ({ history }) => {
   const handleSignUp = useCallback(
@@ -31,14 +32,15 @@ const Signup = ({ history }) => {
         );
         console.log("user created");
 
-        db.collection("users")
-          .doc(auth.currentUser.uid)
-          .collection("info")
-          .add({ fname: fnameS.value, lname: lnameS.value })
-          .then(() => {
-            console.log("in then block");
-            history.push("/home");
-          });
+        const newUser = {
+          fname: fnameS.value,
+          lname: lnameS.value,
+          authId: auth.currentUser.uid,
+        };
+
+        axios.post("/users/post", newUser).then(() => {
+          history.push("/home");
+        });
       } catch (error) {
         console.log(error);
         alert(error);

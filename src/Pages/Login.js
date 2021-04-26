@@ -3,11 +3,12 @@ import { withRouter, Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import { AuthContext } from "../Firebase/Auth";
-import { SignInEnums } from "../Enums/SignInEnums";
+import { GlobalContext } from "../Context/GlobalState";
+import axios from "axios";
 
 const Login = ({ history }) => {
   const [phone, setPhone] = useState(0);
-  const [code, setCode] = useState(0);
+  const { setUser } = useContext(GlobalContext);
 
   const handleLogin = useCallback(
     async (event) => {
@@ -16,6 +17,10 @@ const Login = ({ history }) => {
 
       try {
         await auth.signInWithEmailAndPassword(email.value, password.value);
+
+        axios.get(`/users/${auth.currentUser.uid}`).then((usr) => {
+          setUser(usr.data);
+        });
         history.push("/home");
       } catch (error) {
         alert(error);
@@ -24,9 +29,9 @@ const Login = ({ history }) => {
     [history]
   );
 
-  const { user } = useContext(AuthContext);
+  const { currUser } = useContext(AuthContext);
 
-  if (user) {
+  if (currUser) {
     return <Redirect to="/home" />;
   }
 
@@ -39,7 +44,7 @@ const Login = ({ history }) => {
           id="txtEmail"
           type="text"
           name="email"
-          value={"test7@gmail.com"}
+          value={"test1@gmail.com"}
         />
         <h4>Password</h4>
         <input id="txtpwd" type="password" value={123456789} name="password" />
@@ -53,11 +58,6 @@ const Login = ({ history }) => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
-        <div className="center" id="logInDiv">
-          {/* <button onClick={(e) => LogInHandler(e, SignInEnums.Phone)}>
-            Log In with Phone
-          </button> */}
-        </div>
       </form>
       <div>
         <h3 className="center">
