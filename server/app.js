@@ -5,10 +5,6 @@ const cors = require("cors");
 require("dotenv/config");
 
 //middleware
-//function that executes when routes are being hit
-// app.use("/posts", () => {
-//   console.log("this is a middleware running");
-// });
 
 app.use(cors());
 app.use(express.json());
@@ -25,6 +21,9 @@ app.get("/posts", (req, res) => {
 //import routes
 const userRoute = require("./Routes/userRouter");
 app.use("/users", userRoute);
+
+const pollRoute = require("./Routes/pollRouter");
+app.use("/polls", pollRoute);
 
 //connect to DB
 mongoose.connect(

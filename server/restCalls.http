@@ -12,3 +12,19 @@ content-type: application/json
     "lname": "testLast2",
     "uid": "sdfgfg"
 }
+
+###
+GET http://localhost:3001/polls/ HTTP/1.1
+
+
+###
+POST http://localhost:3001/polls/post HTTP/1.1
+content-type: application/json
+
+{
+   "pollName": "testPoll3",
+  "details": "test details",
+  "rsvpDate": "2021-4-16",
+  "pollType": ["r1234", "3"],
+  "authId": "test"
+}

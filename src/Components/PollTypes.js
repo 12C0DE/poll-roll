@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DeletePoll } from "../Components/DeletePoll";
+import { GlobalContext } from "../Context/GlobalState";
+import { PollEnums } from "../Enums/PollEnums";
 
 export const BoolPoll = ({ id }) => {
+  const { updatePoll } = useContext(GlobalContext);
+
+  const updatingPoll = (e, isStart) => {
+    const updatedPoll = {
+      pollType: PollEnums.Bool,
+      pollId: id,
+      pollData: { start: e.target.value },
+    };
+
+    updatePoll(updatedPoll);
+  };
+
   return (
     <div>
       <input type="text" placeholder="question" />
@@ -11,6 +25,7 @@ export const BoolPoll = ({ id }) => {
         disabled={true}
         // checked={isTrue}
         // onChange={() => setIsTrue(!isTrue)}
+        onChange={(e) => updatingPoll(e.target.value, true)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
       <input

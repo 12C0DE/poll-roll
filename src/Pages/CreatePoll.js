@@ -3,13 +3,14 @@ import { GlobalContext } from "../Context/GlobalState";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { PollEnums } from "../Enums/PollEnums";
 import uuid from "react-uuid";
+import axios from "axios";
 
 export const CreatePoll = () => {
   const [rsvpDate, setRsvpDate] = useState("");
   const [name, setName] = useState("");
   const [details, setDetails] = useState("");
   const [selPoll, setSelPoll] = useState(PollEnums.None);
-  const { polls, addPoll, clearPolls } = useContext(GlobalContext);
+  const { polls, addPoll, clearPolls, user } = useContext(GlobalContext);
 
   const clearInputs = () => {
     console.log("clear inputs");
@@ -30,6 +31,7 @@ export const CreatePoll = () => {
     const newPoll = {
       pollType: +poll,
       pollId: uuid(),
+      data: [],
     };
 
     addPoll(newPoll);
@@ -50,10 +52,27 @@ export const CreatePoll = () => {
     }
   };
 
+  const submitPoll = (e) => {
+    e.preventDefault();
+
+    const newPoll = {
+      pollName: name,
+      details: details,
+      rsvpDate: rsvpDate,
+      pollType: polls,
+      authId: user.authId,
+    };
+
+    axios.post("/polls/post", newPoll).then(() => {
+      console.log("poll created");
+      clearInputs();
+    });
+  };
+
   return (
     <div>
       <h2>Create a Poll</h2>
-      <form>
+      <form onSubmit={submitPoll}>
         <div>
           <label>Title</label>
           <input

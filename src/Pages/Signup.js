@@ -1,10 +1,7 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { auth, db } from "../Firebase/firebase";
-// import { SignInEnums } from "../Enums/SignInEnums";
-// import { PhoneVerification } from "../Components/PhoneVerification";
-import { GlobalContext } from "../Context/GlobalState";
+import { auth } from "../Firebase/firebase";
 import axios from "axios";
 
 const Signup = ({ history }) => {

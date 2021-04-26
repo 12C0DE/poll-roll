@@ -30,6 +30,17 @@ export default (state, action) => {
         ...state,
         user: action.payload,
       };
+    case "UPDATE_POLL":
+      const index = state.polls.findIndex(
+        (poll) => poll.id === action.payload.id
+      );
+      const copyPolls = state.polls;
+      copyPolls[index] = action.payload;
+
+      return {
+        ...state,
+        polls: copyPolls,
+      };
     default:
       return state;
   }

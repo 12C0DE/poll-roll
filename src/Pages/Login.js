@@ -16,12 +16,15 @@ const Login = ({ history }) => {
       const { email, password } = event.target.elements;
 
       try {
-        await auth.signInWithEmailAndPassword(email.value, password.value);
+        await auth
+          .signInWithEmailAndPassword(email.value, password.value)
+          .then(() => {
+            axios.get(`/users/${auth.currentUser.uid}`).then((usr) => {
+              setUser(usr.data);
+            });
 
-        axios.get(`/users/${auth.currentUser.uid}`).then((usr) => {
-          setUser(usr.data);
-        });
-        history.push("/home");
+            history.push("/home");
+          });
       } catch (error) {
         alert(error);
       }
