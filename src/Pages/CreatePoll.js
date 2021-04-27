@@ -55,6 +55,10 @@ export const CreatePoll = () => {
   const submitPoll = (e) => {
     e.preventDefault();
 
+    if (!polls.length > 0) {
+      return;
+    }
+
     const newPoll = {
       pollName: name,
       details: details,
@@ -77,7 +81,7 @@ export const CreatePoll = () => {
           <label>Title</label>
           <input
             type="text"
-            // required={true}
+            required={true}
             onChange={(e) => setName(e.target.value)}
             value={name}
           />
@@ -93,7 +97,7 @@ export const CreatePoll = () => {
           <label>RSVP by</label>
           <input
             type="date"
-            // required={true}
+            required={true}
             onChange={(e) => setRsvpDate(e.target.value)}
             value={rsvpDate}
           />

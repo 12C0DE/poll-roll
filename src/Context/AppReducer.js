@@ -32,7 +32,7 @@ export default (state, action) => {
       };
     case "UPDATE_POLL":
       const index = state.polls.findIndex(
-        (poll) => poll.id === action.payload.id
+        (poll) => poll.pollId === action.payload.pollId
       );
       const copyPolls = state.polls;
       copyPolls[index] = action.payload;
