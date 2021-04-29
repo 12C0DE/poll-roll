@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
+import { withRouter } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { PollEnums } from "../Enums/PollEnums";
 import uuid from "react-uuid";
 import axios from "axios";
 
-export const CreatePoll = () => {
+const CreatePoll = ({ history }) => {
   const [rsvpDate, setRsvpDate] = useState("");
   const [name, setName] = useState("");
   const [details, setDetails] = useState("");
@@ -63,13 +64,13 @@ export const CreatePoll = () => {
       pollName: name,
       details: details,
       rsvpDate: rsvpDate,
-      pollType: polls,
+      pollOptions: polls,
       authId: user.authId,
     };
 
-    axios.post("/polls/post", newPoll).then(() => {
-      console.log("poll created");
+    axios.post("/polls/post", newPoll).then((res) => {
       clearInputs();
+      history.push(`/editPoll/${res.data._id}`);
     });
   };
 
@@ -124,3 +125,4 @@ export const CreatePoll = () => {
     </div>
   );
 };
+export default withRouter(CreatePoll);

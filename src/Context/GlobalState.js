@@ -26,6 +26,9 @@ export const GlobalProvider = ({ children }) => {
   function clearPolls() {
     dispatch({ type: "CLEAR_POLLS" });
   }
+  function setPolls(polls) {
+    dispatch({ type: "SET_POLLS", payload: polls });
+  }
   function updatePoll(poll) {
     dispatch({ type: "UPDATE_POLL", payload: poll });
   }
@@ -53,6 +56,7 @@ export const GlobalProvider = ({ children }) => {
         clearPolls,
         setCode,
         setPhone,
+        setPolls,
         setUser,
         updatePoll,
       }}

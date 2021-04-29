@@ -20,6 +20,11 @@ export default (state, action) => {
         ...state,
         code: action.payload,
       };
+    case "SET_POLLS":
+      return {
+        ...state,
+        polls: action.payload,
+      };
     case "SET_PHONE":
       return {
         ...state,

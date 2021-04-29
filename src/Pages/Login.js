@@ -23,7 +23,7 @@ const Login = ({ history }) => {
               setUser(usr.data);
             });
 
-            history.push("/home");
+            history.push(`/home/${auth.currentUser.uid}`);
           });
       } catch (error) {
         alert(error);
@@ -43,14 +43,14 @@ const Login = ({ history }) => {
       <h1>Log In</h1>
       <form onSubmit={handleLogin}>
         <h4>E-mail</h4>
-        <input
-          id="txtEmail"
-          type="text"
-          name="email"
-          value={"test1@gmail.com"}
-        />
+        <input id="txtEmail" type="text" name="email" value={"t50@gmail.com"} />
         <h4>Password</h4>
-        <input id="txtpwd" type="password" value={123456789} name="password" />
+        <input
+          id="txtpwd"
+          type="password"
+          value={"wefds2344"}
+          name="password"
+        />
         <div className="center" id="logInDiv">
           <button>Log In with Email</button>
         </div>

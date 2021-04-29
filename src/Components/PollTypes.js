@@ -22,6 +22,7 @@ export const BoolPoll = ({ id }) => {
     <div>
       <input
         type="text"
+        id={`bi${id}`}
         placeholder="question"
         onBlur={(e) => updatingPoll(e)}
       />
@@ -63,7 +64,7 @@ export const ListPoll = ({ id }) => {
   return (
     <div>
       <label>Add Option</label>
-      <input type="text" onBlur={(e) => updatingPoll(e)} />
+      <input id={`li${id}`} type="text" onBlur={(e) => updatingPoll(e)} />
       <DeletePoll id={id} />
     </div>
   );
@@ -90,9 +91,19 @@ export const DatePoll = ({ id }) => {
   return (
     <div>
       <label>Start Date</label>
-      <input type="date" ref={startRef} onChangeCapture={updatingPoll} />
+      <input
+        type="date"
+        id={`sd${id}`}
+        ref={startRef}
+        onChangeCapture={updatingPoll}
+      />
       <label>End Date</label>
-      <input type="date" ref={endRef} onChangeCapture={updatingPoll} />
+      <input
+        type="date"
+        id={`ed${id}`}
+        ref={endRef}
+        onChangeCapture={updatingPoll}
+      />
       <DeletePoll id={id} />
     </div>
   );

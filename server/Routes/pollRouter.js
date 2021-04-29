@@ -11,9 +11,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+//retrieve poll names
+router.get("/pollnames/:authId", async (req, res) => {
+  try {
+    const pollNames = await Poll.find({ authId: req.params.authId }).select(
+      "pollName"
+    );
+    res.json(pollNames);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//retrieve specific poll
 router.get("/:_id", async (req, res) => {
   try {
-    const specPoll = await Poll.findById(req.param._id);
+    const specPoll = await Poll.findById(req.params._id);
     res.json(specPoll);
   } catch (err) {
     res.json({ message: err });
@@ -25,7 +38,7 @@ router.post("/post", async (req, res) => {
     pollName: req.body.pollName,
     details: req.body.details,
     rsvpDate: req.body.rsvpDate,
-    pollType: req.body.pollType,
+    pollOptions: req.body.pollOptions,
     authId: req.body.authId,
   });
 
