@@ -83,8 +83,8 @@ const CreatePoll = ({ history }) => {
           <input
             type="text"
             required={true}
-            onChange={(e) => setName(e.target.value)}
             value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
@@ -113,9 +113,8 @@ const CreatePoll = ({ history }) => {
           </select>
           <button onClick={(e) => add2Polls(e, selPoll)}>Add Poll</button>
         </div>
-        <div className="pollContainer"></div>
         <div>
-          {polls.map((poll) => generatePollComps(+poll.pollType, poll.pollId))}
+          {polls?.map((poll) => generatePollComps(+poll.pollType, poll.pollId))}
         </div>
         <div>
           <input type="submit" value="Submit" />

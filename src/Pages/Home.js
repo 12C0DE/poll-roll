@@ -8,10 +8,32 @@ export const Home = () => {
   const [pollNames, setPollNames] = useState([]);
 
   useEffect(() => {
-    axios.get(`/polls/pollnames/${aid}`).then((name) => {
-      setPollNames([name.data, ...pollNames]);
-    });
-  }, []);
+    let unmounted = false;
+    let source = axios.CancelToken.source();
+    axios
+      .get(`/polls/pollnames/${aid}`, {
+        cancelToken: source.token,
+      })
+      .then((p) => {
+        if (!unmounted) {
+          setPollNames(p.data);
+        }
+      })
+      .catch(function (e) {
+        if (!unmounted) {
+          if (axios.isCancel(e)) {
+            console.log(`request cancelled:${e.message}`);
+          } else {
+            console.log("another error happened:" + e.message);
+          }
+        }
+      });
+
+    return function () {
+      unmounted = true;
+      source.cancel("Cancelling in cleanup");
+    };
+  }, [aid]);
 
   return (
     <React.Fragment>
@@ -25,11 +47,13 @@ export const Home = () => {
         <Link to="/results">View Results</Link>
       </div>
       <div>
-        <ol>
+        <ul>
           {pollNames.map((poll) => (
-            <li key={`pn${poll._id}`}>{poll.pollName}</li>
+            <li key={`pn${poll._id}`}>
+              <Link to={`/editPoll/${poll._id}`}>{poll.pollName}</Link>
+            </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </React.Fragment>
   );

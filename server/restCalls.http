@@ -14,7 +14,8 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3001/polls/608a49eef2dc806cf83e07a2 HTTP/1.1
+GET http://localhost:3001/polls/608e1a61c0e66004e64d174f HTTP/1.1
+
 ###
 GET http://localhost:3001/polls/pollnames/OIJn0idMXLPtmg5iGWTur5j62o32 HTTP/1.1
 

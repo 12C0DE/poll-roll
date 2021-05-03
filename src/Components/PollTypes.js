@@ -3,7 +3,7 @@ import { DeletePoll } from "../Components/DeletePoll";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
 
-export const BoolPoll = ({ id }) => {
+export const BoolPoll = ({ id, optionVal }) => {
   const { updatePoll } = useContext(GlobalContext);
 
   const updatingPoll = (e) => {
@@ -24,6 +24,7 @@ export const BoolPoll = ({ id }) => {
         type="text"
         id={`bi${id}`}
         placeholder="question"
+        defaultValue={optionVal}
         onBlur={(e) => updatingPoll(e)}
       />
       <input
@@ -47,7 +48,7 @@ export const BoolPoll = ({ id }) => {
   );
 };
 
-export const ListPoll = ({ id }) => {
+export const ListPoll = ({ id, optionVal }) => {
   const { updatePoll } = useContext(GlobalContext);
   const updatingPoll = (e) => {
     if (e.target.value.length > 0) {
@@ -64,7 +65,12 @@ export const ListPoll = ({ id }) => {
   return (
     <div>
       <label>Add Option</label>
-      <input id={`li${id}`} type="text" onBlur={(e) => updatingPoll(e)} />
+      <input
+        id={`li${id}`}
+        type="text"
+        defaultValue={optionVal}
+        onBlur={(e) => updatingPoll(e)}
+      />
       <DeletePoll id={id} />
     </div>
   );
