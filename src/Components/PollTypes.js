@@ -1,9 +1,10 @@
 import React, { useContext, useRef } from "react";
 import { DeletePoll } from "../Components/DeletePoll";
+import { DeletePollOption } from "../Components/DeletePollOption";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
 
-export const BoolPoll = ({ id, optionVal }) => {
+export const BoolPoll = ({ id, pollValue, isPollOption }) => {
   const { updatePoll } = useContext(GlobalContext);
 
   const updatingPoll = (e) => {
@@ -11,7 +12,7 @@ export const BoolPoll = ({ id, optionVal }) => {
       const updatedPoll = {
         pollType: PollEnums.Bool,
         pollId: id,
-        question: e.target.value,
+        option: e.target.value,
       };
 
       updatePoll(updatedPoll);
@@ -24,7 +25,7 @@ export const BoolPoll = ({ id, optionVal }) => {
         type="text"
         id={`bi${id}`}
         placeholder="question"
-        defaultValue={optionVal}
+        defaultValue={pollValue}
         onBlur={(e) => updatingPoll(e)}
       />
       <input
@@ -43,12 +44,12 @@ export const BoolPoll = ({ id, optionVal }) => {
         // onChange={() => setIsTrue(!isTrue)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
-      <DeletePoll id={id} />
+      {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />}
     </div>
   );
 };
 
-export const ListPoll = ({ id, optionVal }) => {
+export const ListPoll = ({ id, pollValue, isPollOption }) => {
   const { updatePoll } = useContext(GlobalContext);
   const updatingPoll = (e) => {
     if (e.target.value.length > 0) {
@@ -68,15 +69,15 @@ export const ListPoll = ({ id, optionVal }) => {
       <input
         id={`li${id}`}
         type="text"
-        defaultValue={optionVal}
+        defaultValue={pollValue}
         onBlur={(e) => updatingPoll(e)}
       />
-      <DeletePoll id={id} />
+      {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />}
     </div>
   );
 };
 
-export const DatePoll = ({ id }) => {
+export const DatePoll = ({ id, isPollOption }) => {
   const { updatePoll } = useContext(GlobalContext);
   const startRef = useRef();
   const endRef = useRef();
@@ -110,7 +111,7 @@ export const DatePoll = ({ id }) => {
         ref={endRef}
         onChangeCapture={updatingPoll}
       />
-      <DeletePoll id={id} />
+      {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />}
     </div>
   );
 };

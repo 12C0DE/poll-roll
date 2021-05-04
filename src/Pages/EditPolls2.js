@@ -43,16 +43,37 @@ export const EditPolls2 = () => {
     }
   };
 
-  const generatePollComps = (poll, pollID) => {
+  const generatePollComps = (poll, pollID, pollValue) => {
     console.log(`poll ${poll}`);
 
     switch (poll) {
       case PollEnums.Bool:
-        return <BoolPoll key={`bool${pollID}`} id={pollID} />;
+        return (
+          <BoolPoll
+            key={`bool${pollID}`}
+            id={pollID}
+            pollValue={pollValue}
+            isPollOption={true}
+          />
+        );
       case PollEnums.List:
-        return <ListPoll key={`list${pollID}`} id={pollID} />;
+        return (
+          <ListPoll
+            key={`list${pollID}`}
+            id={pollID}
+            pollValue={pollValue}
+            isPollOption={true}
+          />
+        );
       case PollEnums.Dates:
-        return <DatePoll key={`date${pollID}`} id={pollID} />;
+        return (
+          <DatePoll
+            key={`date${pollID}`}
+            id={pollID}
+            pollValue={pollValue}
+            isPollOption={true}
+          />
+        );
       default:
         return null;
     }
@@ -82,8 +103,7 @@ export const EditPolls2 = () => {
         <PollTypeList add={add2Polls} />
         <ul>
           {polls.pollOptions?.map((p) =>
-            // <li key={p.pollId}>{p.option}</li>
-            generatePollComps(+p.pollType, p.pollId)
+            generatePollComps(+p.pollType, p.pollId, p.option)
           )}
         </ul>
       </div>

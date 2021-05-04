@@ -26,6 +26,9 @@ export const GlobalProvider = ({ children }) => {
   function delPoll(pollId) {
     dispatch({ type: "DEL_POLL", payload: pollId });
   }
+  function delPollOption(pollOption) {
+    dispatch({ type: "DEL_POLL_OPT", payload: pollOption });
+  }
   function clearPolls() {
     dispatch({ type: "CLEAR_POLLS" });
   }
@@ -57,6 +60,7 @@ export const GlobalProvider = ({ children }) => {
         addPoll,
         addPollOption,
         delPoll,
+        delPollOption,
         clearPolls,
         setCode,
         setPhone,

@@ -21,6 +21,15 @@ export default (state, action) => {
         ...state,
         polls: state.polls.filter((poll) => poll.pollId !== action.payload),
       };
+    case "DEL_POLL_OPT":
+      const pollArr = state.polls.pollOptions?.filter(
+        (p) => p.pollId !== action.payload
+      );
+
+      return {
+        ...state,
+        polls: pollArr,
+      };
     case "CLEAR_POLLS":
       return {
         ...state,
