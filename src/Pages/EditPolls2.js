@@ -44,8 +44,6 @@ export const EditPolls2 = () => {
   };
 
   const generatePollComps = (poll, pollID, pollValue) => {
-    console.log(`poll ${poll}`);
-
     switch (poll) {
       case PollEnums.Bool:
         return (

@@ -50,4 +50,16 @@ router.post("/post", async (req, res) => {
   }
 });
 
+router.patch("/upd/:_id", async (req, res) => {
+  try {
+    const updPoll = await Poll.findOneAndUpdate(
+      { _id: req.params._id },
+      req.body
+    );
+    res.sendStatus(204);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 module.exports = router;
