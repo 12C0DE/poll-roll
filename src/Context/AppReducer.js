@@ -6,15 +6,12 @@ export default (state, action) => {
         polls: [action.payload, ...state.polls],
       };
     case "ADD_POLL_OPT":
-      const ind = state.polls.findIndex(
-        (poll) => poll.pollId === action.payload.pollId
-      );
-      const copiedPolls = state.polls;
-      copiedPolls[ind].pollOptions = action.payload;
+      const addedPolls = state.polls;
+      addedPolls.pollOptions.unshift(action.payload);
 
       return {
         ...state,
-        polls: copiedPolls,
+        polls: addedPolls,
       };
     case "DEL_POLL":
       return {
@@ -25,10 +22,12 @@ export default (state, action) => {
       const pollArr = state.polls.pollOptions?.filter(
         (p) => p.pollId !== action.payload
       );
+      let pollUpd = state.polls;
+      pollUpd.pollOptions = pollArr;
 
       return {
         ...state,
-        polls: pollArr,
+        polls: pollUpd,
       };
     case "CLEAR_POLLS":
       return {
