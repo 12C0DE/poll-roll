@@ -31,3 +31,16 @@ content-type: application/json
   "pollType": ["r1234", "3"],
   "authId": "test"
 }
+
+###
+PATCH http://localhost:3001/polls/upd/608e1a61c0e66004e64d174f HTTP/1.1
+Accept: {application/json}
+Content-Type: application/json
+
+{
+  "pollOptions": [
+    {"pollType": 1,
+    "pollId": "fdsd2324",
+    "option": "test patch"}
+  ]
+}

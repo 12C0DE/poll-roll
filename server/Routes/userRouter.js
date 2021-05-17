@@ -12,8 +12,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:authId", async (req, res) => {
-  console.log(`userID: ${req.params.authId}`);
-
   try {
     const specUser = await User.findOne({ authId: req.params.authId });
     res.json(specUser);

@@ -4,9 +4,10 @@ import { useParams } from "react-router";
 import { PollTypeList } from "../Components/PollTypeList";
 import uuid from "react-uuid";
 import { PollEnums } from "../Enums/PollEnums";
-import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit } from "../functions/funcs";
+import { generatePollComps } from "../functions/funcs";
+import userEvent from "@testing-library/user-event";
 
 export const EditPolls2 = () => {
   const { _id } = useParams();
@@ -43,38 +44,24 @@ export const EditPolls2 = () => {
     }
   };
 
-  const generatePollComps = (poll, pollID, pollValue) => {
-    switch (poll) {
-      case PollEnums.Bool:
-        return (
-          <BoolPoll
-            key={`bool${pollID}`}
-            id={pollID}
-            pollValue={pollValue}
-            isPollOption={true}
-          />
-        );
-      case PollEnums.List:
-        return (
-          <ListPoll
-            key={`list${pollID}`}
-            id={pollID}
-            pollValue={pollValue}
-            isPollOption={true}
-          />
-        );
-      case PollEnums.Dates:
-        return (
-          <DatePoll
-            key={`date${pollID}`}
-            id={pollID}
-            pollValue={pollValue}
-            isPollOption={true}
-          />
-        );
-      default:
-        return null;
+  const submitUpdate = (e) => {
+    e.preventDefault();
+
+    if (!polls.pollOptions.length > 0) {
+      return;
     }
+
+    const updatedPoll = {
+      pollName: polls.pollName,
+      details: details,
+      rsvpDate: rsvp,
+      pollOptions: polls.pollOptions,
+      authId: polls.authId,
+    };
+
+    axios.patch(`/polls/upd/${_id}`, updatedPoll).then((res) => {
+      console.log("poll updated");
+    });
   };
 
   return (
@@ -106,7 +93,7 @@ export const EditPolls2 = () => {
         </ul>
       </div>
       <button>Delete Poll</button>
-      <button>Save</button>
+      <button onClick={(e) => submitUpdate(e)}>Save</button>
     </div>
   );
 };

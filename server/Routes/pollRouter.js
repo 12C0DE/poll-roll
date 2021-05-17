@@ -33,6 +33,7 @@ router.get("/:_id", async (req, res) => {
   }
 });
 
+//create a poll
 router.post("/post", async (req, res) => {
   const newPoll = new Poll({
     pollName: req.body.pollName,
@@ -50,6 +51,7 @@ router.post("/post", async (req, res) => {
   }
 });
 
+//update a specific poll
 router.patch("/upd/:_id", async (req, res) => {
   try {
     const updPoll = await Poll.findOneAndUpdate(

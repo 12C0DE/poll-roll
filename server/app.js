@@ -32,6 +32,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
     dbName: "pollroll_db",
   },
   () => console.log("connected db")

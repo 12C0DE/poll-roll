@@ -1,22 +1,15 @@
 export default (state, action) => {
   switch (action.type) {
-    case "ADD_POLL":
-      return {
-        ...state,
-        polls: [action.payload, ...state.polls],
-      };
     case "ADD_POLL_OPT":
       const addedPolls = state.polls;
       addedPolls.pollOptions.unshift(action.payload);
 
+      //sort poll options
+      addedPolls.pollOptions.sort((a, b) => a.pollType - b.pollType);
+
       return {
         ...state,
         polls: addedPolls,
-      };
-    case "DEL_POLL":
-      return {
-        ...state,
-        polls: state.polls.filter((poll) => poll.pollId !== action.payload),
       };
     case "DEL_POLL_OPT":
       const pollArr = state.polls.pollOptions?.filter(
@@ -32,7 +25,7 @@ export default (state, action) => {
     case "CLEAR_POLLS":
       return {
         ...state,
-        polls: [],
+        polls: { pollOptions: [] },
       };
     case "SET_CODE":
       return {
@@ -55,11 +48,11 @@ export default (state, action) => {
         user: action.payload,
       };
     case "UPDATE_POLL":
-      const index = state.polls.findIndex(
-        (poll) => poll.pollId === action.payload.pollId
+      const index = state.polls.pollOptions?.findIndex(
+        (p) => p.pollId === action.payload.pollId
       );
       const copyPolls = state.polls;
-      copyPolls[index] = action.payload;
+      copyPolls.pollOptions[index] = action.payload;
 
       return {
         ...state,

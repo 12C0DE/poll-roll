@@ -17,14 +17,8 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   //actions
-  function addPoll(poll) {
-    dispatch({ type: "ADD_POLL", payload: poll });
-  }
   function addPollOption(pollOptions) {
     dispatch({ type: "ADD_POLL_OPT", payload: pollOptions });
-  }
-  function delPoll(pollId) {
-    dispatch({ type: "DEL_POLL", payload: pollId });
   }
   function delPollOption(pollOption) {
     dispatch({ type: "DEL_POLL_OPT", payload: pollOption });
@@ -57,9 +51,7 @@ export const GlobalProvider = ({ children }) => {
         polls: state.polls,
         phone: state.phone,
         user: state.user,
-        addPoll,
         addPollOption,
-        delPoll,
         delPollOption,
         clearPolls,
         setCode,
