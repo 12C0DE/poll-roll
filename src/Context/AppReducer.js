@@ -64,11 +64,19 @@ export default (state, action) => {
       //This might need to be done with useContext
 
       //removing 1 record that matches the pollType & uid
-      const lPolls = state.polls.pollOptions.votes?.filter((v) => v.pollType !== 2 && v.uid !== action.payload.uid );
-      
+      let lVotes = [];
+      lVotes = state.polls.pollOptions.votes?.filter(
+        (v) => v.pollType !== 2 && v.uid !== action.payload.uid
+      );
+
+      lVotes.push(action.payload.uid);
+
+      const copyPolls2 = state.polls;
+      copyPolls2.pollOptions[1].votes = lVotes;
+
       return {
         ...state,
-        polls: lPolls
+        polls: copyPolls2,
       };
     case "UPDATE_POLL":
       const index = state.polls.pollOptions?.findIndex(
