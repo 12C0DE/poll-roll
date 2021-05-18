@@ -68,7 +68,7 @@ export const ListPoll = ({ id, pollValue }) => {
 
   return (
     <div>
-      <label>Add Option</label>
+      <label>Option</label>
       <input
         id={`li${id}`}
         type="text"

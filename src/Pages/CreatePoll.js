@@ -11,7 +11,6 @@ const CreatePoll = ({ history }) => {
   const [rsvpDate, setRsvpDate] = useState("");
   const [name, setName] = useState("");
   const [details, setDetails] = useState("");
-  const [selPoll, setSelPoll] = useState(PollEnums.None);
   const { polls, addPollOption, clearPolls, setPolls, user } =
     useContext(GlobalContext);
 
@@ -21,7 +20,6 @@ const CreatePoll = ({ history }) => {
     setDetails("");
     setRsvpDate("");
     clearPolls();
-    setSelPoll(PollEnums.None);
   };
 
   const add2Polls = async (poll) => {
@@ -40,7 +38,10 @@ const CreatePoll = ({ history }) => {
   const submitPoll = (e) => {
     e.preventDefault();
 
-    if (!polls.length > 0) {
+    console.log("submitPoll");
+
+    if (!polls.pollOptions.length > 0) {
+      console.log("polls length = 0");
       return;
     }
 
@@ -52,7 +53,10 @@ const CreatePoll = ({ history }) => {
       authId: user.authId,
     };
 
+    console.log(`new poll: ${newPoll}`);
+
     axios.post("/polls/post", newPoll).then((res) => {
+      console.log("poll submitted");
       clearInputs();
       history.push(`/editPoll/${res.data._id}`);
     });

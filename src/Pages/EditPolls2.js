@@ -7,7 +7,6 @@ import { PollEnums } from "../Enums/PollEnums";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit } from "../functions/funcs";
 import { generatePollComps } from "../functions/funcs";
-import userEvent from "@testing-library/user-event";
 
 export const EditPolls2 = () => {
   const { _id } = useParams();

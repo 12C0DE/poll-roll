@@ -5,11 +5,11 @@ import { Landing } from "./Pages/Landing";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import CreatePoll from "./Pages/CreatePoll";
-// import { EditPoll } from "./Pages/EditPoll";
 import { EditPolls2 } from "./Pages/EditPolls2";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
 import { Results } from "./Pages/Results";
+import { Voting } from "./Pages/Voting";
 import { PrivateRoute } from "./PrivateRoute";
 import { GlobalProvider } from "./Context/GlobalState";
 import { AuthProvider } from "./Firebase/Auth";
@@ -26,11 +26,11 @@ function App() {
             <PrivateRoute exact path="/home/:aid" component={Home} />
             <Route exact path="/createPoll" component={CreatePoll} />
             <Route exact path="/editPoll/:_id" component={EditPolls2} />
-            {/* <Route exact path="/editPoll/:_id" component={EditPoll} /> */}
             <Route exact path="/landing" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/results" component={Results} />
+            <Route exact path="/voting/:_id" component={Voting} />
             <Route path="/404" component={NotFound} />
             <Redirect to="/landing" />
           </Switch>
