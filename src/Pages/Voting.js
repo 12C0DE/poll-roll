@@ -18,7 +18,7 @@ export const Voting = () => {
       );
       setRsvp(formDate);
     });
-  }, []);
+  }, [_id, setPolls]);
 
   return (
     <div>
@@ -27,6 +27,8 @@ export const Voting = () => {
           generateVotingPolls(+p.pollType, p.pollId, p.option)
         )}
       </ul>
+      <button>Clear Votes</button>
+      <button>Submit Votes</button>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default (state, action) => {
   switch (action.type) {
     case "ADD_POLL_OPT":
@@ -46,6 +47,28 @@ export default (state, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case "VOTE_BOOL":
+      return {
+        ...state,
+      };
+    case "VOTE_DATE":
+      return {
+        ...state,
+      };
+    case "VOTE_LIST":
+      // based on id, add/update votes: {} with userID
+      //remove userid whereever it exists on polls.pollOptions["id"].votes?
+      //   if it has pollType of 2 (list)
+      //polls.pollOptions["id"].votes["userid"]
+      //This might need to be done with useContext
+
+      //removing 1 record that matches the pollType & uid
+      const lPolls = state.polls.pollOptions.votes?.filter((v) => v.pollType !== 2 && v.uid !== action.payload.uid );
+      
+      return {
+        ...state,
+        polls: lPolls
       };
     case "UPDATE_POLL":
       const index = state.polls.pollOptions?.findIndex(

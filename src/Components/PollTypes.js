@@ -1,10 +1,8 @@
 import React, { useContext, useRef } from "react";
-import { DeletePoll } from "../Components/DeletePoll";
 import { DeletePollOption } from "../Components/DeletePollOption";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
 
-// export const BoolPoll = ({ id, pollValue, isPollOption }) => {
 export const BoolPoll = ({ id, pollValue }) => {
   const { updatePoll } = useContext(GlobalContext);
 
@@ -33,25 +31,19 @@ export const BoolPoll = ({ id, pollValue }) => {
         type="radio"
         name={`radioT${id}`}
         disabled={true}
-        // checked={isTrue}
-        // onChange={() => setIsTrue(!isTrue)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
       <input
         type="radio"
         name={`radioF${id}`}
         disabled={true}
-        // checked={!isTrue}
-        // onChange={() => setIsTrue(!isTrue)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
       <DeletePollOption id={id} />
-      {/* {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />} */}
     </div>
   );
 };
 
-// export const ListPoll = ({ id, pollValue, isPollOption }) => {
 export const ListPoll = ({ id, pollValue }) => {
   const { updatePoll } = useContext(GlobalContext);
   const updatingPoll = (e) => {
@@ -76,12 +68,10 @@ export const ListPoll = ({ id, pollValue }) => {
         onBlur={(e) => updatingPoll(e)}
       />
       <DeletePollOption key={`del${id}`} id={id} />
-      {/* {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />} */}
     </div>
   );
 };
 
-// export const DatePoll = ({ id, isPollOption }) => {
 export const DatePoll = ({ id }) => {
   const { updatePoll } = useContext(GlobalContext);
   const startRef = useRef();
@@ -117,7 +107,6 @@ export const DatePoll = ({ id }) => {
         onChangeCapture={updatingPoll}
       />
       <DeletePollOption id={id} />
-      {/* {isPollOption ? <DeletePollOption id={id} /> : <DeletePoll id={id} />} */}
     </div>
   );
 };

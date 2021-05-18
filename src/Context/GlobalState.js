@@ -35,13 +35,20 @@ export const GlobalProvider = ({ children }) => {
   function setCode(code) {
     dispatch({ type: "SET_CODE", payload: code });
   }
-
   function setPhone(number) {
     dispatch({ type: "SET_PHONE", payload: number });
   }
-
   function setUser(user) {
     dispatch({ type: "SET_USER", payload: user });
+  }
+  function voteBool(vote) {
+    dispatch({type: 'VOTE_BOOL', payload: vote})
+  }
+  function voteDate(vote) {
+    dispatch({type: 'VOTE_DATE', payload: vote})
+  }
+  function voteList(vote) {
+    dispatch({type: 'VOTE_LIST', payload: vote})
   }
 
   return (
@@ -58,6 +65,9 @@ export const GlobalProvider = ({ children }) => {
         setPhone,
         setPolls,
         setUser,
+        voteBool,
+        voteDate,
+        voteList,
         updatePoll,
       }}
     >
