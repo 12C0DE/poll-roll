@@ -27,17 +27,9 @@ export const BoolPoll = ({ id, pollValue }) => {
         defaultValue={pollValue}
         onBlur={(e) => updatingPoll(e)}
       />
-      <input
-        type="radio"
-        name={`radioT${id}`}
-        disabled={true}
-      />
+      <input type="radio" name={`radioT${id}`} disabled={true} />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
-      <input
-        type="radio"
-        name={`radioF${id}`}
-        disabled={true}
-      />
+      <input type="radio" name={`radioF${id}`} disabled={true} />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
       <DeletePollOption id={id} />
     </div>

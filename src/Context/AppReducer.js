@@ -64,15 +64,27 @@ export default (state, action) => {
       //This might need to be done with useContext
 
       //removing 1 record that matches the pollType & uid
-      let lVotes = [];
-      lVotes = state.polls.pollOptions.votes?.filter(
-        (v) => v.pollType !== 2 && v.uid !== action.payload.uid
+      // let lVotes = [];
+
+      const indexL = state.polls.pollOptions?.findIndex(
+        (p) => p.pollId === action.payload.pollId
       );
 
-      lVotes.push(action.payload.uid);
-
       const copyPolls2 = state.polls;
-      copyPolls2.pollOptions[1].votes = lVotes;
+
+      if (state.polls.pollOptions.hasOwnProperty("votes")) {
+        let lVotes = state.polls.pollOptions.votes?.filter(
+          (v) => v !== action.payload.uid
+        );
+
+        lVotes.unshift(action.payload.uid);
+
+        copyPolls2.pollOptions[indexL].votes = lVotes;
+        console.log(copyPolls2.pollOptions[indexL]);
+      } else {
+        copyPolls2.pollOptions[indexL].votes = [action.payload.uid];
+        console.log(copyPolls2.pollOptions[indexL]);
+      }
 
       return {
         ...state,

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { GlobalContext } from "../Context/GlobalState";
+import { PollEnums } from "../Enums/PollEnums";
 
 export const BoolVote = ({ id, pollValue }) => {
   const [isTrue, setIsTrue] = useState(null);
@@ -25,9 +27,16 @@ export const BoolVote = ({ id, pollValue }) => {
 };
 
 export const ListVote = ({ id, pollValue }) => {
+  const { voteList, user } = useContext(GlobalContext);
+  const currVote = {
+    uid: user._id,
+    pollId: id,
+    pollType: PollEnums.List,
+  };
+
   return (
     <div>
-      <button>{pollValue}</button>
+      <button onClick={() => voteList(currVote)}>{pollValue}</button>
     </div>
   );
 };
