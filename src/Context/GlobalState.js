@@ -42,13 +42,10 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "SET_USER", payload: user });
   }
   function voteBool(vote) {
-    dispatch({type: 'VOTE_BOOL', payload: vote})
+    dispatch({ type: "VOTE_BOOL", payload: vote });
   }
-  function voteDate(vote) {
-    dispatch({type: 'VOTE_DATE', payload: vote})
-  }
-  function voteList(vote) {
-    dispatch({type: 'VOTE_LIST', payload: vote})
+  function voteOne(vote) {
+    dispatch({ type: "VOTE_ONE", payload: vote });
   }
 
   return (
@@ -66,8 +63,7 @@ export const GlobalProvider = ({ children }) => {
         setPolls,
         setUser,
         voteBool,
-        voteDate,
-        voteList,
+        voteOne,
         updatePoll,
       }}
     >

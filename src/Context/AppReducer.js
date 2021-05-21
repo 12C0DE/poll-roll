@@ -52,43 +52,36 @@ export default (state, action) => {
       return {
         ...state,
       };
-    case "VOTE_DATE":
-      return {
-        ...state,
-      };
-    case "VOTE_LIST":
-      // based on id, add/update votes: {} with userID
-      //remove userid whereever it exists on polls.pollOptions["id"].votes?
-      //   if it has pollType of 2 (list)
-      //polls.pollOptions["id"].votes["userid"]
-      //This might need to be done with useContext
-
-      //removing 1 record that matches the pollType & uid
-      // let lVotes = [];
-
+    case "VOTE_ONE":
       const indexL = state.polls.pollOptions?.findIndex(
         (p) => p.pollId === action.payload.pollId
       );
 
-      const copyPolls2 = state.polls;
+      const filtered = state.polls;
 
-      if (state.polls.pollOptions.hasOwnProperty("votes")) {
-        let lVotes = state.polls.pollOptions.votes?.filter(
-          (v) => v !== action.payload.uid
-        );
+      filtered.pollOptions.every((item) => {
+        if (
+          item.pollType == action.payload.pollType &&
+          item.hasOwnProperty("votes")
+        ) {
+          const voteInd = item.votes.indexOf(action.payload.uid);
 
-        lVotes.unshift(action.payload.uid);
+          if (voteInd !== -1) {
+            item.votes.splice(voteInd);
+            return false;
+          }
+          return true;
+        }
+      });
 
-        copyPolls2.pollOptions[indexL].votes = lVotes;
-        console.log(copyPolls2.pollOptions[indexL]);
-      } else {
-        copyPolls2.pollOptions[indexL].votes = [action.payload.uid];
-        console.log(copyPolls2.pollOptions[indexL]);
-      }
+      //adding new vote
+      filtered.pollOptions[indexL].hasOwnProperty("votes")
+        ? filtered.pollOptions[indexL].votes.unshift(action.payload.uid)
+        : (filtered.pollOptions[indexL].votes = [action.payload.uid]);
 
       return {
         ...state,
-        polls: copyPolls2,
+        polls: filtered,
       };
     case "UPDATE_POLL":
       const index = state.polls.pollOptions?.findIndex(

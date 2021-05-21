@@ -27,7 +27,7 @@ export const BoolVote = ({ id, pollValue }) => {
 };
 
 export const ListVote = ({ id, pollValue }) => {
-  const { voteList, user } = useContext(GlobalContext);
+  const { voteOne, user } = useContext(GlobalContext);
   const currVote = {
     uid: user._id,
     pollId: id,
@@ -36,7 +36,7 @@ export const ListVote = ({ id, pollValue }) => {
 
   return (
     <div>
-      <button onClick={() => voteList(currVote)}>{pollValue}</button>
+      <button onClick={() => voteOne(currVote)}>{pollValue}</button>
     </div>
   );
 };
