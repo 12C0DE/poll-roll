@@ -14,38 +14,43 @@ const add0 = (input) => {
   return input.length > 1 ? input : `0${input}`;
 };
 
-export const generateVotingPolls = (poll, pollID, pollValue) => {
+export const generateVotingPolls = (poll, pollID, pollOpt, pollSD, pollED) => {
   switch (poll) {
     case PollEnums.Bool:
-      return (
-        <BoolVote key={`bool${pollID}`} id={pollID} pollValue={pollValue} />
-      );
+      return <BoolVote key={`bool${pollID}`} id={pollID} pollValue={pollOpt} />;
     case PollEnums.List:
       return (
-        <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollValue} />
+        <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
       );
     case PollEnums.Dates:
       return (
-        <DateVote key={`date${pollID}`} id={pollID} pollValue={pollValue} />
+        <DateVote
+          key={`date${pollID}`}
+          id={pollID}
+          pollValue={`${pollSD} - ${pollED}`}
+        />
       );
     default:
       return null;
   }
 };
 
-export const generatePollComps = (poll, pollID, pollValue) => {
+export const generatePollComps = (poll, pollID, pollOpt, pollSD, pollED) => {
   switch (poll) {
     case PollEnums.Bool:
-      return (
-        <BoolPoll key={`bool${pollID}`} id={pollID} pollValue={pollValue} />
-      );
+      return <BoolPoll key={`bool${pollID}`} id={pollID} pollValue={pollOpt} />;
     case PollEnums.List:
       return (
-        <ListPoll key={`elist${pollID}`} id={pollID} pollValue={pollValue} />
+        <ListPoll key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
       );
     case PollEnums.Dates:
       return (
-        <DatePoll key={`date${pollID}`} id={pollID} pollValue={pollValue} />
+        <DatePoll
+          key={`date${pollID}`}
+          id={pollID}
+          pollStart={pollSD}
+          pollEnd={pollED}
+        />
       );
     default:
       return null;

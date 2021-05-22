@@ -42,9 +42,16 @@ export const ListVote = ({ id, pollValue }) => {
 };
 
 export const DateVote = ({ id, pollValue }) => {
+  const { voteOne, user } = useContext(GlobalContext);
+  const currVote = {
+    uid: user._id,
+    pollId: id,
+    pollType: PollEnums.Dates,
+  };
+
   return (
     <div>
-      <button>{pollValue}</button>
+      <button onClick={() => voteOne(currVote)}>{pollValue}</button>
     </div>
   );
 };

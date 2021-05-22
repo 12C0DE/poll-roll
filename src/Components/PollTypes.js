@@ -64,7 +64,7 @@ export const ListPoll = ({ id, pollValue }) => {
   );
 };
 
-export const DatePoll = ({ id }) => {
+export const DatePoll = ({ id, pollStart, pollEnd }) => {
   const { updatePoll } = useContext(GlobalContext);
   const startRef = useRef();
   const endRef = useRef();
@@ -89,6 +89,7 @@ export const DatePoll = ({ id }) => {
         type="date"
         id={`sd${id}`}
         ref={startRef}
+        defaultValue={pollStart}
         onChangeCapture={updatingPoll}
       />
       <label>End Date</label>
@@ -96,6 +97,7 @@ export const DatePoll = ({ id }) => {
         type="date"
         id={`ed${id}`}
         ref={endRef}
+        defaultValue={pollEnd}
         onChangeCapture={updatingPoll}
       />
       <DeletePollOption id={id} />

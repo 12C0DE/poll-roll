@@ -87,7 +87,13 @@ export const EditPolls2 = () => {
         <PollTypeList add={add2Polls} />
         <ul>
           {polls.pollOptions?.map((p) =>
-            generatePollComps(+p.pollType, p.pollId, p.option)
+            generatePollComps(
+              +p.pollType,
+              p.pollId,
+              p.option,
+              p.startDate,
+              p.endDate
+            )
           )}
         </ul>
       </div>

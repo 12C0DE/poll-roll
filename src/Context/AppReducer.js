@@ -57,9 +57,9 @@ export default (state, action) => {
         (p) => p.pollId === action.payload.pollId
       );
 
-      const filtered = state.polls;
+      const filtered1 = state.polls;
 
-      filtered.pollOptions.every((item) => {
+      filtered1.pollOptions.every((item) => {
         if (
           item.pollType == action.payload.pollType &&
           item.hasOwnProperty("votes")
@@ -67,7 +67,7 @@ export default (state, action) => {
           const voteInd = item.votes.indexOf(action.payload.uid);
 
           if (voteInd !== -1) {
-            item.votes.splice(voteInd);
+            item.votes.splice(voteInd, 1);
             return false;
           }
           return true;
@@ -75,13 +75,13 @@ export default (state, action) => {
       });
 
       //adding new vote
-      filtered.pollOptions[indexL].hasOwnProperty("votes")
-        ? filtered.pollOptions[indexL].votes.unshift(action.payload.uid)
-        : (filtered.pollOptions[indexL].votes = [action.payload.uid]);
+      filtered1.pollOptions[indexL].hasOwnProperty("votes")
+        ? filtered1.pollOptions[indexL].votes.unshift(action.payload.uid)
+        : (filtered1.pollOptions[indexL].votes = [action.payload.uid]);
 
       return {
         ...state,
-        polls: filtered,
+        polls: filtered1,
       };
     case "UPDATE_POLL":
       const index = state.polls.pollOptions?.findIndex(
