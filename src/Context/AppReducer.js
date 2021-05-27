@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+
 export default (state, action) => {
   switch (action.type) {
     case "ADD_POLL_OPT":
@@ -48,30 +49,67 @@ export default (state, action) => {
         ...state,
         user: action.payload,
       };
-    case "VOTE_BOOL":
+    case "VOTE_MANY":
+      //votes: {T: ['tt', 'bb', 'dd'], F: ['rr', 'aa', 'we']}
+
+      let updatedB = state.polls;
+
+      const indexB = updatedB.polls.pollOptions?.findIndex(
+        (p) => p.pollId === action.payload.pollId
+      );
+
+      if (updatedB.pollOptions[indexB].hasOwnProperty("votes")) {
+        let foundIndex;
+
+        if (action.payload.voted) {
+          foundIndex = updatedB.pollOptions[indexB].votes.F.indexOf(
+            action.payload.uid
+          );
+
+          foundIndex !== -1 &&
+            updatedB.pollOptions[indexB].votes.F.splice(foundIndex, 1);
+
+          updatedB.pollOptions[indexB].votes.T.unshift(action.payload.uid);
+        } else {
+          foundIndex = updatedB.pollOptions[indexB].votes.T.indexOf(
+            action.payload.uid
+          );
+
+          foundIndex !== -1 &&
+            updatedB.pollOptions[indexB].votes.T.splice(foundIndex, 1);
+
+          updatedB.pollOptions[indexB].votes.F.unshift(action.payload.uid);
+        }
+      } else {
+        updatedB.pollOptions[indexB].votes = {
+          T: [action.payload.voted && action.payload.uid],
+          F: [!action.payload.voted && action.payload.uid],
+        };
+      }
+
       return {
         ...state,
+        polls: updatedB,
       };
     case "VOTE_ONE":
       const indexL = state.polls.pollOptions?.findIndex(
         (p) => p.pollId === action.payload.pollId
       );
 
-      const filtered1 = state.polls;
+      let filtered1 = state.polls;
 
       filtered1.pollOptions.every((item) => {
         if (
-          item.pollType == action.payload.pollType &&
+          item.pollType === action.payload.pollType &&
           item.hasOwnProperty("votes")
         ) {
           const voteInd = item.votes.indexOf(action.payload.uid);
-
           if (voteInd !== -1) {
             item.votes.splice(voteInd, 1);
             return false;
           }
-          return true;
         }
+        return true;
       });
 
       //adding new vote
