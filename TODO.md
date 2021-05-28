@@ -9,10 +9,12 @@ Project Description
 
 ### In Progress
 
-- [ ] voteMany logic: pollOPtions is not seen for bool  
+- [ ] fix checkBoolVote on Voting.js  
+- [ ] how to pass default value for votes on BoolPoll  
 
 ### Done ✓
 
+- [x] voteMany logic: pollOPtions is not seen for bool  
 - [x] voteOne for date doesn't erase user vote  
 - [x] voteOne logic  
 

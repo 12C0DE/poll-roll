@@ -2,19 +2,20 @@ import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
 
-export const BoolVote = ({ id, pollValue }) => {
-  const [isTrue, setIsTrue] = useState(null);
+export const BoolVote = ({ id, pollValue, voteVal }) => {
+  const [vote, setVote] = useState(voteVal);
   const { voteMany, user } = useContext(GlobalContext);
 
-  const voteBool = {
-    uid: user._id,
-    pollId: id,
-    pollType: PollEnums.Bool,
-    voted: isTrue,
-  };
+  const voteForBool = (val) => {
+    setVote(val);
 
-  const voteForBool = () => {
-    setIsTrue(!isTrue);
+    const voteBool = {
+      uid: user._id,
+      pollId: id,
+      pollType: PollEnums.Bool,
+      voted: val,
+    };
+
     voteMany(voteBool);
   };
 
@@ -24,17 +25,17 @@ export const BoolVote = ({ id, pollValue }) => {
       <input
         type="radio"
         name={`radioT${id}`}
-        checked={isTrue}
-        onChange={() => voteForBool()}
-        // onChange={() => setIsTrue(!isTrue)}
+        // defaultChecked={false}
+        checked={vote !== null && vote}
+        onChange={() => voteForBool(true)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
       <input
         type="radio"
         name={`radioF${id}`}
-        checked={!isTrue}
-        onChange={() => voteForBool()}
-        // onChange={() => setIsTrue(!isTrue)}
+        // defaultChecked={false}
+        checked={vote !== null && !vote}
+        onChange={() => voteForBool(false)}
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
     </div>

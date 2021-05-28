@@ -52,11 +52,11 @@ export default (state, action) => {
     case "VOTE_MANY":
       //votes: {T: ['tt', 'bb', 'dd'], F: ['rr', 'aa', 'we']}
 
-      let updatedB = state.polls;
-
-      const indexB = updatedB.polls.pollOptions?.findIndex(
+      // debugger;
+      const indexB = state.polls.pollOptions?.findIndex(
         (p) => p.pollId === action.payload.pollId
       );
+      let updatedB = state.polls;
 
       if (updatedB.pollOptions[indexB].hasOwnProperty("votes")) {
         let foundIndex;
@@ -81,10 +81,15 @@ export default (state, action) => {
           updatedB.pollOptions[indexB].votes.F.unshift(action.payload.uid);
         }
       } else {
-        updatedB.pollOptions[indexB].votes = {
-          T: [action.payload.voted && action.payload.uid],
-          F: [!action.payload.voted && action.payload.uid],
-        };
+        action.payload.voted
+          ? (updatedB.pollOptions[indexB].votes = {
+              T: [action.payload.uid],
+              F: [],
+            })
+          : (updatedB.pollOptions[indexB].votes = {
+              T: [],
+              F: [action.payload.uid],
+            });
       }
 
       return {

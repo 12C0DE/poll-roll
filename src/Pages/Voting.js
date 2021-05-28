@@ -4,10 +4,11 @@ import { useParams } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit } from "../functions/funcs";
 import { generateVotingPolls } from "../functions/funcs";
+import { PollEnums } from "../Enums/PollEnums";
 
 export const Voting = () => {
   const { _id } = useParams();
-  const { polls, setPolls } = useContext(GlobalContext);
+  const { polls, setPolls, user } = useContext(GlobalContext);
   const [rsvp, setRsvp] = useState("");
   const [voteSaved, setVoteSaved] = useState(false);
 
@@ -34,6 +35,26 @@ export const Voting = () => {
     console.log("submit vote");
 
     axios.patch(`/polls/upd/${_id}`, polls).then(setVoteSaved(true));
+  };
+
+  const checkBoolVote = (p) => {
+    if (p.hasOwnProperty("votes")) {
+      const hasTrue = p.votes.T.includes(user.uid);
+
+      if (hasTrue) {
+        return true;
+      } else {
+        const hasFalse = p.votes.F.includes(user.uid);
+
+        if (hasFalse) {
+          return false;
+        } else {
+          return null;
+        }
+      }
+    } else {
+      return null;
+    }
   };
 
   return (
