@@ -60,7 +60,7 @@ export const Voting = () => {
   return (
     <div>
       <ul>
-        {polls.pollOptions?.map((p) =>
+        {polls.pollOptions?.map((p) => 
           generateVotingPolls(
             +p.pollType,
             p.pollId,

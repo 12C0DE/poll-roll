@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
 
 export const BoolVote = ({ id, pollValue, voteVal }) => {
   const [vote, setVote] = useState(voteVal);
   const { voteMany, user } = useContext(GlobalContext);
+
+  useEffect(() => {
+
+  }, []);
 
   const voteForBool = (val) => {
     setVote(val);

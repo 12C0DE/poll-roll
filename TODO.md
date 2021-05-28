@@ -6,6 +6,7 @@ Project Description
 
 ### Todo
 
+- [ ] on load of BoolVote, Get() call to retrieve default val of bool polls  
 
 ### In Progress
 

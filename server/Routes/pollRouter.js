@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 const Poll = require("../Models/Poll");
@@ -30,6 +31,19 @@ router.get("/:_id", async (req, res) => {
     res.json(specPoll);
   } catch (err) {
     res.json({ message: err });
+  }
+});
+
+//retrieve user's vote for a BoolVote poll
+router.get('/bool/:pollId/:uid', async (req, res) => {
+  try {
+    const vote = await Poll.findOne({'pollOptions.pollId': req.params.pollId}).select("pollOptions.votes");
+
+    //do check in T[] & F[] here
+
+    res.json(vote);
+  } catch (err) {
+    res.json({message: err});
   }
 });
 

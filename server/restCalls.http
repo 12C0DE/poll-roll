@@ -19,6 +19,9 @@ GET http://localhost:3001/polls/608e1a61c0e66004e64d174f HTTP/1.1
 ###
 GET http://localhost:3001/polls/pollnames/OIJn0idMXLPtmg5iGWTur5j62o32 HTTP/1.1
 
+###
+GET http://localhost:3001/polls/bool/37e3a13-8078-6d8-aad-11d22c73d6b/608a6646502c2c71c974080b HTTP/1.1
+
 
 ###
 POST http://localhost:3001/polls/post HTTP/1.1
