@@ -34,19 +34,6 @@ router.get("/:_id", async (req, res) => {
   }
 });
 
-//retrieve user's vote for a BoolVote poll
-router.get('/bool/:pollId/:uid', async (req, res) => {
-  try {
-    const vote = await Poll.findOne({'pollOptions.pollId': req.params.pollId}).select("pollOptions.votes");
-
-    //do check in T[] & F[] here
-
-    res.json(vote);
-  } catch (err) {
-    res.json({message: err});
-  }
-});
-
 //create a poll
 router.post("/post", async (req, res) => {
   const newPoll = new Poll({

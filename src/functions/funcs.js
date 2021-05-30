@@ -14,10 +14,27 @@ const add0 = (input) => {
   return input.length > 1 ? input : `0${input}`;
 };
 
-export const generateVotingPolls = (poll, pollID, pollOpt, pollSD, pollED) => {
+export const generateVotingPolls = (
+  poll,
+  pollID,
+  pollOpt,
+  pollSD,
+  pollED,
+  pollVotes,
+  uid
+) => {
   switch (poll) {
     case PollEnums.Bool:
-      return <BoolVote key={`bool${pollID}`} id={pollID} pollValue={pollOpt} />;
+      const boolDV = checkBoolVote(pollVotes, uid);
+
+      return (
+        <BoolVote
+          key={`bool${pollID}`}
+          id={pollID}
+          pollValue={pollOpt}
+          dv={boolDV}
+        />
+      );
     case PollEnums.List:
       return (
         <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
@@ -54,5 +71,25 @@ export const generatePollComps = (poll, pollID, pollOpt, pollSD, pollED) => {
       );
     default:
       return null;
+  }
+};
+
+const checkBoolVote = (votes, uid) => {
+  try {
+    const hasTrue = votes.T.includes(uid);
+
+    if (hasTrue) {
+      return true;
+    } else {
+      const hasFalse = votes.F.includes(uid);
+
+      if (hasFalse) {
+        return false;
+      } else {
+        return null;
+      }
+    }
+  } catch (err) {
+    return null;
   }
 };

@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit } from "../functions/funcs";
 import { generateVotingPolls } from "../functions/funcs";
-import { PollEnums } from "../Enums/PollEnums";
 
 export const Voting = () => {
   const { _id } = useParams();
@@ -37,36 +36,18 @@ export const Voting = () => {
     axios.patch(`/polls/upd/${_id}`, polls).then(setVoteSaved(true));
   };
 
-  const checkBoolVote = (p) => {
-    if (p.hasOwnProperty("votes")) {
-      const hasTrue = p.votes.T.includes(user.uid);
-
-      if (hasTrue) {
-        return true;
-      } else {
-        const hasFalse = p.votes.F.includes(user.uid);
-
-        if (hasFalse) {
-          return false;
-        } else {
-          return null;
-        }
-      }
-    } else {
-      return null;
-    }
-  };
-
   return (
     <div>
       <ul>
-        {polls.pollOptions?.map((p) => 
+        {polls.pollOptions?.map((p) =>
           generateVotingPolls(
             +p.pollType,
             p.pollId,
             p.option,
             p.startDate,
-            p.endDate
+            p.endDate,
+            p.votes,
+            user._id
           )
         )}
       </ul>

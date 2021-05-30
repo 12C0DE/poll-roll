@@ -50,9 +50,6 @@ export default (state, action) => {
         user: action.payload,
       };
     case "VOTE_MANY":
-      //votes: {T: ['tt', 'bb', 'dd'], F: ['rr', 'aa', 'we']}
-
-      // debugger;
       const indexB = state.polls.pollOptions?.findIndex(
         (p) => p.pollId === action.payload.pollId
       );
