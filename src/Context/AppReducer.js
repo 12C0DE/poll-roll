@@ -39,6 +39,21 @@ export default (state, action) => {
         ...state,
         polls: action.payload,
       };
+    case "SET_BOOL_VOTES":
+      return {
+        ...state,
+        boolVotes: action.payload,
+      };
+    case "SET_DATE_VOTES":
+      return {
+        ...state,
+        dateVotes: action.payload,
+      };
+    case "SET_LIST_VOTES":
+      return {
+        ...state,
+        listVotes: action.payload,
+      };
     case "SET_PHONE":
       return {
         ...state,

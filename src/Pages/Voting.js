@@ -2,12 +2,23 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
-import { dateSplit } from "../functions/funcs";
+import { dateSplit, getAllVotes, totalPollVotes } from "../functions/funcs";
 import { generateVotingPolls } from "../functions/funcs";
+import { VoteCountOne } from "../Components/VoteCount";
+import { PollEnums } from "../Enums/PollEnums";
 
 export const Voting = () => {
   const { _id } = useParams();
-  const { polls, setPolls, user } = useContext(GlobalContext);
+  const {
+    boolVotes,
+    listVotes,
+    dateVotes,
+    polls,
+    setPolls,
+    setDateVotes,
+    setListVotes,
+    user,
+  } = useContext(GlobalContext);
   const [rsvp, setRsvp] = useState("");
   const [voteSaved, setVoteSaved] = useState(false);
 
@@ -18,6 +29,11 @@ export const Voting = () => {
         new Date(p.data.rsvpDate).toLocaleDateString()
       );
       setRsvp(formDate);
+
+      const allLVotes = getAllVotes(p.data, PollEnums.List);
+      setListVotes(totalPollVotes(allLVotes));
+      const allDVotes = getAllVotes(p.data, PollEnums.Dates);
+      setDateVotes(totalPollVotes(allDVotes));
     });
   }, []);
 
@@ -47,7 +63,10 @@ export const Voting = () => {
             p.startDate,
             p.endDate,
             p.votes,
-            user._id
+            user._id,
+            boolVotes,
+            dateVotes,
+            listVotes
           )
         )}
       </ul>

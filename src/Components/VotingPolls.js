@@ -25,7 +25,6 @@ export const BoolVote = ({ id, pollValue, dv }) => {
       <input
         type="radio"
         name={`radioT${id}`}
-        // defaultChecked={false}
         checked={vote !== null && vote}
         onChange={() => voteForBool(true)}
       />
@@ -33,7 +32,6 @@ export const BoolVote = ({ id, pollValue, dv }) => {
       <input
         type="radio"
         name={`radioF${id}`}
-        // defaultChecked={false}
         checked={vote !== null && !vote}
         onChange={() => voteForBool(false)}
       />

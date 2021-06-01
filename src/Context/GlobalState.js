@@ -4,8 +4,11 @@ import AppReducer from "./AppReducer";
 //initial state
 const initialState = {
   code: "",
-  polls: [],
   phone: "",
+  polls: {},
+  boolVotes: 0,
+  listVotes: 0,
+  dateVotes: 0,
   user: null,
 };
 
@@ -32,6 +35,15 @@ export const GlobalProvider = ({ children }) => {
   function updatePoll(poll) {
     dispatch({ type: "UPDATE_POLL", payload: poll });
   }
+  function setBoolVotes(bVotes) {
+    dispatch({ type: "SET_BOOL_VOTES", payload: bVotes });
+  }
+  function setDateVotes(dVotes) {
+    dispatch({ type: "SET_DATE_VOTES", payload: dVotes });
+  }
+  function setListVotes(lVotes) {
+    dispatch({ type: "SET_LIST_VOTES", payload: lVotes });
+  }
   function setCode(code) {
     dispatch({ type: "SET_CODE", payload: code });
   }
@@ -51,6 +63,9 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        boolVotes: state.boolVotes,
+        dateVotes: state.dateVotes,
+        listVotes: state.listVotes,
         code: state.code,
         polls: state.polls,
         phone: state.phone,
@@ -61,6 +76,9 @@ export const GlobalProvider = ({ children }) => {
         setCode,
         setPhone,
         setPolls,
+        setBoolVotes,
+        setDateVotes,
+        setListVotes,
         setUser,
         voteMany,
         voteOne,

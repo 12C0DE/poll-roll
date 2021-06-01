@@ -2,6 +2,7 @@ import React from "react";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { BoolVote, ListVote, DateVote } from "../Components/VotingPolls";
 import { PollEnums } from "../Enums/PollEnums";
+import { VoteCountOne } from "../Components/VoteCount";
 
 export const dateSplit = (dte) => {
   const dateArr = dte.split("/", 3);
@@ -15,15 +16,18 @@ const add0 = (input) => {
 };
 
 export const generateVotingPolls = (
-  poll,
+  pollType,
   pollID,
   pollOpt,
   pollSD,
   pollED,
   pollVotes,
-  uid
+  uid,
+  boolVotes,
+  dateVotes,
+  listVotes
 ) => {
-  switch (poll) {
+  switch (pollType) {
     case PollEnums.Bool:
       const boolDV = checkBoolVote(pollVotes, uid);
 
@@ -37,23 +41,43 @@ export const generateVotingPolls = (
       );
     case PollEnums.List:
       return (
-        <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
+        <React.Fragment>
+          <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
+          <VoteCountOne
+            key={`vco${pollID}`}
+            pollVotes={pollVotes}
+            totalCount={listVotes}
+          />
+        </React.Fragment>
       );
     case PollEnums.Dates:
       return (
-        <DateVote
-          key={`date${pollID}`}
-          id={pollID}
-          pollValue={`${pollSD} - ${pollED}`}
-        />
+        <React.Fragment>
+          <DateVote
+            key={`date${pollID}`}
+            id={pollID}
+            pollValue={`${pollSD} - ${pollED}`}
+          />
+          <VoteCountOne
+            key={`vco${pollID}`}
+            pollVotes={pollVotes}
+            totalCount={dateVotes}
+          />
+        </React.Fragment>
       );
     default:
       return null;
   }
 };
 
-export const generatePollComps = (poll, pollID, pollOpt, pollSD, pollED) => {
-  switch (poll) {
+export const generatePollComps = (
+  pollType,
+  pollID,
+  pollOpt,
+  pollSD,
+  pollED
+) => {
+  switch (pollType) {
     case PollEnums.Bool:
       return <BoolPoll key={`bool${pollID}`} id={pollID} pollValue={pollOpt} />;
     case PollEnums.List:
@@ -92,4 +116,20 @@ const checkBoolVote = (votes, uid) => {
   } catch (err) {
     return null;
   }
+};
+
+export const getAllVotes = (data, pollType) => {
+  return data.pollOptions.filter((vote) => vote.pollType === pollType);
+};
+
+export const totalPollVotes = (data) => {
+  const totalVotes = data.reduce(function (acc, currVal) {
+    if (currVal.hasOwnProperty("votes")) {
+      return acc + currVal.votes.length;
+    } else {
+      return acc + 0;
+    }
+  }, 0);
+
+  return totalVotes;
 };

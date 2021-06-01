@@ -9,6 +9,7 @@ Project Description
 
 ### In Progress
 
+- [ ] get vote counts & percentages - currently setting useContext logic  
 
 ### Done ✓
 
