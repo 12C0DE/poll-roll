@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit, getAllVotes, totalPollVotes } from "../functions/funcs";
 import { generateVotingPolls } from "../functions/funcs";
-import { VoteCountOne } from "../Components/VoteCount";
 import { PollEnums } from "../Enums/PollEnums";
 
 export const Voting = () => {
@@ -54,6 +53,14 @@ export const Voting = () => {
 
   return (
     <div>
+      <h2>{polls.pollName}</h2>
+      <div>
+        <p>{polls.details}</p>
+      </div>
+      <div>
+        <label>RSVP by</label>
+        <h3>{rsvp}</h3>
+      </div>
       <ul>
         {polls.pollOptions?.map((p) =>
           generateVotingPolls(

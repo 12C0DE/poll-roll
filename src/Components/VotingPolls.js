@@ -23,6 +23,7 @@ export const BoolVote = ({ id, pollValue, dv }) => {
     <div>
       <label>{pollValue}</label>
       <input
+        key={`t${id}`}
         type="radio"
         name={`radioT${id}`}
         checked={vote !== null && vote}
@@ -30,6 +31,7 @@ export const BoolVote = ({ id, pollValue, dv }) => {
       />
       <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
       <input
+        key={`f${id}`}
         type="radio"
         name={`radioF${id}`}
         checked={vote !== null && !vote}

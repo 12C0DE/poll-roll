@@ -2,7 +2,7 @@ import React from "react";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { BoolVote, ListVote, DateVote } from "../Components/VotingPolls";
 import { PollEnums } from "../Enums/PollEnums";
-import { VoteCountOne } from "../Components/VoteCount";
+import { VoteCountBool, VoteCountOne } from "../Components/VoteCount";
 
 export const dateSplit = (dte) => {
   const dateArr = dte.split("/", 3);
@@ -32,12 +32,21 @@ export const generateVotingPolls = (
       const boolDV = checkBoolVote(pollVotes, uid);
 
       return (
-        <BoolVote
-          key={`bool${pollID}`}
-          id={pollID}
-          pollValue={pollOpt}
-          dv={boolDV}
-        />
+        <React.Fragment>
+          <BoolVote
+            key={`bool${pollID}`}
+            id={pollID}
+            pollValue={pollOpt}
+            dv={boolDV}
+          />
+          <VoteCountBool key={`vcb${pollID}`} pollVotes={pollVotes}/>
+        </React.Fragment>
+        // <BoolVote
+        //   key={`bool${pollID}`}
+        //   id={pollID}
+        //   pollValue={pollOpt}
+        //   dv={boolDV}
+        // />
       );
     case PollEnums.List:
       return (
@@ -133,3 +142,10 @@ export const totalPollVotes = (data) => {
 
   return totalVotes;
 };
+
+export const totalBoolVotes = (data) => {
+  const tVotes = data.T === undefined ? 0 : data.T.length;
+  const fVotes = data.F === undefined ? 0 : data.F.length;
+
+  return tVotes + fVotes;
+}

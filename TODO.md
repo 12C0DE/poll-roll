@@ -6,13 +6,15 @@ Project Description
 
 ### Todo
 
+- [ ] how to calculate vote % when you haven't voted yet  
 
 ### In Progress
 
-- [ ] get vote counts & percentages - currently setting useContext logic  
+- [ ] add header logic to redirect to home page  
 
 ### Done ✓
 
+- [x] get vote counts & percentages - currently setting useContext logic (doesn't include new votes)  
 - [x] how to pass default value for votes on BoolPoll  
 - [x] fix checkBoolVote on Voting.js  
 - [x] voteMany logic: pollOPtions is not seen for bool  
