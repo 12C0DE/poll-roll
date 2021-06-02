@@ -9,7 +9,7 @@ import { EditPolls2 } from "./Pages/EditPolls2";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
 import { Results } from "./Pages/Results";
-import { Voting } from "./Pages/Voting";
+import Voting  from "./Pages/Voting";
 import { PrivateRoute } from "./PrivateRoute";
 import { GlobalProvider } from "./Context/GlobalState";
 import { AuthProvider } from "./Firebase/Auth";

@@ -10,6 +10,7 @@ Project Description
 
 ### In Progress
 
+- [ ] Redirect to REsults page from voting if voting is over  
 
 ### Done ✓
 
