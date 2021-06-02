@@ -24,10 +24,13 @@ router.get("/pollnames/:authId", async (req, res) => {
   }
 });
 
-//retrieve specific poll
-router.get("/:_id", async (req, res) => {
+//retrieve specific poll if you are the authID
+router.get("/:_id/:authId", async (req, res) => {
   try {
-    const specPoll = await Poll.findById(req.params._id);
+    const specPoll = await Poll.findOne({
+      _id: req.params._id,
+      authId: req.params.authId,
+    });
     res.json(specPoll);
   } catch (err) {
     res.json({ message: err });

@@ -1,21 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
-import { PollTypeList } from "../Components/PollTypeList";
 import uuid from "react-uuid";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { PollTypeList } from "../Components/PollTypeList";
 import { PollEnums } from "../Enums/PollEnums";
 import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit } from "../functions/funcs";
 import { generatePollComps } from "../functions/funcs";
 
 export const EditPolls2 = () => {
-  const { _id } = useParams();
+  const { _id, authId } = useParams();
   const { polls, addPollOption, setPolls } = useContext(GlobalContext);
   const [details, setDetails] = useState("");
   const [rsvp, setRsvp] = useState("");
 
   useEffect(() => {
-    axios.get(`/polls/${_id}`).then((p) => {
+    axios.get(`/polls/${_id}/${authId}`).then((p) => {
       console.log("poll useEffect");
       setPolls(p.data);
       setDetails(p.data.details);
@@ -67,6 +68,9 @@ export const EditPolls2 = () => {
     <div>
       <p>Edit Poll</p>
       <h3>{polls.pollName}</h3>
+      <h3>
+        <Link to={`/voting/${_id}`}> Go to Voting</Link>
+      </h3>
       <div>
         <label>Details</label>
         <textarea

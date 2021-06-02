@@ -18,14 +18,18 @@ export const VoteCountOne = ({ pollVotes, totalCount }) => {
 };
 
 export const VoteCountBool = ({ pollVotes }) => {
-  const totalCount = totalBoolVotes(pollVotes);
-  const tPercent = Math.round((pollVotes.T.length / totalCount) * 100);
+const totalCount = pollVotes === undefined ? 0 : totalBoolVotes(pollVotes);
+  const tPercent = Math.round((pollVotes?.T.length / totalCount) * 100);
   const fPercent = 100 - tPercent;
 
   return (
     <div>
-      <p>T: {tPercent}%</p>
-      <p>F: {fPercent}%</p>
+      {totalCount !== 0 && (
+        <React.Fragment>
+          <p>T: {tPercent}%</p>
+          <p>F: {fPercent}%</p>
+        </React.Fragment>
+      )}
     </div>
   );
 };

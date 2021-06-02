@@ -25,7 +25,7 @@ function App() {
           <Switch>
             <PrivateRoute exact path="/home/:aid" component={Home} />
             <Route exact path="/createPoll" component={CreatePoll} />
-            <Route exact path="/editPoll/:_id" component={EditPolls2} />
+            <Route exact path="/editPoll/:_id/:authId" component={EditPolls2} />
             <Route exact path="/landing" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />

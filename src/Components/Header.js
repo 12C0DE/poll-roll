@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Firebase/Auth";
 
 export const Header = () => {
-  debugger;
   const { user } = useContext(AuthContext);
   
   return (

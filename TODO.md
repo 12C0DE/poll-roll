@@ -10,10 +10,10 @@ Project Description
 
 ### In Progress
 
-- [ ] add header logic to redirect to home page  
 
 ### Done ✓
 
+- [x] add header logic to redirect to home page  
 - [x] get vote counts & percentages - currently setting useContext logic (doesn't include new votes)  
 - [x] how to pass default value for votes on BoolPoll  
 - [x] fix checkBoolVote on Voting.js  

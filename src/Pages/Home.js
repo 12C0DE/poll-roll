@@ -50,7 +50,7 @@ export const Home = () => {
         <ul>
           {pollNames.map((poll) => (
             <li key={`pn${poll._id}`}>
-              <Link to={`/editPoll/${poll._id}`}>{poll.pollName}</Link>
+              <Link to={`/editPoll/${poll._id}/${aid}`}>{poll.pollName}</Link>
               <Link to={`/voting/${poll._id}`}> Go to Voting</Link>
             </li>
           ))}

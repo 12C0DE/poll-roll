@@ -144,8 +144,8 @@ export const totalPollVotes = (data) => {
 };
 
 export const totalBoolVotes = (data) => {
-  const tVotes = data.T === undefined ? 0 : data.T.length;
-  const fVotes = data.F === undefined ? 0 : data.F.length;
+  const tVotes = data?.T === undefined ? 0 : data.T.length;
+  const fVotes = data?.F === undefined ? 0 : data.F.length;
 
   return tVotes + fVotes;
 }
