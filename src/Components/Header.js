@@ -4,15 +4,13 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Firebase/Auth";
 
 export const Header = () => {
+  debugger;
+  const { user } = useContext(AuthContext);
   
-  const { currUser } = useContext(AuthContext);
-
   return (
     <div className="headerDiv">
       <h1>
-        <Link to={currUser ? `/home/:${currUser.uid}` : "/home"}>
-          Poll Roll
-        </Link>
+        <Link to={user ? `/home/${user.uid}` : "/home"}>Poll Roll</Link>
       </h1>
     </div>
   );
