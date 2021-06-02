@@ -58,7 +58,7 @@ const CreatePoll = ({ history }) => {
     axios.post("/polls/post", newPoll).then((res) => {
       console.log("poll submitted");
       clearInputs();
-      history.push(`/editPoll/${res.data._id}`);
+      history.push(`/editPoll/${res.data._id}/${user.authId}`);
     });
   };
 

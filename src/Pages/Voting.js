@@ -27,32 +27,33 @@ const Voting = ({ history }) => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
-    // axios.get(`/polls/${_id}`, { signal: abortConst.signal }).then((p) => {
-    axios.get(`/polls/${_id}`, { source }).then((p) => {
-      const rsvpCheck = new Date(p.data.rsvpDate);
-      console.log("starting UE");
-      if (rsvpCheck.getTime() < Date.now()) {
-        // history.push("/results");
-        setShowResults(true);
-        // abortConst.abort();
-        source.cancel("voting is over");
+    try {
+      axios.get(`/polls/${_id}`, { signal: source }).then((p) => {
+        const rsvpCheck = new Date(p.data.rsvpDate);
+        console.log("starting UE");
+        if (rsvpCheck.getTime() < Date.now()) {
+          history.push("/results");
+        } else {
+          setPolls(p.data);
+          const formDate = dateSplit(
+            new Date(p.data.rsvpDate).toLocaleDateString()
+          );
+          setRsvp(formDate);
+
+          const allLVotes = getAllVotes(p.data, PollEnums.List);
+          setListVotes(totalPollVotes(allLVotes));
+          const allDVotes = getAllVotes(p.data, PollEnums.Dates);
+          setDateVotes(totalPollVotes(allDVotes));
+          console.log("finished UE");
+        }
+      });
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        history.push("/results");
+        return "axios request cancelled";
       }
-
-      setPolls(p.data);
-      const formDate = dateSplit(
-        new Date(p.data.rsvpDate).toLocaleDateString()
-      );
-      setRsvp(formDate);
-
-      const allLVotes = getAllVotes(p.data, PollEnums.List);
-      setListVotes(totalPollVotes(allLVotes));
-      const allDVotes = getAllVotes(p.data, PollEnums.Dates);
-      setDateVotes(totalPollVotes(allDVotes));
-      console.log("finished UE");
-    });
-    showResults && history.push("/results");
-
-    // return () => abortConst.abort();
+      return err;
+    }
     return () => {
       source.cancel();
     };
