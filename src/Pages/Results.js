@@ -44,7 +44,7 @@ export const Results = () => {
     return () => {
       source.cancel();
     };
-  }, [_id, setDateVotes, setListVotes, setPolls]);
+  }, []);
 
   return (
     <div>
