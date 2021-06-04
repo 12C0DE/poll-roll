@@ -19,11 +19,9 @@ const Voting = ({ history }) => {
     user,
   } = useContext(GlobalContext);
   const [rsvp, setRsvp] = useState("");
-  const [showResults, setShowResults] = useState(false);
   const [voteSaved, setVoteSaved] = useState(false);
 
   useEffect(() => {
-    // const abortConst = new AbortController();
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
@@ -32,7 +30,7 @@ const Voting = ({ history }) => {
         const rsvpCheck = new Date(p.data.rsvpDate);
         console.log("starting UE");
         if (rsvpCheck.getTime() < Date.now()) {
-          history.push("/results");
+          history.push(`/results/${_id}?voteEnd=1`);
         } else {
           setPolls(p.data);
           const formDate = dateSplit(

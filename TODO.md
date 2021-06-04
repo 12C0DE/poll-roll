@@ -10,10 +10,10 @@ Project Description
 
 ### In Progress
 
-- [ ] Redirect to REsults page from voting if voting is over  
 
 ### Done ✓
 
+- [x] Redirect to REsults page from voting if voting is over  
 - [x] add header logic to redirect to home page  
 - [x] get vote counts & percentages - currently setting useContext logic (doesn't include new votes)  
 - [x] how to pass default value for votes on BoolPoll  

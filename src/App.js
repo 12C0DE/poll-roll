@@ -9,7 +9,7 @@ import { EditPolls2 } from "./Pages/EditPolls2";
 import { Home } from "./Pages/Home";
 import { NotFound } from "./Pages/NotFound";
 import { Results } from "./Pages/Results";
-import Voting  from "./Pages/Voting";
+import Voting from "./Pages/Voting";
 import { PrivateRoute } from "./PrivateRoute";
 import { GlobalProvider } from "./Context/GlobalState";
 import { AuthProvider } from "./Firebase/Auth";
@@ -29,7 +29,7 @@ function App() {
             <Route exact path="/landing" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/results" component={Results} />
+            <Route exact path="/results/:_id" component={Results} />
             <Route exact path="/voting/:_id" component={Voting} />
             <Route path="/404" component={NotFound} />
             <Redirect to="/landing" />
