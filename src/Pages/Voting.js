@@ -5,6 +5,7 @@ import { GlobalContext } from "../Context/GlobalState";
 import { dateSplit, getAllVotes, totalPollVotes } from "../functions/funcs";
 import { generateVotingPolls } from "../functions/funcs";
 import { PollEnums } from "../Enums/PollEnums";
+import { TopSectionLbls } from "../Components/topSectionLbls";
 
 const Voting = ({ history }) => {
   const { _id } = useParams();
@@ -19,6 +20,7 @@ const Voting = ({ history }) => {
     user,
   } = useContext(GlobalContext);
   const [rsvp, setRsvp] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [voteSaved, setVoteSaved] = useState(false);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ const Voting = ({ history }) => {
           setDateVotes(totalPollVotes(allDVotes));
           console.log("finished UE");
         }
+        setIsLoading(false);
       });
     } catch (err) {
       if (axios.isCancel(err)) {
@@ -72,32 +75,33 @@ const Voting = ({ history }) => {
 
   return (
     <div>
-      <h2>{polls.pollName}</h2>
-      <div>
-        <p>{polls.details}</p>
-      </div>
-      <div>
-        <label>RSVP by</label>
-        <h3>{rsvp}</h3>
-      </div>
-      <ul>
-        {polls.pollOptions?.map((p) =>
-          generateVotingPolls(
-            +p.pollType,
-            p.pollId,
-            p.option,
-            p.startDate,
-            p.endDate,
-            p.votes,
-            user._id,
-            boolVotes,
-            dateVotes,
-            listVotes
-          )
-        )}
-      </ul>
-      <button onClick={() => submitVote()}>Submit Votes</button>
-      <div>{voteSaved && <h2>Your vote has been saved.</h2>}</div>
+      {isLoading ? null : (
+        <React.Fragment>
+          <TopSectionLbls
+            pollname={polls.pollName}
+            details={polls.details}
+            rsvp={rsvp}
+          />
+          <ul>
+            {polls.pollOptions?.map((p) =>
+              generateVotingPolls(
+                +p.pollType,
+                p.pollId,
+                p.option,
+                p.startDate,
+                p.endDate,
+                p.votes,
+                user._id,
+                boolVotes,
+                dateVotes,
+                listVotes
+              )
+            )}
+          </ul>
+          <button onClick={() => submitVote()}>Submit Votes</button>
+          <div>{voteSaved && <h2>Your vote has been saved.</h2>}</div>
+        </React.Fragment>
+      )}
     </div>
   );
 };

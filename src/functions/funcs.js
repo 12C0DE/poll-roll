@@ -1,6 +1,7 @@
 import React from "react";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { BoolVote, ListVote, DateVote } from "../Components/VotingPolls";
+import { BoolResult, DateResult, ListResult } from "../Components/ResultPolls";
 import { PollEnums } from "../Enums/PollEnums";
 import { VoteCountBool, VoteCountOne } from "../Components/VoteCount";
 
@@ -15,6 +16,48 @@ const add0 = (input) => {
   return input.length > 1 ? input : `0${input}`;
 };
 
+export const generateResultPolls = (
+  pollType,
+  pollID,
+  pollValue,
+  startDate,
+  endDate,
+  pollVotes,
+  dateVotes,
+  listVotes
+) => {
+  switch (pollType) {
+    case PollEnums.Bool:
+      return (
+        <BoolResult
+          key={`br${pollID}`}
+          pollValue={pollValue}
+          pollVotes={pollVotes}
+        />
+      );
+    case PollEnums.Dates:
+      return (
+        <DateResult
+          key={`dr${pollID}`}
+          pollValue={`${startDate} - ${endDate}`}
+          pollVotes={pollVotes}
+          totalCount={dateVotes}
+        />
+      );
+    case PollEnums.List:
+      return (
+        <ListResult
+          key={`lr${pollID}`}
+          pollValue={pollValue}
+          pollVotes={pollVotes}
+          totalCount={listVotes}
+        />
+      );
+    default:
+      return null;
+  }
+};
+
 export const generateVotingPolls = (
   pollType,
   pollID,
@@ -23,7 +66,6 @@ export const generateVotingPolls = (
   pollED,
   pollVotes,
   uid,
-  boolVotes,
   dateVotes,
   listVotes
 ) => {
@@ -32,25 +74,19 @@ export const generateVotingPolls = (
       const boolDV = checkBoolVote(pollVotes, uid);
 
       return (
-        <React.Fragment>
+        <React.Fragment key={`rf${pollID}`}>
           <BoolVote
             key={`bool${pollID}`}
             id={pollID}
             pollValue={pollOpt}
             dv={boolDV}
           />
-          <VoteCountBool key={`vcb${pollID}`} pollVotes={pollVotes}/>
+          <VoteCountBool key={`vcb${pollID}`} pollVotes={pollVotes} />
         </React.Fragment>
-        // <BoolVote
-        //   key={`bool${pollID}`}
-        //   id={pollID}
-        //   pollValue={pollOpt}
-        //   dv={boolDV}
-        // />
       );
     case PollEnums.List:
       return (
-        <React.Fragment>
+        <React.Fragment key={`rf${pollID}`}>
           <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
           <VoteCountOne
             key={`vco${pollID}`}
@@ -61,7 +97,7 @@ export const generateVotingPolls = (
       );
     case PollEnums.Dates:
       return (
-        <React.Fragment>
+        <React.Fragment key={`rf${pollID}`}>
           <DateVote
             key={`date${pollID}`}
             id={pollID}
@@ -148,4 +184,4 @@ export const totalBoolVotes = (data) => {
   const fVotes = data?.F === undefined ? 0 : data.F.length;
 
   return tVotes + fVotes;
-}
+};
