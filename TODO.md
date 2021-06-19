@@ -10,10 +10,11 @@ Project Description
 
 ### In Progress
 
-- [ ] Build results page  
+- [ ] create poll views on home page (owned, just voting, view all, expired)  
 
 ### Done ✓
 
+- [x] Build results page  
 - [x] Redirect to REsults page from voting if voting is over  
 - [x] add header logic to redirect to home page  
 - [x] get vote counts & percentages - currently setting useContext logic (doesn't include new votes)  

@@ -67,7 +67,7 @@ export const Results = () => {
             rsvp={rsvp}
           />
           <ul>
-            {polls.pollOptions?.map((p) =>
+            {polls.pollOptions.map((p) =>
               generateResultPolls(
                 +p.pollType,
                 p.pollId,

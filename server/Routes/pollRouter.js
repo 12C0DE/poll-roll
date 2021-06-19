@@ -12,12 +12,29 @@ router.get("/", async (req, res) => {
   }
 });
 
-//retrieve poll names
+//retrieve poll names that user OWNS
 router.get("/pollnames/:authId", async (req, res) => {
   try {
     const pollNames = await Poll.find({ authId: req.params.authId }).select(
       "pollName"
     );
+    res.json(pollNames);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//retrieve poll names that user JUST votes in
+router.get("/pollnames/:authId/:uid", async (req, res) => {
+  try {
+    const pollNames = await Poll.find({
+      authId: { $nin: req.params.authId },
+      $or: [
+        { "pollOptions.votes": req.params.uid },
+        { "pollOptions.votes.F": req.params.uid },
+        { "pollOptions.votes.T": req.params.uid },
+      ],
+    }).select("pollName");
     res.json(pollNames);
   } catch (err) {
     res.json({ message: err });

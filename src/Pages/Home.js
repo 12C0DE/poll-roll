@@ -47,6 +47,7 @@ export const Home = () => {
         <Link to="/results">View Results</Link>
       </div>
       <div>
+        <h2>My Polls</h2>
         <ul>
           {pollNames.map((poll) => (
             <li key={`pn${poll._id}`}>
@@ -55,6 +56,9 @@ export const Home = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div>
+        <h2>Polls invited to</h2>
       </div>
     </React.Fragment>
   );
