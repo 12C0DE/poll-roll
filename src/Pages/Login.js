@@ -43,19 +43,9 @@ const Login = ({ history }) => {
       <h1>Log In</h1>
       <form onSubmit={handleLogin}>
         <h4>E-mail</h4>
-        <input
-          id="txtEmail"
-          type="text"
-          name="email"
-          value={"tt22@gmail.com"}
-        />
+        <input id="txtEmail" type="text" name="email" value={"rh@gmail.com"} />
         <h4>Password</h4>
-        <input
-          id="txtpwd"
-          type="password"
-          value={"123456789"}
-          name="password"
-        />
+        <input id="txtpwd" type="password" value={"123456"} name="password" />
         <div className="center" id="logInDiv">
           <button>Log In with Email</button>
         </div>
