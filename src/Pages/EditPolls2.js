@@ -74,6 +74,7 @@ export const EditPolls2 = () => {
       <h3>
         <Link to={`/results/${_id}`}>Go to Results</Link>
       </h3>
+      <h4>Copy Voting URL: /voting/{_id}</h4>
       <div>
         <label>Details</label>
         <textarea

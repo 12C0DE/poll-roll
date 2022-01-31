@@ -1,15 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import axios from "axios";
 
+import { GlobalContext } from "../Context/GlobalState";
+
 export const Home = () => {
   const { aid } = useParams();
+  const { user } = useContext(GlobalContext);
   const [pollNames, setPollNames] = useState([]);
+  const [pollVotingNames, setPollVotingNames] = useState([]);
 
   useEffect(() => {
     let unmounted = false;
     let source = axios.CancelToken.source();
+
+    //   const pollsOwned = axios.get(`/polls/pollnames/${aid}`);
+    //   const pollsToVote = axios.get(`/polls/pollnames/${aid}/${user._id}`);
+
+    //   axios
+    //     .all([pollsOwned, pollsToVote], { CancelToken: source.token })
+    //     .then(
+    //       axios.spread((...responses) => {
+    //         const ownedResp = responses[0];
+    //         const votingResp = responses[1];
+
+    //         if (!unmounted) {
+    //           setPollNames(ownedResp.data);
+    //           setPollVotingNames(votingResp.data);
+    //         }
+    //       })
+    //     )
+    //     .catch(function (e) {
+    //       if (!unmounted) {
+    //         if (axios.isCancel(e)) {
+    //           console.log(`request cancelled:${e.message}`);
+    //         } else {
+    //           console.log(`another error happened: ${e.message}`);
+    //         }
+    //       }
+    //     });
     axios
       .get(`/polls/pollnames/${aid}`, {
         cancelToken: source.token,
@@ -35,6 +65,32 @@ export const Home = () => {
     };
   }, [aid]);
 
+  useEffect(() => {
+    let unmounted = false;
+    let source = axios.CancelToken.source();
+
+    if (user) {
+      axios
+        .get(`/polls/pollnames/${aid}/${user._id}`, {
+          cancelToken: source.token,
+        })
+        .then((p) => {
+          if (!unmounted) {
+            setPollVotingNames(p.data);
+          }
+        })
+        .catch(function (e) {
+          if (!unmounted) {
+            if (axios.isCancel(e)) {
+              console.log(`request cancelled:${e.message}`);
+            } else {
+              console.log("another error happened:" + e.message);
+            }
+          }
+        });
+    }
+  }, [aid, user]);
+
   return (
     <React.Fragment>
       <div>
@@ -59,6 +115,13 @@ export const Home = () => {
       </div>
       <div>
         <h2>Polls invited to</h2>
+        <ul>
+          {pollVotingNames.map((poll) => (
+            <li key={`pvn${poll._id}`}>
+              <Link to={`/voting/${poll._id}`}>{poll.pollName}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </React.Fragment>
   );
