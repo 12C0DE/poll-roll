@@ -9,13 +9,8 @@ const Signup = ({ history }) => {
     async (event) => {
       event.preventDefault();
 
-      const {
-        emailS,
-        passwordS,
-        confirmPwdS,
-        fnameS,
-        lnameS,
-      } = event.target.elements;
+      const { emailS, passwordS, confirmPwdS, fnameS, lnameS } =
+        event.target.elements;
 
       if (passwordS.value !== confirmPwdS.value) {
         alert("Password does not match");
@@ -33,6 +28,7 @@ const Signup = ({ history }) => {
           fname: fnameS.value,
           lname: lnameS.value,
           authId: auth.currentUser.uid,
+          email: emailS.value,
         };
 
         axios.post("/users/post", newUser).then(() => {

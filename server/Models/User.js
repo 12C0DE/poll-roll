@@ -9,6 +9,7 @@ const UserSchema = mongoose.Schema({
     require: true,
     unique: true,
   },
+  email: { type: String, require: true },
 });
 
 module.exports = mongoose.model("users", UserSchema);
