@@ -15,31 +15,6 @@ export const Home = () => {
     let unmounted = false;
     let source = axios.CancelToken.source();
 
-    //   const pollsOwned = axios.get(`/polls/pollnames/${aid}`);
-    //   const pollsToVote = axios.get(`/polls/pollnames/${aid}/${user._id}`);
-
-    //   axios
-    //     .all([pollsOwned, pollsToVote], { CancelToken: source.token })
-    //     .then(
-    //       axios.spread((...responses) => {
-    //         const ownedResp = responses[0];
-    //         const votingResp = responses[1];
-
-    //         if (!unmounted) {
-    //           setPollNames(ownedResp.data);
-    //           setPollVotingNames(votingResp.data);
-    //         }
-    //       })
-    //     )
-    //     .catch(function (e) {
-    //       if (!unmounted) {
-    //         if (axios.isCancel(e)) {
-    //           console.log(`request cancelled:${e.message}`);
-    //         } else {
-    //           console.log(`another error happened: ${e.message}`);
-    //         }
-    //       }
-    //     });
     axios
       .get(`/polls/pollnames/${aid}`, {
         cancelToken: source.token,
@@ -89,7 +64,7 @@ export const Home = () => {
           }
         });
     }
-  }, [aid, user]);
+  }, [user]);
 
   return (
     <React.Fragment>
@@ -105,7 +80,7 @@ export const Home = () => {
       <div>
         <h2>My Polls</h2>
         <ul>
-          {pollNames.map((poll) => (
+          {pollNames?.map((poll) => (
             <li key={`pn${poll._id}`}>
               <Link to={`/editPoll/${poll._id}/${aid}`}>{poll.pollName}</Link>
               <Link to={`/voting/${poll._id}`}> Go to Voting</Link>
@@ -116,7 +91,7 @@ export const Home = () => {
       <div>
         <h2>Polls invited to</h2>
         <ul>
-          {pollVotingNames.map((poll) => (
+          {pollVotingNames?.map((poll) => (
             <li key={`pvn${poll._id}`}>
               <Link to={`/voting/${poll._id}`}>{poll.pollName}</Link>
             </li>

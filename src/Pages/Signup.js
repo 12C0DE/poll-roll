@@ -1,10 +1,13 @@
 import React, { useCallback, useContext } from "react";
+import { GlobalContext } from "../Context/GlobalState";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import axios from "axios";
 
 const Signup = ({ history }) => {
+  const { voteIdParam, setUser } = useContext(GlobalContext);
+
   const handleSignUp = useCallback(
     async (event) => {
       event.preventDefault();
@@ -18,22 +21,24 @@ const Signup = ({ history }) => {
       }
 
       try {
-        await auth.createUserWithEmailAndPassword(
-          emailS.value,
-          passwordS.value
-        );
-        console.log("user created");
+        await auth
+          .createUserWithEmailAndPassword(emailS.value, passwordS.value)
+          .then(() => {
+            const newUser = {
+              fname: fnameS.value,
+              lname: lnameS.value,
+              authId: auth.currentUser.uid,
+              email: emailS.value,
+            };
 
-        const newUser = {
-          fname: fnameS.value,
-          lname: lnameS.value,
-          authId: auth.currentUser.uid,
-          email: emailS.value,
-        };
+            axios.post("/users/post", newUser).then((user) => {
+              setUser(user.data);
 
-        axios.post("/users/post", newUser).then(() => {
-          history.push("/home");
-        });
+              voteIdParam
+                ? history.push(`/voting/${voteIdParam}`)
+                : history.push("/home");
+            });
+          });
       } catch (error) {
         console.log(error);
         alert(error);

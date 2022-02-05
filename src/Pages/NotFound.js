@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const NotFound = () => {
   return (
@@ -9,6 +10,9 @@ export const NotFound = () => {
           If you were searching for a poll, it might have been deleted or
           expired
         </i>
+      </p>
+      <p>
+        <Link to="/login">Go to Login</Link>
       </p>
     </div>
   );
