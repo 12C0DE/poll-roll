@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { auth } from "../Firebase/firebase";
+import { GlobalContext } from "../Context/GlobalState";
 import { Link } from "react-router-dom";
 
 export const Logout = () => {
+  const { setVoteIdParam } = useContext(GlobalContext);
+
+  const logOutHandler = () => {
+    setVoteIdParam(null);
+    auth.signOut();
+  };
+
   return (
-    <Link to="/landing" onClick={() => auth.signOut()}>
+    <Link to="/login" onClick={() => logOutHandler()}>
       Log Out
     </Link>
   );

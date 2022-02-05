@@ -10,6 +10,7 @@ const initialState = {
   listVotes: 0,
   dateVotes: 0,
   user: null,
+  voteIdParam: null,
 };
 
 //create context
@@ -53,6 +54,9 @@ export const GlobalProvider = ({ children }) => {
   function setUser(user) {
     dispatch({ type: "SET_USER", payload: user });
   }
+  function setVoteIdParam(voteId) {
+    dispatch({ type: "SET_VOTE_ID_PARAM", payload: voteId });
+  }
   function voteMany(vote) {
     dispatch({ type: "VOTE_MANY", payload: vote });
   }
@@ -70,6 +74,7 @@ export const GlobalProvider = ({ children }) => {
         polls: state.polls,
         phone: state.phone,
         user: state.user,
+        voteIdParam: state.voteIdParam,
         addPollOption,
         delPollOption,
         clearPolls,
@@ -80,6 +85,7 @@ export const GlobalProvider = ({ children }) => {
         setDateVotes,
         setListVotes,
         setUser,
+        setVoteIdParam,
         voteMany,
         voteOne,
         updatePoll,

@@ -30,7 +30,6 @@ const Voting = ({ history }) => {
     try {
       axios.get(`/polls/${_id}`, { signal: source }).then((p) => {
         const rsvpCheck = new Date(p.data.rsvpDate);
-        console.log("starting UE");
         if (rsvpCheck.getTime() < Date.now()) {
           history.push(`/results/${_id}?voteEnd=1`);
         } else {
@@ -44,7 +43,6 @@ const Voting = ({ history }) => {
           setListVotes(totalPollVotes(allLVotes));
           const allDVotes = getAllVotes(p.data, PollEnums.Dates);
           setDateVotes(totalPollVotes(allDVotes));
-          console.log("finished UE");
         }
         setIsLoading(false);
       });
@@ -62,7 +60,6 @@ const Voting = ({ history }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("in timer UE");
       setVoteSaved(false);
     }, [2500]);
     // Clear timeout if the component is unmounted

@@ -59,6 +59,11 @@ export default (state, action) => {
         ...state,
         phone: action.payload,
       };
+    case "SET_VOTE_ID_PARAM":
+      return {
+        ...state,
+        voteIdParam: action.payload,
+      };
     case "SET_USER":
       return {
         ...state,

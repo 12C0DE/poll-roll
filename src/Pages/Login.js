@@ -1,14 +1,13 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useParams, withRouter, Redirect } from "react-router";
+import React, { useCallback, useContext, useState } from "react";
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
-import { AuthContext } from "../Firebase/Auth";
 import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
 
 const Login = ({ history }) => {
   const [phone, setPhone] = useState(0);
-  const { setUser } = useContext(GlobalContext);
+  const { setUser, voteIdParam } = useContext(GlobalContext);
 
   const handleLogin = useCallback(
     async (event) => {
@@ -22,8 +21,11 @@ const Login = ({ history }) => {
             axios.get(`/users/${auth.currentUser.uid}`).then((usr) => {
               setUser(usr.data);
             });
-
-            history.push(`/home/${auth.currentUser.uid}`);
+          })
+          .then(() => {
+            voteIdParam
+              ? history.push(`/voting/${voteIdParam}`)
+              : history.push(`/home/${auth.currentUser.uid}`);
           });
       } catch (error) {
         alert(error);
@@ -31,12 +33,6 @@ const Login = ({ history }) => {
     },
     [history]
   );
-
-  const { currUser } = useContext(AuthContext);
-
-  if (currUser) {
-    return <Redirect to="/home" />;
-  }
 
   return (
     <div className="loginContainer">
