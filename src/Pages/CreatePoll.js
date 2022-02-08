@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { withRouter } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
@@ -6,19 +6,30 @@ import uuid from "react-uuid";
 import axios from "axios";
 import { generatePollComps } from "../functions/funcs";
 import { PollTypeList } from "../Components/PollTypeList";
+import { useForm } from "react-hook-form";
 
 const CreatePoll = ({ history }) => {
-  const [rsvpDate, setRsvpDate] = useState("");
-  const [name, setName] = useState("");
-  const [details, setDetails] = useState("");
   const { polls, addPollOption, clearPolls, setPolls, user } =
     useContext(GlobalContext);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const clearInputs = () => {
-    console.log("clear inputs");
-    setName("");
-    setDetails("");
-    setRsvpDate("");
+  useEffect(() => {
+    reset({
+      titleName: "",
+      txtDetails: "",
+      rsvpDate: "",
+    });
+
+    clearPolls();
+  }, [reset]);
+
+  const clearPollCtrls = () => {
+    reset();
     clearPolls();
   };
 
@@ -35,9 +46,7 @@ const CreatePoll = ({ history }) => {
     await addPollOption(newPoll);
   };
 
-  const submitPoll = (e) => {
-    e.preventDefault();
-
+  const submitPoll = (data) => {
     console.log("submitPoll");
 
     if (!polls.pollOptions.length > 0) {
@@ -46,18 +55,15 @@ const CreatePoll = ({ history }) => {
     }
 
     const newPoll = {
-      pollName: name,
-      details: details,
-      rsvpDate: rsvpDate,
+      pollName: data.titleName,
+      details: data.txtDetails,
+      rsvpDate: data.rsvpDate,
       pollOptions: polls.pollOptions,
       authId: user.authId,
     };
 
-    console.log(`new poll: ${newPoll}`);
-
     axios.post("/polls/post", newPoll).then((res) => {
-      console.log("poll submitted");
-      clearInputs();
+      reset();
       history.push(`/editPoll/${res.data._id}/${user.authId}`);
     });
   };
@@ -74,41 +80,64 @@ const CreatePoll = ({ history }) => {
   return (
     <div>
       <h2>Create a Poll</h2>
-      <div>
-        <label>Title</label>
-        <input
-          type="text"
-          required={true}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Details</label>
-        <textarea
-          onChange={(e) => setDetails(e.target.value)}
-          value={details}
-        />
-      </div>
-      <div>
-        <label>RSVP by</label>
-        <input
-          type="date"
-          required={true}
-          onChange={(e) => setRsvpDate(e.target.value)}
-          value={rsvpDate}
-        />
-      </div>
-      <PollTypeList add={add2Polls} />
-      <div>
-        {polls.pollOptions?.map((poll) =>
-          generatePollComps(+poll.pollType, poll.pollId)
-        )}
-      </div>
-      <div>
-        <input type="button" value="Submit" onClick={(e) => submitPoll(e)} />
-        <input type="button" value="Clear" onClick={() => clearInputs()} />
-      </div>
+      <form onSubmit={handleSubmit(submitPoll)}>
+        <div>
+          <label>Title</label>
+          <input
+            name="titleName"
+            type="text"
+            {...register("titleName", {
+              required: "Enter a title",
+            })}
+          />
+          {errors.titleName && (
+            <p style={{ color: "red" }}>{errors.titleName.message}</p>
+          )}
+        </div>
+        <div>
+          <label>Details</label>
+          <textarea
+            {...register("txtDetails", {
+              required: "Details are required",
+            })}
+          />
+          {errors.txtDetails && (
+            <p style={{ color: "red" }}>{errors.txtDetails.message}</p>
+          )}
+        </div>
+        <div>
+          <label>RSVP by</label>
+          <input
+            name="rsvpDate"
+            type="date"
+            {...register("rsvpDate", {
+              required: "Enter a valid RSVP date",
+              validate: {
+                setLaterDate: (value) => {
+                  return (
+                    new Date(value).getTime() >
+                      new Date(Date.now()).getTime() ||
+                    "Can't pick a date in the past"
+                  );
+                },
+              },
+            })}
+          />
+          {errors.rsvpDate && (
+            <p style={{ color: "red" }}>{errors.rsvpDate.message}</p>
+          )}
+        </div>
+        <PollTypeList add={add2Polls} />
+        <div>
+          {polls.pollOptions?.map((poll) =>
+            generatePollComps(+poll.pollType, poll.pollId)
+          )}
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+          <input type="button" value="Clear" onClick={() => clearPollCtrls()} />
+        </div>
+      </form>
     </div>
   );
 };

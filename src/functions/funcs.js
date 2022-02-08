@@ -7,8 +7,9 @@ import { VoteCountBool, VoteCountOne } from "../Components/VoteCount";
 
 export const dateSplit = (dte) => {
   const dateArr = dte.split("/", 3);
+  dateArr[1] = (+dateArr[1] + 1).toString();
 
-  const dateFormatted = `${dateArr[2]}-${add0(dateArr[0])}-${add0(dateArr[1])}`;
+  let dateFormatted = `${dateArr[2]}-${add0(dateArr[0])}-${add0(dateArr[1])}`;
   return dateFormatted;
 };
 
