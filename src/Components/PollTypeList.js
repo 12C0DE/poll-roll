@@ -16,7 +16,7 @@ export const PollTypeList = ({ add }) => {
         <option value={PollEnums.List}>List</option>
         <option value={PollEnums.Bool}>T/F</option>
       </select>
-      <button onClick={() => add(selLocalPoll)}>Add Poll</button>
+      <input type="button" value="Add Poll" onClick={() => add(selLocalPoll)} />
     </div>
   );
 };

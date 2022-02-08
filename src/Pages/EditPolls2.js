@@ -79,6 +79,7 @@ export const EditPolls2 = () => {
         <label>Details</label>
         <textarea
           onChange={(e) => setDetails(e.target.value)}
+          required={true}
           defaultValue={polls.details}
         />
       </div>

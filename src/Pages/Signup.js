@@ -2,11 +2,19 @@ import React, { useCallback, useContext } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { auth } from "../Firebase/firebase";
 import axios from "axios";
 
 const Signup = ({ history }) => {
   const { voteIdParam, setUser } = useContext(GlobalContext);
+  const {
+    getValues,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => handleSignUp();
 
   const handleSignUp = useCallback(
     async (event) => {
@@ -50,20 +58,55 @@ const Signup = ({ history }) => {
   return (
     <div className="signUpContainer">
       <h1 className="signUp">Sign Up</h1>
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="nameContainer">
           <h4>First name</h4>
-          <input name="fnameS" type="text" />
+          <input
+            name="fnameS"
+            type="text"
+            {...register("fnameS", { required: true, pattern: /^[A-Za-z]+$/i })}
+          />
+          {errors.fnameS && "First name is required"}
           <h4>Last name</h4>
-          <input name="lnameS" type="text" />
+          <input
+            name="lnameS"
+            type="text"
+            {...register("lnameS", { required: true, pattern: /^[A-Za-z]+$/i })}
+          />
+          {errors.lnameS && "Last name is required"}
         </div>
         <div>
           <h4>Email</h4>
-          <input name="emailS" type="email" />
+          <input
+            name="emailS"
+            type="email"
+            {...register("emailS", { required: true })}
+          />
+          {errors.emailS && "email is required"}
+
           <h4>Password</h4>
-          <input name="passwordS" type="password" />
+          <input
+            name="passwordS"
+            type="password"
+            {...register("passwordS", { required: true })}
+          />
           <h4>Confirm Password</h4>
-          <input name="confirmPwdS" type="password" />
+          <input
+            name="confirmPwdS"
+            type="password"
+            {...register("confirmPwdS", {
+              required: "Please confirm password!",
+              validate: {
+                matchesPreviousPassword: (value) => {
+                  const { passwordS } = getValues();
+                  return passwordS === value || "Passwords should match!";
+                },
+              },
+            })}
+          />
+          {errors.confirmPwdS && (
+            <p style={{ color: "red" }}>{errors.confirmPwdS.message}</p>
+          )}
         </div>
         <div className="center" id="logInDiv">
           <button type="submit">Sign Up</button>
