@@ -1,6 +1,5 @@
 import React from "react";
 import { Header } from "./Components/Header";
-import { Logout } from "./Components/Logout";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import CreatePoll from "./Pages/CreatePoll";
@@ -14,13 +13,13 @@ import { PrivateRoute } from "./PrivateRoute";
 import { GlobalProvider } from "./Context/GlobalState";
 import { AuthProvider } from "./Firebase/Auth";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import "./styles/main.css";
 
 function App() {
   return (
     <GlobalProvider>
       <AuthProvider>
         <BrowserRouter>
-          <Logout />
           <Header />
           <Switch>
             <PrivateRoute exact path="/home/:aid" component={Home} />

@@ -54,11 +54,22 @@ const CreatePoll = ({ history }) => {
       return;
     }
 
+    //check what kind of poll: bool, list, dates, or combo
+    let pollKind = PollEnums.None;
+    const pollMatch = polls.pollOptions.every(
+      (p) => p.pollType === polls.pollOptions[0].pollType
+    );
+
+    pollMatch
+      ? (pollKind = polls.pollOptions[0].pollType)
+      : (pollKind = PollEnums.Combo);
+
     const newPoll = {
       pollName: data.titleName,
       details: data.txtDetails,
       rsvpDate: data.rsvpDate,
       pollOptions: polls.pollOptions,
+      pollKind: pollKind,
       authId: user.authId,
     };
 

@@ -1,12 +1,14 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
 
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
 const Login = ({ history }) => {
-  const [phone, setPhone] = useState(0);
   const { setUser, voteIdParam } = useContext(GlobalContext);
 
   const handleLogin = useCallback(
@@ -35,27 +37,43 @@ const Login = ({ history }) => {
   );
 
   return (
-    <div className="loginContainer">
-      <h1>Log In</h1>
-      <form onSubmit={handleLogin}>
-        <h4>E-mail</h4>
-        <input id="txtEmail" type="text" name="email" value={"rh@gmail.com"} />
-        <h4>Password</h4>
-        <input id="txtpwd" type="password" value={"123456"} name="password" />
-        <div className="center" id="logInDiv">
-          <button>Log In with Email</button>
-        </div>
-        <h4>Phone Number</h4>
-        <input
-          id="txtPhone"
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </form>
+    <div className="flex flex-col">
       <div>
-        <h3 className="center">
-          or <Link to="/signup">sign up</Link> here
+        <h1 className="text-3xl font-bold text-center py-4">Log In</h1>
+      </div>
+      <form
+        onSubmit={handleLogin}
+        className="flex flex-col no-wrap items-center space-y-4 "
+      >
+        <TextField
+          id="txtEmail"
+          name="email"
+          label="Email"
+          variant="filled"
+          value="rh@gmail.com"
+          className="w-1/2 max-w-md"
+        />
+        <TextField
+          type="password"
+          name="password"
+          label="Password"
+          variant="filled"
+          value="123456"
+          className="w-1/2 max-w-md"
+        />
+        <div className="center" id="logInDiv">
+          <Button variant="contained" type="submit" style={{ width: 250 }}>
+            Login
+          </Button>
+        </div>
+      </form>
+      <div className="flex flex-col mt-4">
+        <h3 className="text-center">
+          {"or"}
+          <Button href="#">
+            <Link to="/signup">sign up</Link>
+          </Button>
+          {"here"}
         </h3>
       </div>
     </div>

@@ -1,0 +1,60 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.boolCard {
+  background: #fdc830; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #e1a54b,
+    #fdc830
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #d78d1f,
+    #fdc830
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.listCard {
+  background: #0cebeb; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #29ffc6,
+    #20e3b2,
+    #0cebeb
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #29ffc6,
+    #20e3b2,
+    #0cebeb
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.datesCard {
+  background: #4225c6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #3382d6,
+    #2049a1
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #04358f,
+    #061179
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.comboCard {
+  background: #9f2a99; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #a854af,
+    #7e1b60
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #c94ae2,
+    #652268
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

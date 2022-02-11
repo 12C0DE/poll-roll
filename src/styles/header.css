@@ -1,5 +1,25 @@
 .headerDiv {
+  vertical-align: middle;
+  /* border-bottom: 2px solid black; */
+  background: #009fff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ec2f4b,
+    #009fff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ec2f4b,
+    #009fff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.headerDiv h1 {
+  height: 2em;
   text-align: center;
-  border-bottom: 2px solid red;
-  background-color: rgb(211, 133, 133);
+  color: white;
+  /* background-color: rgb(211, 133, 133); */
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 7px;
 }

@@ -3,4 +3,5 @@ export const PollEnums = {
   Bool: 1,
   List: 2,
   Dates: 3,
+  Combo: 4,
 };
