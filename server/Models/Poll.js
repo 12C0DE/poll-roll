@@ -5,6 +5,7 @@ const PollSchema = mongoose.Schema({
   details: String,
   rsvpDate: Date,
   pollOptions: { type: [], require: true },
+  pollKind: { type: Number, require: true },
   authId: { type: String, require: true },
 });
 

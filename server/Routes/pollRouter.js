@@ -15,9 +15,10 @@ router.get("/", async (req, res) => {
 //retrieve poll names that user OWNS
 router.get("/pollnames/:authId", async (req, res) => {
   try {
-    const pollNames = await Poll.find({ authId: req.params.authId }).select(
-      "pollName"
-    );
+    const pollNames = await Poll.find({ authId: req.params.authId }).select([
+      "pollName",
+      "pollKind",
+    ]);
     res.json(pollNames);
   } catch (err) {
     res.json({ message: err });
@@ -34,7 +35,7 @@ router.get("/pollnames/:authId/:uid", async (req, res) => {
         { "pollOptions.votes.F": req.params.uid },
         { "pollOptions.votes.T": req.params.uid },
       ],
-    }).select("pollName");
+    }).select(["pollName", "pollKind"]);
     res.json(pollNames);
   } catch (err) {
     res.json({ message: err });
@@ -71,6 +72,7 @@ router.post("/post", async (req, res) => {
     details: req.body.details,
     rsvpDate: req.body.rsvpDate,
     pollOptions: req.body.pollOptions,
+    pollKind: req.body.pollKind,
     authId: req.body.authId,
   });
 
