@@ -447,6 +447,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .content-center {
   align-content: center;
 }
+.content-end {
+  align-content: flex-end;
+}
 .items-center {
   align-items: center;
 }
@@ -476,6 +479,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .justify-self-end {
   justify-self: end;
 }
+.overflow-auto {
+  overflow: auto;
+}
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -483,6 +489,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+.pt-2 {
+  padding-top: 0.5rem;
+}
+.pb-8 {
+  padding-bottom: 2rem;
 }
 .text-center {
   text-align: center;
@@ -492,10 +504,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .font-title {
   font-family: Barlow;
-}
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
 }
 .text-3xl {
   font-size: 1.875rem;

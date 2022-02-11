@@ -1,3 +1,9 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .boolCard {
   background: #fdc830; /* fallback for old browsers */
   background: -webkit-linear-gradient(
@@ -12,16 +18,18 @@
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .listCard {
-  background: #92cf86; /* fallback for old browsers */
+  background: #0cebeb; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #3ca464,
-    #319440
+    #29ffc6,
+    #20e3b2,
+    #0cebeb
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #37d498,
-    #26ab45
+    #29ffc6,
+    #20e3b2,
+    #0cebeb
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .datesCard {
