@@ -411,11 +411,37 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.m-4 {
+  margin: 1rem;
+}
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.mt-8 {
+  margin-top: 2rem;
+}
 .mt-4 {
   margin-top: 1rem;
 }
 .flex {
   display: flex;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.w-full {
+  width: 100%;
+}
+.w-3\/4 {
+  width: 75%;
 }
 .w-1\/2 {
   width: 50%;
@@ -425,6 +451,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .flex-none {
   flex: none;
+}
+.shrink {
+  flex-shrink: 1;
 }
 .basis-1\/6 {
   flex-basis: 16.666667%;
@@ -443,6 +472,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .flex-wrap {
   flex-wrap: wrap;
+}
+.place-content-center {
+  place-content: center;
 }
 .content-center {
   align-content: center;
@@ -465,22 +497,44 @@ Ensure the default browser behavior of the `hidden` attribute.
 .justify-evenly {
   justify-content: space-evenly;
 }
+.gap-2 {
+  gap: 0.5rem;
+}
 .gap-4 {
   gap: 1rem;
 }
 .gap-3 {
   gap: 0.75rem;
 }
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
+.place-self-start {
+  place-self: start;
 }
 .justify-self-end {
   justify-self: end;
 }
 .overflow-auto {
   overflow: auto;
+}
+.border {
+  border-width: 1px;
+}
+.p-2 {
+  padding: 0.5rem;
 }
 .py-8 {
   padding-top: 2rem;

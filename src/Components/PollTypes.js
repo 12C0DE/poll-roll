@@ -2,6 +2,11 @@ import React, { useContext, useRef } from "react";
 import { DeletePollOption } from "../Components/DeletePollOption";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import Stack from "@mui/material/Stack";
+import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
 
 export const BoolPoll = ({ id, pollValue }) => {
   const { updatePoll } = useContext(GlobalContext);
@@ -20,18 +25,27 @@ export const BoolPoll = ({ id, pollValue }) => {
 
   return (
     <div>
-      <input
-        type="text"
-        key={`bi${id}`}
-        placeholder="question"
-        defaultValue={pollValue}
-        onBlur={(e) => updatingPoll(e)}
-      />
-      <input type="radio" name={`radioT${id}`} disabled={true} />
-      <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
-      <input type="radio" name={`radioF${id}`} disabled={true} />
-      <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
-      <DeletePollOption id={id} />
+      <Stack
+        direction="row"
+        spacing={1}
+        className="space-x-4 my-4 justify-center"
+        alignItems="center"
+      >
+        <TextField
+          name="statement"
+          variant="outlined"
+          label="Statement"
+          style={{ width: "60%" }}
+          defaultValue={pollValue}
+          onBlur={(e) => updatingPoll(e)}
+        />
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography>True</Typography>
+          <Switch disabled />
+          <Typography>False</Typography>
+          <DeletePollOption id={id} />
+        </Stack>
+      </Stack>
     </div>
   );
 };
@@ -39,6 +53,7 @@ export const BoolPoll = ({ id, pollValue }) => {
 export const ListPoll = ({ id, pollValue }) => {
   const { updatePoll } = useContext(GlobalContext);
   const updatingPoll = (e) => {
+    e.preventDefault();
     if (e.target.value.length > 0) {
       const updatedPoll = {
         pollType: PollEnums.List,
@@ -51,13 +66,19 @@ export const ListPoll = ({ id, pollValue }) => {
   };
 
   return (
-    <div>
-      <label>Option</label>
-      <input
+    <div className="flex flex-row m-4 space-x-4 place-content-center">
+      <TextField
         id={`li${id}`}
-        type="text"
+        variant="outlined"
+        label="Option"
         defaultValue={pollValue}
         onBlur={(e) => updatingPoll(e)}
+        className="p-2"
+        style={{
+          width: "75%",
+          maxWidth: 700,
+          minWidth: 200,
+        }}
       />
       <DeletePollOption key={`del${id}`} id={id} />
     </div>
@@ -83,23 +104,31 @@ export const DatePoll = ({ id, pollStart, pollEnd }) => {
   };
 
   return (
-    <div>
-      <label>Start Date</label>
-      <input
-        type="date"
-        id={`sd${id}`}
-        ref={startRef}
-        defaultValue={pollStart}
-        onChangeCapture={updatingPoll}
-      />
-      <label>End Date</label>
-      <input
-        type="date"
-        id={`ed${id}`}
-        ref={endRef}
-        defaultValue={pollEnd}
-        onChangeCapture={updatingPoll}
-      />
+    <div className="flex flex-row flex-wrap m-4 space-x-4 place-content-center">
+      <FormControl>
+        <TextField
+          type="date"
+          id={`sd${id}`}
+          inputRef={startRef}
+          sx={{ width: 220 }}
+          label="Start Date"
+          InputLabelProps={{ shrink: true }}
+          defaultValue={pollStart}
+          onChangeCapture={updatingPoll}
+        />
+      </FormControl>
+      <FormControl>
+        <TextField
+          type="date"
+          id={`ed${id}`}
+          inputRef={endRef}
+          sx={{ width: 220 }}
+          label="End Date"
+          InputLabelProps={{ shrink: true }}
+          defaultValue={pollEnd}
+          onChangeCapture={updatingPoll}
+        />
+      </FormControl>
       <DeletePollOption id={id} />
     </div>
   );

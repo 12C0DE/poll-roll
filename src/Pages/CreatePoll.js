@@ -7,6 +7,10 @@ import axios from "axios";
 import { generatePollComps } from "../functions/funcs";
 import { PollTypeList } from "../Components/PollTypeList";
 import { useForm } from "react-hook-form";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const CreatePoll = ({ history }) => {
   const { polls, addPollOption, clearPolls, setPolls, user } =
@@ -89,66 +93,83 @@ const CreatePoll = ({ history }) => {
   }, []);
 
   return (
-    <div>
-      <h2>Create a Poll</h2>
-      <form onSubmit={handleSubmit(submitPoll)}>
-        <div>
-          <label>Title</label>
-          <input
-            name="titleName"
-            type="text"
-            {...register("titleName", {
-              required: "Enter a title",
-            })}
-          />
-          {errors.titleName && (
-            <p style={{ color: "red" }}>{errors.titleName.message}</p>
-          )}
+    <div className="flex flex-col">
+      <div>
+        <h1 className="text-3xl font-bold text-center py-8">Create a Poll</h1>
+      </div>
+      <Container maxWidth="lg">
+        <div className="flex w-full place-content-center">
+          <form
+            onSubmit={handleSubmit(submitPoll)}
+            className="w-3/4 place-self-start"
+          >
+            <Stack spacing={2}>
+              <TextField
+                name="titleName"
+                variant="outlined"
+                label="Title"
+                error={errors.titleName}
+                helperText={errors.titleName && errors.titleName.message}
+                {...register("titleName", {
+                  required: "Enter a title",
+                })}
+              />
+              <TextField
+                id="outlined-multiline-static"
+                label="Details"
+                className="mt-8"
+                error={errors.txtDetails}
+                helperText={errors.txtDetails && errors.txtDetails.message}
+                multiline
+                rows={4}
+                {...register("txtDetails", {
+                  required: "Details are required",
+                })}
+              />
+              <div className="flex flex-row space-x-4 place-content-center">
+                <TextField
+                  id="rsvpDate"
+                  label="Vote by"
+                  type="date"
+                  sx={{ width: 220 }}
+                  error={errors.rsvpDate}
+                  helperText={errors.rsvpDate && errors.rsvpDate.message}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  {...register("rsvpDate", {
+                    required: "Enter a valid RSVP date",
+                    validate: {
+                      setLaterDate: (value) => {
+                        return (
+                          new Date(value).getTime() >
+                            new Date(Date.now()).getTime() ||
+                          "Can't pick a date in the past"
+                        );
+                      },
+                    },
+                  })}
+                />
+                <PollTypeList add={add2Polls} />
+              </div>
+            </Stack>
+
+            <div>
+              {polls.pollOptions?.map((poll) =>
+                generatePollComps(+poll.pollType, poll.pollId)
+              )}
+            </div>
+            <div className="flex flex-row space-x-6 my-8 place-content-center">
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
+              <Button type="button" onClick={() => clearPollCtrls()}>
+                Clear
+              </Button>
+            </div>
+          </form>
         </div>
-        <div>
-          <label>Details</label>
-          <textarea
-            {...register("txtDetails", {
-              required: "Details are required",
-            })}
-          />
-          {errors.txtDetails && (
-            <p style={{ color: "red" }}>{errors.txtDetails.message}</p>
-          )}
-        </div>
-        <div>
-          <label>RSVP by</label>
-          <input
-            name="rsvpDate"
-            type="date"
-            {...register("rsvpDate", {
-              required: "Enter a valid RSVP date",
-              validate: {
-                setLaterDate: (value) => {
-                  return (
-                    new Date(value).getTime() >
-                      new Date(Date.now()).getTime() ||
-                    "Can't pick a date in the past"
-                  );
-                },
-              },
-            })}
-          />
-          {errors.rsvpDate && (
-            <p style={{ color: "red" }}>{errors.rsvpDate.message}</p>
-          )}
-        </div>
-        <PollTypeList add={add2Polls} />
-        <div>
-          {polls.pollOptions?.map((poll) =>
-            generatePollComps(+poll.pollType, poll.pollId)
-          )}
-        </div>
-        <div>
-          <input type="submit" value="Submit" />
-          <input type="button" value="Clear" onClick={() => clearPollCtrls()} />
-        </div>
-      </form>
+      </Container>
     </div>
   );
 };
