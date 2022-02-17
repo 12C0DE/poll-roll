@@ -24,7 +24,7 @@ export const PollCard = ({ poll, justVote }) => {
       sx={{
         maxWidth: 345,
         minWidth: 210,
-        height: 250,
+        // height: 250,
         color: "white",
         width: "25%",
       }}

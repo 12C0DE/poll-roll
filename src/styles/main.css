@@ -431,6 +431,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-4 {
   margin-top: 1rem;
 }
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
 .flex {
   display: flex;
 }
@@ -460,6 +463,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .basis-4\/6 {
   flex-basis: 66.666667%;
+}
+.rotate-180 {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .flex-row {
   flex-direction: row;
@@ -524,14 +531,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .place-self-start {
   place-self: start;
 }
+.self-center {
+  align-self: center;
+}
 .justify-self-end {
   justify-self: end;
 }
 .overflow-auto {
   overflow: auto;
-}
-.border {
-  border-width: 1px;
 }
 .p-2 {
   padding: 0.5rem;
@@ -542,6 +549,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .py-4 {
   padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.pb-4 {
   padding-bottom: 1rem;
 }
 .pt-2 {
@@ -563,8 +573,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-size: 1.875rem;
   line-height: 2.25rem;
 }
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 .font-bold {
   font-weight: 700;
+}
+.italic {
+  font-style: italic;
 }
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
