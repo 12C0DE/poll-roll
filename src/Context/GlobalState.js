@@ -7,7 +7,9 @@ const initialState = {
   phone: "",
   polls: {},
   boolVotes: 0,
+  listData: {},
   listVotes: 0,
+  dateData: {},
   dateVotes: 0,
   user: null,
   voteIdParam: null,
@@ -39,8 +41,14 @@ export const GlobalProvider = ({ children }) => {
   function setBoolVotes(bVotes) {
     dispatch({ type: "SET_BOOL_VOTES", payload: bVotes });
   }
+  function setDateData(dData) {
+    dispatch({ type: "SET_DATE_DATA", payload: dData });
+  }
   function setDateVotes(dVotes) {
     dispatch({ type: "SET_DATE_VOTES", payload: dVotes });
+  }
+  function setListData(lData) {
+    dispatch({ type: "SET_LIST_DATA", payload: lData });
   }
   function setListVotes(lVotes) {
     dispatch({ type: "SET_LIST_VOTES", payload: lVotes });
@@ -68,7 +76,9 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         boolVotes: state.boolVotes,
+        dateData: state.dateData,
         dateVotes: state.dateVotes,
+        listData: state.listData,
         listVotes: state.listVotes,
         code: state.code,
         polls: state.polls,
@@ -82,7 +92,9 @@ export const GlobalProvider = ({ children }) => {
         setPhone,
         setPolls,
         setBoolVotes,
+        setDateData,
         setDateVotes,
+        setListData,
         setListVotes,
         setUser,
         setVoteIdParam,

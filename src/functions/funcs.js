@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BoolPoll, ListPoll, DatePoll } from "../Components/PollTypes";
 import { BoolVote, ListVote, DateVote } from "../Components/VotingPolls";
 import { BoolResult, DateResult, ListResult } from "../Components/ResultPolls";
 import { PollEnums } from "../Enums/PollEnums";
 import { VoteCountBool, VoteCountOne } from "../Components/VoteCount";
+import { GlobalContext } from "../Context/GlobalState";
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
+import { format } from "date-fns";
 
 export const dateSplit = (dte) => {
   const dateArr = dte.split("/", 3);
@@ -59,7 +63,7 @@ export const generateResultPolls = (
   }
 };
 
-export const generateVotingPolls = (
+export const GenerateVotingPolls = (
   pollType,
   pollID,
   pollOpt,
@@ -70,12 +74,22 @@ export const generateVotingPolls = (
   dateVotes,
   listVotes
 ) => {
+  const { dateData, listData, polls } = useContext(GlobalContext);
+
   switch (pollType) {
     case PollEnums.Bool:
       const boolDV = checkBoolVote(pollVotes, uid);
 
       return (
-        <React.Fragment key={`rf${pollID}`}>
+        <div
+          key={`rf${pollID}`}
+          className="mb-8"
+          style={{
+            backgroundColor: "#f6f5fa",
+            padding: "20px",
+            borderRadius: 15,
+          }}
+        >
           <BoolVote
             key={`bool${pollID}`}
             id={pollID}
@@ -83,33 +97,100 @@ export const generateVotingPolls = (
             dv={boolDV}
           />
           <VoteCountBool key={`vcb${pollID}`} pollVotes={pollVotes} />
-        </React.Fragment>
+        </div>
       );
     case PollEnums.List:
+      const currVoteIdL = checkTypeVote(polls.pollOptions, uid, PollEnums.List);
+
       return (
-        <React.Fragment key={`rf${pollID}`}>
-          <ListVote key={`elist${pollID}`} id={pollID} pollValue={pollOpt} />
-          <VoteCountOne
-            key={`vco${pollID}`}
-            pollVotes={pollVotes}
-            totalCount={listVotes}
+        <div
+          key={`rf${pollID}`}
+          style={{ backgroundColor: "#FBF9F6", borderRadius: 15 }}
+          className="p-2"
+        >
+          <ListVote
+            key={`elist${pollID}`}
+            id={pollID}
+            pollValue={pollOpt}
+            currVoteId={currVoteIdL}
           />
-        </React.Fragment>
+          {listData.counts.reduce((a, b) => a + b, 0) > 0 &&
+          listData.names[listData.names.length - 1] === pollOpt ? (
+            <Chart
+              type="doughnut"
+              legend={"top"}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                },
+              }}
+              data={{
+                labels: listData.names,
+                datasets: [
+                  {
+                    data: listData.counts,
+                    backgroundColor: getchartColors(listData.names.length),
+                  },
+                ],
+              }}
+            />
+          ) : null}
+        </div>
       );
     case PollEnums.Dates:
+      const currVoteIdD = checkTypeVote(
+        polls.pollOptions,
+        uid,
+        PollEnums.Dates
+      );
+
       return (
-        <React.Fragment key={`rf${pollID}`}>
+        <div
+          key={`rf${pollID}`}
+          style={{ backgroundColor: "#FBF9c6", borderRadius: 15 }}
+          className="p-2"
+        >
           <DateVote
             key={`date${pollID}`}
             id={pollID}
-            pollValue={`${pollSD} - ${pollED}`}
+            pollValue={`${format(new Date(pollSD), "M/d/yy")} - ${format(
+              new Date(pollED),
+              "M/d/yy"
+            )}`}
+            currVoteId={currVoteIdD}
           />
-          <VoteCountOne
-            key={`vco${pollID}`}
-            pollVotes={pollVotes}
-            totalCount={dateVotes}
-          />
-        </React.Fragment>
+          {dateData.counts.reduce((a, b) => a + b, 0) > 0 &&
+          dateData.names[dateData.names.length - 1] ===
+            `${format(new Date(pollSD), "M/d/yy")} - ${format(
+              new Date(pollED),
+              "M/d/yy"
+            )}` ? (
+            <Chart
+              type="doughnut"
+              legend={"top"}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                },
+              }}
+              data={{
+                labels: dateData.names,
+                datasets: [
+                  {
+                    data: dateData.counts,
+                    backgroundColor: getchartColors(dateData.names.length),
+                  },
+                ],
+              }}
+            />
+          ) : null}
+        </div>
       );
     default:
       return null;
@@ -141,6 +222,19 @@ export const generatePollComps = (
       );
     default:
       return null;
+  }
+};
+
+const checkTypeVote = (votes, uid, pollType) => {
+  try {
+    const currVoteId = votes
+      .filter((p) => +p.pollType === pollType)
+      .find((pv) => pv?.votes?.includes(uid))?.pollId;
+
+    return currVoteId;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
 };
 
@@ -185,4 +279,21 @@ export const totalBoolVotes = (data) => {
   const fVotes = data?.F === undefined ? 0 : data.F.length;
 
   return tVotes + fVotes;
+};
+
+export const getchartColors = (arrLength) => {
+  const colors = [
+    "purple",
+    "green",
+    "red",
+    "blue",
+    "yellow",
+    "orange",
+    "pink",
+    "black",
+    "gray",
+    "white",
+  ];
+
+  return colors.slice(0, arrLength);
 };

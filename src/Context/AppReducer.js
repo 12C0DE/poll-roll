@@ -1,4 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { PollEnums } from "../Enums/PollEnums";
+import { format } from "date-fns";
 
 export default (state, action) => {
   switch (action.type) {
@@ -44,10 +46,20 @@ export default (state, action) => {
         ...state,
         boolVotes: action.payload,
       };
+    case "SET_DATE_DATA":
+      return {
+        ...state,
+        dateData: action.payload,
+      };
     case "SET_DATE_VOTES":
       return {
         ...state,
         dateVotes: action.payload,
+      };
+    case "SET_LIST_DATA":
+      return {
+        ...state,
+        listData: action.payload,
       };
     case "SET_LIST_VOTES":
       return {
@@ -139,8 +151,40 @@ export default (state, action) => {
         ? filtered1.pollOptions[indexL].votes.unshift(action.payload.uid)
         : (filtered1.pollOptions[indexL].votes = [action.payload.uid]);
 
+      //testing if i can update listData here
+      let updatedListData = state.listData;
+      let updatedDateData = state.dateData;
+
+      if (action.payload.pollType === PollEnums.List) {
+        updatedListData.counts = state.listData.names
+          .map((name) =>
+            filtered1.pollOptions
+              .filter((p) => p.pollType === PollEnums.List)
+              .filter((l) => l.option === name)
+              .map((v) => v?.votes?.length ?? 0)
+          )
+          .flat();
+      } else if (action.payload.pollType === PollEnums.Dates) {
+        updatedDateData.counts = state.dateData.names
+          .map((name) =>
+            filtered1.pollOptions
+              .filter((p) => p.pollType === PollEnums.Dates)
+              .filter(
+                (d) =>
+                  `${format(new Date(d.startDate), "M/d/yy")} - ${format(
+                    new Date(d.endDate),
+                    "M/d/yy"
+                  )}` === name
+              )
+              .map((v) => v?.votes?.length ?? 0)
+          )
+          .flat();
+      }
+
       return {
         ...state,
+        dateData: updatedDateData,
+        listData: updatedListData,
         polls: filtered1,
       };
     case "UPDATE_POLL":

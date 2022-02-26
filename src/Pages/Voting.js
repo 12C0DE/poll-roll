@@ -2,20 +2,28 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, withRouter } from "react-router";
 import { GlobalContext } from "../Context/GlobalState";
-import { dateSplit, getAllVotes, totalPollVotes } from "../functions/funcs";
-import { generateVotingPolls } from "../functions/funcs";
+import { getAllVotes, totalPollVotes } from "../functions/funcs";
+import { GenerateVotingPolls } from "../functions/funcs";
 import { PollEnums } from "../Enums/PollEnums";
-import { TopSectionLbls } from "../Components/topSectionLbls";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import { SnackbarAlert } from "../Components/SnackbarAlert";
+import { Typography } from "@mui/material";
+import { format } from "date-fns";
 
 const Voting = ({ history }) => {
   const { _id } = useParams();
   const {
     boolVotes,
-    listVotes,
     dateVotes,
+    listVotes, //total count of votes
     polls,
     setPolls,
+    setDateData,
     setDateVotes,
+    setListData,
     setListVotes,
     user,
   } = useContext(GlobalContext);
@@ -34,16 +42,49 @@ const Voting = ({ history }) => {
           history.push(`/results/${_id}?voteEnd=1`);
         } else {
           setPolls(p.data);
-          const formDate = dateSplit(
-            new Date(p.data.rsvpDate).toLocaleDateString()
-          );
-          setRsvp(formDate);
+
+          setRsvp(new Date(p.data.rsvpDate).toDateString());
 
           const allLVotes = getAllVotes(p.data, PollEnums.List);
+
+          const lNames = allLVotes?.map((names) => names.option);
+          let lCounts = lNames
+            ?.map((opt) =>
+              allLVotes
+                .filter((lCounts) => lCounts.option === opt)
+                .map((data) => data?.votes?.length ?? 0)
+            )
+            .flat();
+
           setListVotes(totalPollVotes(allLVotes));
+          setListData({ names: lNames, counts: lCounts });
+
           const allDVotes = getAllVotes(p.data, PollEnums.Dates);
+          const dNames = allDVotes?.map(
+            (names) =>
+              `${format(new Date(names.startDate), "M/d/yy")} - ${format(
+                new Date(names.endDate),
+                "M/d/yy"
+              )}`
+          );
+          let dCounts = dNames
+            ?.map((opt) =>
+              allDVotes
+                .filter(
+                  (dCounts) =>
+                    `${format(
+                      new Date(dCounts.startDate),
+                      "M/d/yy"
+                    )} - ${format(new Date(dCounts.endDate), "M/d/yy")}` === opt
+                )
+                .map((data) => data?.votes?.length ?? 0)
+            )
+            .flat();
+
           setDateVotes(totalPollVotes(allDVotes));
+          setDateData({ names: dNames, counts: dCounts });
         }
+
         setIsLoading(false);
       });
     } catch (err) {
@@ -61,27 +102,65 @@ const Voting = ({ history }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVoteSaved(false);
-    }, [2500]);
+    }, [4000]);
     // Clear timeout if the component is unmounted
     return () => clearTimeout(timer);
   }, [voteSaved, setVoteSaved]);
 
   const submitVote = () => {
-    axios.patch(`/polls/upd/${_id}`, polls).then(setVoteSaved(true));
+    axios.patch(`/polls/upd/${_id}`, polls).then((res) => {
+      setVoteSaved(true);
+    });
   };
 
   return (
     <div>
       {isLoading ? null : (
         <React.Fragment>
-          <TopSectionLbls
-            pollname={polls.pollName}
-            details={polls.details}
-            rsvp={rsvp}
-          />
-          <ul>
-            {polls.pollOptions?.map((p) =>
-              generateVotingPolls(
+          <div className="flex flex-col">
+            <div>
+              <h1 className="text-3xl font-bold text-center py-8">Voting</h1>
+            </div>
+            <Container>
+              <Stack spacing={2} alignItems="center">
+                <h2
+                  className="text-center italic text-2xl"
+                  style={{ color: "#637c7e" }}
+                >
+                  {polls.pollName}
+                </h2>
+                <hr />
+                <TextField
+                  id="outlined-multiline-static"
+                  label="Details"
+                  defaultValue={polls.details}
+                  className="mt-8 mb-4 w-3/4"
+                  multiline
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  label="Vote by"
+                  type="text"
+                  value={rsvp}
+                  className="mt-8 mb-4 w-1/2 text-center"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Stack>
+            </Container>
+          </div>
+          <ul className="flex flex-col items-center mt-12">
+            {polls.pollOptions?.map((p, index) =>
+              GenerateVotingPolls(
                 +p.pollType,
                 p.pollId,
                 p.option,
@@ -95,8 +174,14 @@ const Voting = ({ history }) => {
               )
             )}
           </ul>
-          <button onClick={() => submitVote()}>Submit Votes</button>
-          <div>{voteSaved && <h2>Your vote has been saved.</h2>}</div>
+          <div className="flex flex-row space-x-6 my-8 place-content-center">
+            <Button type="button" variant="contained" onClick={submitVote}>
+              Submit
+            </Button>
+          </div>
+          <div className="text-center mb-2">
+            {voteSaved && <SnackbarAlert showSb={voteSaved} msg="Vote saved" />}
+          </div>
         </React.Fragment>
       )}
     </div>

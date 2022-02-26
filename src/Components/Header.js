@@ -13,7 +13,7 @@ export const Header = () => {
     <div className="headerDiv flex flex-row">
       <div className="basis-1/6 flex-none"></div>
       <div className="basis-4/6 flex content-center justify-center">
-        <h1 className="font-title">
+        <h1 className="font-title tStroke">
           <Link to={user ? `/home/${user.uid}` : "/home"}>pollroll</Link>
         </h1>
       </div>

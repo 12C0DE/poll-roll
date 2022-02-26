@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import uuid from "react-uuid";
 import { useParams } from "react-router";
@@ -15,7 +15,7 @@ import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import Chip from "@mui/material/Chip";
+import { SnackbarAlert } from "../Components/SnackbarAlert";
 
 export const EditPolls2 = () => {
   const { _id, authId } = useParams();
@@ -23,15 +23,12 @@ export const EditPolls2 = () => {
   const [details, setDetails] = useState("");
   const [rsvp, setRsvp] = useState("");
   const [updatedStatus, setUpdatedStatus] = useState(false);
-  const statusRef = useRef();
 
   useEffect(() => {
     axios.get(`/polls/${_id}/${authId}`).then((p) => {
-      console.log("poll useEffect");
       setPolls(p.data);
       setDetails(p.data.details);
       let rDate = new Date(p.data.rsvpDate).toLocaleDateString();
-      console.log(p.data.rsvpDate);
 
       setRsvp(rDate);
     });
@@ -41,7 +38,7 @@ export const EditPolls2 = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setUpdatedStatus(false);
-    }, [3000]);
+    }, [4000]);
 
     return () => clearTimeout(timer);
   }, [updatedStatus, setUpdatedStatus]);
@@ -81,7 +78,6 @@ export const EditPolls2 = () => {
     axios.patch(`/polls/upd/${_id}`, updatedPoll).then((res) => {
       console.log("poll updated");
       setUpdatedStatus(true);
-      statusRef.current.scrollIntoView();
     });
   };
 
@@ -120,6 +116,18 @@ export const EditPolls2 = () => {
               {window.location.origin}/voting/{_id}
             </label>
           </div>
+          <TextField
+            id="outlined-multiline-static"
+            label="Details"
+            defaultValue={details}
+            className="mt-8"
+            multiline
+            rows={4}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onBlur={(e) => setDetails(e.target.value)}
+          />
           <div className="flex flex-row mt-4 space-x-4 place-content-center">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -160,7 +168,7 @@ export const EditPolls2 = () => {
         </div>
         <div className="text-center mb-2">
           {updatedStatus && (
-            <Chip label="Update saved" color="success" ref={statusRef} />
+            <SnackbarAlert showSb={updatedStatus} msg="Vote saved" />
           )}
         </div>
       </Container>

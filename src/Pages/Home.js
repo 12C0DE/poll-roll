@@ -139,7 +139,9 @@ export const Home = () => {
       </Container>
       <div>
         <div>
-          <h1 className="text-3xl font-bold text-center py-8">My Polls</h1>
+          <h1 className="text-3xl font-bold text-center py-8">
+            My Active Polls
+          </h1>
         </div>
         <Container maxWidth="lg" className="overflow-auto">
           <ul className="flex flex-row flex-wrap justify-evenly gap-3 pt-2 pb-8">

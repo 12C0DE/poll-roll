@@ -1,6 +1,12 @@
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { PollEnums } from "../Enums/PollEnums";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import { CardContent, TextField } from "@mui/material";
+import "../styles/VotingPolls.css";
 
 export const BoolVote = ({ id, pollValue, dv }) => {
   const [vote, setVote] = useState(dv);
@@ -20,29 +26,58 @@ export const BoolVote = ({ id, pollValue, dv }) => {
   };
 
   return (
-    <div>
-      <label>{pollValue}</label>
-      <input
-        key={`t${id}`}
-        type="radio"
-        name={`radioT${id}`}
-        checked={vote !== null && vote}
-        onChange={() => voteForBool(true)}
+    <Box className="justify-center">
+      <TextField
+        label="Statement"
+        value={pollValue}
+        multiline
+        InputLabelProps={{ shrink: true }}
+        InputProps={{
+          readOnly: true,
+        }}
+        className="w-full mb-4"
       />
-      <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>True</label>
-      <input
-        key={`f${id}`}
-        type="radio"
-        name={`radioF${id}`}
-        checked={vote !== null && !vote}
-        onChange={() => voteForBool(false)}
-      />
-      <label style={{ paddingRight: "5px", paddingLeft: "3px" }}>False</label>
-    </div>
+      <Stack direction="row" spacing={4} alignItems="center" className="mt-4">
+        <Button
+          onClick={() => voteForBool(true)}
+          style={{ borderRadius: 100 }}
+          className={vote && "grnGradient"}
+        >
+          <Card
+            sx={{
+              maxWidth: 345,
+              minWidth: 210,
+              height: 100,
+              width: "25%",
+              borderRadius: 100,
+            }}
+          >
+            <CardContent className="text-6xl">T</CardContent>
+          </Card>
+        </Button>
+        <Button
+          onClick={() => voteForBool(false)}
+          className={!vote && "redGradient"}
+          style={{ borderRadius: 100 }}
+        >
+          <Card
+            sx={{
+              maxWidth: 345,
+              minWidth: 210,
+              height: 100,
+              width: "25%",
+              borderRadius: 100,
+            }}
+          >
+            <CardContent className="text-6xl">F</CardContent>
+          </Card>
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
-export const ListVote = ({ id, pollValue }) => {
+export const ListVote = ({ id, pollValue, currVoteId }) => {
   const { voteOne, user } = useContext(GlobalContext);
   const currVote = {
     uid: user._id,
@@ -51,13 +86,29 @@ export const ListVote = ({ id, pollValue }) => {
   };
 
   return (
-    <div>
-      <button onClick={() => voteOne(currVote)}>{pollValue}</button>
-    </div>
+    <Box className="justify-center my-2">
+      <Button
+        onClick={() => voteOne(currVote)}
+        style={{ borderRadius: 100 }}
+        className={currVoteId === id && "blueGradient"}
+      >
+        <Card
+          sx={{
+            maxWidth: 645,
+            minWidth: 500,
+            minHeight: "6em",
+            // width: "75%",
+            borderRadius: 100,
+          }}
+        >
+          <CardContent className="text-xl">{pollValue}</CardContent>
+        </Card>
+      </Button>
+    </Box>
   );
 };
 
-export const DateVote = ({ id, pollValue }) => {
+export const DateVote = ({ id, pollValue, currVoteId }) => {
   const { voteOne, user } = useContext(GlobalContext);
   const currVote = {
     uid: user._id,
@@ -66,8 +117,23 @@ export const DateVote = ({ id, pollValue }) => {
   };
 
   return (
-    <div>
-      <button onClick={() => voteOne(currVote)}>{pollValue}</button>
-    </div>
+    <Box className="justify-center my-2">
+      <Button
+        onClick={() => voteOne(currVote)}
+        style={{ borderRadius: 100 }}
+        className={currVoteId === id && "purpGradient"}
+      >
+        <Card
+          sx={{
+            maxWidth: 6000,
+            minWidth: 450,
+            minHeight: "6em",
+            borderRadius: 100,
+          }}
+        >
+          <CardContent className="text-xl">{pollValue}</CardContent>
+        </Card>
+      </Button>
+    </Box>
   );
 };
