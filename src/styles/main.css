@@ -418,6 +418,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -425,14 +429,20 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-8 {
   margin-bottom: 2rem;
 }
-.mt-8 {
-  margin-top: 2rem;
+.mb-4 {
+  margin-bottom: 1rem;
 }
 .mt-4 {
   margin-top: 1rem;
 }
+.mt-8 {
+  margin-top: 2rem;
+}
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+.mt-12 {
+  margin-top: 3rem;
 }
 .flex {
   display: flex;
@@ -531,9 +541,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .place-self-start {
   place-self: start;
 }
-.self-center {
-  align-self: center;
-}
 .justify-self-end {
   justify-self: end;
 }
@@ -568,6 +575,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .font-title {
   font-family: Barlow;
+}
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .text-3xl {
   font-size: 1.875rem;

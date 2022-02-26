@@ -1,6 +1,5 @@
 .headerDiv {
   vertical-align: middle;
-  /* border-bottom: 2px solid black; */
   background: #009fff; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -18,7 +17,7 @@
   height: 2em;
   text-align: center;
   color: white;
-  /* background-color: rgb(211, 133, 133); */
+  /* -webkit-text-stroke: 2px rgb(223, 211, 211); */
   font-size: 42px;
   font-weight: bold;
   letter-spacing: 7px;

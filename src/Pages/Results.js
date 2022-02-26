@@ -9,7 +9,6 @@ import {
   totalPollVotes,
 } from "../functions/funcs";
 import { PollEnums } from "../Enums/PollEnums";
-import { TopSectionLbls } from "../Components/topSectionLbls";
 import axios from "axios";
 
 export const Results = () => {
@@ -61,11 +60,6 @@ export const Results = () => {
             <h2>RESULTS</h2>
           </div>
           {voteEnd && <h3>Voting has ended for this poll</h3>}
-          <TopSectionLbls
-            pollname={polls.pollName}
-            details={polls.details}
-            rsvp={rsvp}
-          />
           <ul>
             {polls.pollOptions.map((p) =>
               generateResultPolls(
