@@ -39,7 +39,7 @@ const Voting = ({ history }) => {
       axios.get(`/polls/${_id}`, { signal: source }).then((p) => {
         const rsvpCheck = new Date(p.data.rsvpDate);
         if (rsvpCheck.getTime() < Date.now()) {
-          history.push(`/results/${_id}?voteEnd=1`);
+          history.push(`/results/poll/${_id}?voteEnd=1`);
         } else {
           setPolls(p.data);
 
