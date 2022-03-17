@@ -128,7 +128,7 @@ export const Home = () => {
                 <Button
                   className="justify-self-end"
                   size="small"
-                  onClick={() => history.push("/results")}
+                  onClick={() => history.push(`/results/${aid}`)}
                 >
                   Results
                 </Button>

@@ -13,7 +13,11 @@ export const Logout = () => {
   };
 
   return (
-    <Link to="/login" onClick={() => logOutHandler()}>
+    <Link
+      to="/login"
+      style={{ color: "white" }}
+      onClick={() => logOutHandler()}
+    >
       <LogoutRoundedIcon />
     </Link>
   );

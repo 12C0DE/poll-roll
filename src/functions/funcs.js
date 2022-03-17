@@ -21,7 +21,7 @@ const add0 = (input) => {
   return input.length > 1 ? input : `0${input}`;
 };
 
-export const generateResultPolls = (
+export const GenerateResultPolls = (
   pollType,
   pollID,
   pollValue,
@@ -31,6 +31,7 @@ export const generateResultPolls = (
   dateVotes,
   listVotes
 ) => {
+  const { listData } = useContext(GlobalContext);
   switch (pollType) {
     case PollEnums.Bool:
       return (
@@ -51,12 +52,31 @@ export const generateResultPolls = (
       );
     case PollEnums.List:
       return (
-        <ListResult
-          key={`lr${pollID}`}
-          pollValue={pollValue}
-          pollVotes={pollVotes}
-          totalCount={listVotes}
-        />
+        <>
+          {listData.counts.reduce((a, b) => a + b, 0) > 0 ? (
+            <Chart
+              type="doughnut"
+              legend={"top"}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                },
+              }}
+              data={{
+                labels: listData.names,
+                datasets: [
+                  {
+                    data: listData.counts,
+                    backgroundColor: getChartColors(listData.names.length),
+                  },
+                ],
+              }}
+            />
+          ) : null}
+        </>
       );
     default:
       return null;
@@ -132,7 +152,7 @@ export const GenerateVotingPolls = (
                 datasets: [
                   {
                     data: listData.counts,
-                    backgroundColor: getchartColors(listData.names.length),
+                    backgroundColor: getChartColors(listData.names.length),
                   },
                 ],
               }}
@@ -184,7 +204,7 @@ export const GenerateVotingPolls = (
                 datasets: [
                   {
                     data: dateData.counts,
-                    backgroundColor: getchartColors(dateData.names.length),
+                    backgroundColor: getChartColors(dateData.names.length),
                   },
                 ],
               }}
@@ -259,7 +279,7 @@ const checkBoolVote = (votes, uid) => {
 };
 
 export const getAllVotes = (data, pollType) => {
-  return data.pollOptions.filter((vote) => vote.pollType === pollType);
+  return data.pollOptions?.filter((vote) => vote.pollType === pollType);
 };
 
 export const totalPollVotes = (data) => {
@@ -281,7 +301,7 @@ export const totalBoolVotes = (data) => {
   return tVotes + fVotes;
 };
 
-export const getchartColors = (arrLength) => {
+export const getChartColors = (arrLength) => {
   const colors = [
     "purple",
     "green",

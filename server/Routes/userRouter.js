@@ -20,6 +20,19 @@ router.get("/:authId", async (req, res) => {
   }
 });
 
+//retrieve full names of users' uids
+router.get("/names/:uids", async (req, res) => {
+  try {
+    const uidList = req.params.uids.split("&");
+    const userNames = await User.find({
+      _id: { $in: uidList },
+    }).select(["fname", "lname"]);
+    res.json(userNames);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 router.post("/post", async (req, res) => {
   const user = new User({
     fname: req.body.fname,
