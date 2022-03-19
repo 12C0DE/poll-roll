@@ -1,9 +1,15 @@
 const { response } = require("express");
+const cors = require("cors");
 const express = require("express");
 const router = express.Router();
 const Poll = require("../Models/Poll");
 
-router.get("/", async (req, res) => {
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+router.get("/", cors(corsOptions), async (req, res) => {
   try {
     const polls = await Poll.find();
     res.json({ statusCode: 200, body: polls });
@@ -13,7 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 //retrieve poll names that user OWNS
-router.get("/pollnames/:authId", async (req, res) => {
+router.get("/pollnames/:authId", cors(corsOptions), async (req, res) => {
   try {
     const pollNames = await Poll.find({ authId: req.params.authId }).select([
       "pollName",
@@ -26,7 +32,7 @@ router.get("/pollnames/:authId", async (req, res) => {
 });
 
 //retrieve poll names that user JUST votes in
-router.get("/pollnames/:authId/:uid", async (req, res) => {
+router.get("/pollnames/:authId/:uid", cors(corsOptions), async (req, res) => {
   try {
     const pollNames = await Poll.find({
       authId: { $nin: req.params.authId },
@@ -43,7 +49,7 @@ router.get("/pollnames/:authId/:uid", async (req, res) => {
 });
 
 //retrieve specific poll to EDIT if you are the authID
-router.get("/:_id/:authId", async (req, res) => {
+router.get("/:_id/:authId", cors(corsOptions), async (req, res) => {
   try {
     const specPoll = await Poll.findOne({
       _id: req.params._id,
@@ -56,7 +62,7 @@ router.get("/:_id/:authId", async (req, res) => {
 });
 
 //retrieve specific poll to VOTE
-router.get("/:_id", async (req, res) => {
+router.get("/:_id", cors(corsOptions), async (req, res) => {
   try {
     const specPoll = await Poll.findById(req.params._id);
     res.json({ statusCode: 200, body: specPoll });
@@ -66,7 +72,7 @@ router.get("/:_id", async (req, res) => {
 });
 
 //create a poll
-router.post("/post", async (req, res) => {
+router.post("/post", cors(corsOptions), async (req, res) => {
   const newPoll = new Poll({
     pollName: req.body.pollName,
     details: req.body.details,
@@ -85,7 +91,7 @@ router.post("/post", async (req, res) => {
 });
 
 //update a specific poll
-router.patch("/upd/:_id", async (req, res) => {
+router.patch("/upd/:_id", cors(corsOptions), async (req, res) => {
   try {
     const updPoll = await Poll.findOneAndUpdate(
       { _id: req.params._id },

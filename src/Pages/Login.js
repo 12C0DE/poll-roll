@@ -20,9 +20,11 @@ const Login = ({ history }) => {
         await auth
           .signInWithEmailAndPassword(email.value, password.value)
           .then(() => {
-            axios.get(`/users/${auth.currentUser.uid}`).then((usr) => {
-              setUser(usr.data);
-            });
+            axios
+              .get(`https://pollroll.net/api/users/${auth.currentUser.uid}`)
+              .then((usr) => {
+                setUser(usr.data);
+              });
           })
           .then(() => {
             voteIdParam

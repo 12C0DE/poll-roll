@@ -10,31 +10,12 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-//Routes
-app.get("/", (req, res) => {
-  res.json({
-    path: "home",
-  });
-});
-
-app.get("/posts", (req, res) => {
-  res.send("we are at posts");
-});
-
 //import routes
 const userRoute = require("../Routes/userRouter");
 app.use("/api/users", userRoute);
 
 const pollRoute = require("../Routes/pollRouter");
 app.use("/api/polls", pollRoute);
-
-const router = express.Router();
-router.get("/", (req, res) => {
-  res.json({
-    path: "home",
-  });
-});
-app.use("/", router);
 
 //connect to DB
 mongoose.connect(
