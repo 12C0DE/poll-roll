@@ -1,9 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv/config");
 
 //middleware
 
@@ -23,10 +23,10 @@ app.get("/posts", (req, res) => {
 
 //import routes
 const userRoute = require("../Routes/userRouter");
-app.use("/users", userRoute);
+app.use("/api/users", userRoute);
 
 const pollRoute = require("../Routes/pollRouter");
-app.use("/polls", pollRoute);
+app.use("/api/polls", pollRoute);
 
 const router = express.Router();
 router.get("/", (req, res) => {
@@ -38,7 +38,7 @@ app.use("/", router);
 
 //connect to DB
 mongoose.connect(
-  process.env.REACT_APP_DB_CONNECTION,
+  "mongodb+srv://prun:yUKWvgUK7GQGnv9@pollrolldb.yrd5e.mongodb.net/PollRollDB?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

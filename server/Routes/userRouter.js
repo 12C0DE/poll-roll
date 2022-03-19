@@ -5,7 +5,7 @@ const User = require("../Models/User");
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.json({ statusCode: 200, body: users });
   } catch (err) {
     res.json({ message: err });
   }
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 router.get("/:authId", async (req, res) => {
   try {
     const specUser = await User.findOne({ authId: req.params.authId });
-    res.json(specUser);
+    res.json({ statusCode: 200, body: specUser });
   } catch (err) {
     res.json({ message: err });
   }
@@ -27,7 +27,7 @@ router.get("/names/:uids", async (req, res) => {
     const userNames = await User.find({
       _id: { $in: uidList },
     }).select(["fname", "lname"]);
-    res.json(userNames);
+    res.json({ statusCode: 200, body: userNames });
   } catch (err) {
     res.json({ message: err });
   }
@@ -42,7 +42,7 @@ router.post("/post", async (req, res) => {
 
   const savedUser = await user.save();
   try {
-    res.json(savedUser);
+    res.json({ statusCode: 201, body: savedUser });
   } catch (err) {
     res.json({ message: err });
   }

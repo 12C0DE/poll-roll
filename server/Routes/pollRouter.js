@@ -6,7 +6,7 @@ const Poll = require("../Models/Poll");
 router.get("/", async (req, res) => {
   try {
     const polls = await Poll.find();
-    res.json(polls);
+    res.json({ statusCode: 200, body: polls });
   } catch (err) {
     res.json({ message: err });
   }
@@ -19,7 +19,7 @@ router.get("/pollnames/:authId", async (req, res) => {
       "pollName",
       "pollKind",
     ]);
-    res.json(pollNames);
+    res.json({ statusCode: 200, body: pollNames });
   } catch (err) {
     res.json({ message: err });
   }
@@ -36,7 +36,7 @@ router.get("/pollnames/:authId/:uid", async (req, res) => {
         { "pollOptions.votes.T": req.params.uid },
       ],
     }).select(["pollName", "pollKind"]);
-    res.json(pollNames);
+    res.json({ statusCode: 200, body: pollNames });
   } catch (err) {
     res.json({ message: err });
   }
@@ -49,7 +49,7 @@ router.get("/:_id/:authId", async (req, res) => {
       _id: req.params._id,
       authId: req.params.authId,
     });
-    res.json(specPoll);
+    res.json({ statusCode: 200, body: specPoll });
   } catch (err) {
     res.json({ message: err });
   }
@@ -59,7 +59,7 @@ router.get("/:_id/:authId", async (req, res) => {
 router.get("/:_id", async (req, res) => {
   try {
     const specPoll = await Poll.findById(req.params._id);
-    res.json(specPoll);
+    res.json({ statusCode: 200, body: specPoll });
   } catch (err) {
     res.json({ message: err });
   }
@@ -78,7 +78,7 @@ router.post("/post", async (req, res) => {
 
   const savedPoll = await newPoll.save();
   try {
-    res.json(savedPoll);
+    res.json({ statusCode: 201, body: savedPoll });
   } catch (err) {
     res.json({ message: err });
   }
