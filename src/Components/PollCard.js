@@ -58,12 +58,13 @@ export const PollCard = ({ poll, justVote }) => {
         <Button
           size="small"
           onClick={() => history.push(`/voting/${poll._id}`)}
+          style={{ color: "white" }}
         >
           Voting
         </Button>
         <Button
           size="small"
-          style={{ display: justVote ? "none" : "inline-flex" }}
+          style={{ color: "white", display: justVote ? "none" : "inline-flex" }}
           onClick={() => history.push(`/editPoll/${poll._id}/${aid}`)}
         >
           Edit

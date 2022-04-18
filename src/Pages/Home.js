@@ -25,9 +25,8 @@ export const Home = () => {
   useEffect(() => {
     let unmounted = false;
     let source = axios.CancelToken.source();
-    debugger;
     axios
-      .get(`https://pollroll.net/api/polls/pollnames/${aid}`, {
+      .get(`https://pollroll-api.herokuapp.com/polls/pollnames/${aid}`, {
         cancelToken: source.token,
       })
       .then((p) => {
@@ -57,9 +56,12 @@ export const Home = () => {
 
     if (user) {
       axios
-        .get(`https://pollroll.net/api/polls/pollnames/${aid}/${user._id}`, {
-          cancelToken: source.token,
-        })
+        .get(
+          `https://pollroll-api.herokuapp.com/polls/pollnames/${aid}/${user._id}`,
+          {
+            cancelToken: source.token,
+          }
+        )
         .then((p) => {
           if (!unmounted) {
             setPollVotingNames(p.data);

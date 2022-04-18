@@ -16,7 +16,9 @@ export const ResultsAll = () => {
     let source = axios.CancelToken.source();
 
     axios
-      .get(`/polls/pollnames/${aid}`, { cancelToken: source.token })
+      .get(`https://pollroll-api.herokuapp.com/polls/pollnames/${aid}`, {
+        cancelToken: source.token,
+      })
       .then((p) => {
         if (!unmounted) {
           setPollNames(p.data);
@@ -44,9 +46,12 @@ export const ResultsAll = () => {
 
     if (user) {
       axios
-        .get(`/polls/pollnames/${aid}/${user._id}`, {
-          cancelToken: source.token,
-        })
+        .get(
+          `https://pollroll-api.herokuapp.com/polls/pollnames/${aid}/${user._id}`,
+          {
+            cancelToken: source.token,
+          }
+        )
         .then((p) => {
           if (!unmounted) {
             setPollVotingNames(p.data);

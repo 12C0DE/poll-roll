@@ -36,57 +36,62 @@ const Voting = ({ history }) => {
     const source = cancelToken.source();
 
     try {
-      axios.get(`/polls/${_id}`, { signal: source }).then((p) => {
-        const rsvpCheck = new Date(p.data.rsvpDate);
-        if (rsvpCheck.getTime() < Date.now()) {
-          history.push(`/results/poll/${_id}?voteEnd=1`);
-        } else {
-          setPolls(p.data);
+      axios
+        .get(`https://pollroll-api.herokuapp.com/polls/${_id}`, {
+          signal: source,
+        })
+        .then((p) => {
+          const rsvpCheck = new Date(p.data.rsvpDate);
+          if (rsvpCheck.getTime() < Date.now()) {
+            history.push(`/results/poll/${_id}?voteEnd=1`);
+          } else {
+            setPolls(p.data);
 
-          setRsvp(new Date(p.data.rsvpDate).toDateString());
+            setRsvp(new Date(p.data.rsvpDate).toDateString());
 
-          const allLVotes = getAllVotes(p.data, PollEnums.List);
+            const allLVotes = getAllVotes(p.data, PollEnums.List);
 
-          const lNames = allLVotes?.map((names) => names.option);
-          let lCounts = lNames
-            ?.map((opt) =>
-              allLVotes
-                .filter((lCounts) => lCounts.option === opt)
-                .map((data) => data?.votes?.length ?? 0)
-            )
-            .flat();
+            const lNames = allLVotes?.map((names) => names.option);
+            let lCounts = lNames
+              ?.map((opt) =>
+                allLVotes
+                  .filter((lCounts) => lCounts.option === opt)
+                  .map((data) => data?.votes?.length ?? 0)
+              )
+              .flat();
 
-          setListVotes(totalPollVotes(allLVotes));
-          setListData({ names: lNames, counts: lCounts });
+            setListVotes(totalPollVotes(allLVotes));
+            setListData({ names: lNames, counts: lCounts });
 
-          const allDVotes = getAllVotes(p.data, PollEnums.Dates);
-          const dNames = allDVotes?.map(
-            (names) =>
-              `${format(new Date(names.startDate), "M/d/yy")} - ${format(
-                new Date(names.endDate),
-                "M/d/yy"
-              )}`
-          );
-          let dCounts = dNames
-            ?.map((opt) =>
-              allDVotes
-                .filter(
-                  (dCounts) =>
-                    `${format(
-                      new Date(dCounts.startDate),
-                      "M/d/yy"
-                    )} - ${format(new Date(dCounts.endDate), "M/d/yy")}` === opt
-                )
-                .map((data) => data?.votes?.length ?? 0)
-            )
-            .flat();
+            const allDVotes = getAllVotes(p.data, PollEnums.Dates);
+            const dNames = allDVotes?.map(
+              (names) =>
+                `${format(new Date(names.startDate), "M/d/yy")} - ${format(
+                  new Date(names.endDate),
+                  "M/d/yy"
+                )}`
+            );
+            let dCounts = dNames
+              ?.map((opt) =>
+                allDVotes
+                  .filter(
+                    (dCounts) =>
+                      `${format(
+                        new Date(dCounts.startDate),
+                        "M/d/yy"
+                      )} - ${format(new Date(dCounts.endDate), "M/d/yy")}` ===
+                      opt
+                  )
+                  .map((data) => data?.votes?.length ?? 0)
+              )
+              .flat();
 
-          setDateVotes(totalPollVotes(allDVotes));
-          setDateData({ names: dNames, counts: dCounts });
-        }
+            setDateVotes(totalPollVotes(allDVotes));
+            setDateData({ names: dNames, counts: dCounts });
+          }
 
-        setIsLoading(false);
-      });
+          setIsLoading(false);
+        });
     } catch (err) {
       if (axios.isCancel(err)) {
         history.push("/results");
@@ -108,9 +113,11 @@ const Voting = ({ history }) => {
   }, [voteSaved, setVoteSaved]);
 
   const submitVote = () => {
-    axios.patch(`/polls/upd/${_id}`, polls).then((res) => {
-      setVoteSaved(true);
-    });
+    axios
+      .patch(`https://pollroll-api.herokuapp.com/polls/upd/${_id}`, polls)
+      .then((res) => {
+        setVoteSaved(true);
+      });
   };
 
   return (

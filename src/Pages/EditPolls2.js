@@ -25,13 +25,15 @@ export const EditPolls2 = () => {
   const [updatedStatus, setUpdatedStatus] = useState(false);
 
   useEffect(() => {
-    axios.get(`/polls/${_id}/${authId}`).then((p) => {
-      setPolls(p.data);
-      setDetails(p.data.details);
-      let rDate = new Date(p.data.rsvpDate).toLocaleDateString();
+    axios
+      .get(`https://pollroll-api.herokuapp.com/polls/${_id}/${authId}`)
+      .then((p) => {
+        setPolls(p.data);
+        setDetails(p.data.details);
+        let rDate = new Date(p.data.rsvpDate).toLocaleDateString();
 
-      setRsvp(rDate);
-    });
+        setRsvp(rDate);
+      });
   }, []);
 
   //status appers for 3 secs on update
@@ -75,10 +77,12 @@ export const EditPolls2 = () => {
       authId: polls.authId,
     };
 
-    axios.patch(`/polls/upd/${_id}`, updatedPoll).then((res) => {
-      console.log("poll updated");
-      setUpdatedStatus(true);
-    });
+    axios
+      .patch(`https://pollroll-api.herokuapp.com/polls/upd/${_id}`, updatedPoll)
+      .then((res) => {
+        console.log("poll updated");
+        setUpdatedStatus(true);
+      });
   };
 
   return (

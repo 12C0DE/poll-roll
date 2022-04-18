@@ -11,32 +11,31 @@ import Button from "@mui/material/Button";
 const Login = ({ history }) => {
   const { setUser, voteIdParam } = useContext(GlobalContext);
 
-  const handleLogin = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const { email, password } = event.target.elements;
+  const handleLogin = useCallback(async (event) => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
 
-      try {
-        await auth
-          .signInWithEmailAndPassword(email.value, password.value)
-          .then(() => {
-            axios
-              .get(`https://pollroll.net/api/users/${auth.currentUser.uid}`)
-              .then((usr) => {
-                setUser(usr.data);
-              });
-          })
-          .then(() => {
-            voteIdParam
-              ? history.push(`/voting/${voteIdParam}`)
-              : history.push(`/home/${auth.currentUser.uid}`);
-          });
-      } catch (error) {
-        alert(error);
-      }
-    },
-    [history]
-  );
+    try {
+      await auth
+        .signInWithEmailAndPassword(email.value, password.value)
+        .then(() => {
+          axios
+            .get(
+              `https://pollroll-api.herokuapp.com/users/${auth.currentUser.uid}`
+            )
+            .then((usr) => {
+              setUser(usr.data);
+            });
+        })
+        .then(() => {
+          voteIdParam
+            ? history.push(`/voting/${voteIdParam}`)
+            : history.push(`/home/${auth.currentUser.uid}`);
+        });
+    } catch (error) {
+      alert(error);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -45,25 +44,23 @@ const Login = ({ history }) => {
       </div>
       <form
         onSubmit={handleLogin}
-        className="flex flex-col no-wrap items-center space-y-4 "
+        className="flex flex-col no-wrap items-center space-y-8 "
       >
         <TextField
           id="txtEmail"
           name="email"
           label="Email"
-          variant="filled"
-          value="rh@gmail.com"
+          variant="outlined"
           className="w-1/2 max-w-md"
         />
         <TextField
           type="password"
           name="password"
           label="Password"
-          variant="filled"
-          value="123456"
+          variant="outlined"
           className="w-1/2 max-w-md"
         />
-        <div className="center" id="logInDiv">
+        <div>
           <Button variant="contained" type="submit" style={{ width: 250 }}>
             Login
           </Button>
@@ -72,9 +69,16 @@ const Login = ({ history }) => {
       <div className="flex flex-col mt-4">
         <h3 className="text-center">
           {"or"}
-          <Button href="#">
-            <Link to="/signup">sign up</Link>
-          </Button>
+          <Link
+            className="underline-offset-4 decoration-double px-2"
+            style={{
+              textDecoration: "underline",
+              color: "#27A6F9",
+            }}
+            to="/signup"
+          >
+            Sign Up
+          </Link>
           {"here"}
         </h3>
       </div>

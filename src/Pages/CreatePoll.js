@@ -77,10 +77,12 @@ const CreatePoll = ({ history }) => {
       authId: user.authId,
     };
 
-    axios.post("/polls/post", newPoll).then((res) => {
-      reset();
-      history.push(`/editPoll/${res.data._id}/${user.authId}`);
-    });
+    axios
+      .post("https://pollroll-api.herokuapp.com/polls/post", newPoll)
+      .then((res) => {
+        reset();
+        history.push(`/editPoll/${res.data._id}/${user.authId}`);
+      });
   };
 
   useEffect(() => {

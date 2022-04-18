@@ -47,63 +47,68 @@ export const Results = () => {
     const source = cancelToken.source();
 
     try {
-      axios.get(`/polls/${_id}`, { signal: source }).then((p) => {
-        setPolls(p.data);
+      axios
+        .get(`https://pollroll-api.herokuapp.com/polls/${_id}`, {
+          signal: source,
+        })
+        .then((p) => {
+          setPolls(p.data);
 
-        setRsvp(format(new Date(p.data.rsvpDate), "MMM d yyyy"));
+          setRsvp(format(new Date(p.data.rsvpDate), "MMM d yyyy"));
 
-        const allLVotes = getAllVotes(p.data, PollEnums.List);
+          const allLVotes = getAllVotes(p.data, PollEnums.List);
 
-        const lNames = allLVotes?.map((names) => {
-          return { name: names.option, id: names.pollId };
+          const lNames = allLVotes?.map((names) => {
+            return { name: names.option, id: names.pollId };
+          });
+          let lCounts = lNames
+            ?.map((opt) =>
+              allLVotes
+                .filter((lCounts) => lCounts.option === opt.name)
+                .map((data) => data?.votes?.length ?? 0)
+            )
+            .flat();
+          setListVotes(totalPollVotes(allLVotes));
+
+          allLVotes?.map((item) =>
+            pullVoteNames(PollEnums.List, item.pollId, item?.votes?.join("&"))
+          );
+
+          setListData({ names: lNames, counts: lCounts });
+
+          const allDVotes = getAllVotes(p.data, PollEnums.Dates);
+          const dNames = allDVotes?.map((names) => {
+            return {
+              name: `${format(new Date(names.startDate), "M/d/yy")} - ${format(
+                new Date(names.endDate),
+                "M/d/yy"
+              )}`,
+              id: names.pollId,
+            };
+          });
+          let dCounts = dNames
+            ?.map((opt) =>
+              allDVotes
+                .filter(
+                  (dCounts) =>
+                    `${format(
+                      new Date(dCounts.startDate),
+                      "M/d/yy"
+                    )} - ${format(new Date(dCounts.endDate), "M/d/yy")}` ===
+                    opt.name
+                )
+                .map((data) => data?.votes?.length ?? 0)
+            )
+            .flat();
+
+          setDateVotes(totalPollVotes(allDVotes));
+
+          allDVotes?.map((item) =>
+            pullVoteNames(PollEnums.Dates, item.pollId, item?.votes?.join("&"))
+          );
+          setDateData({ names: dNames, counts: dCounts });
+          setIsLoading(false);
         });
-        let lCounts = lNames
-          ?.map((opt) =>
-            allLVotes
-              .filter((lCounts) => lCounts.option === opt.name)
-              .map((data) => data?.votes?.length ?? 0)
-          )
-          .flat();
-        setListVotes(totalPollVotes(allLVotes));
-
-        allLVotes?.map((item) =>
-          pullVoteNames(PollEnums.List, item.pollId, item?.votes?.join("&"))
-        );
-
-        setListData({ names: lNames, counts: lCounts });
-
-        const allDVotes = getAllVotes(p.data, PollEnums.Dates);
-        const dNames = allDVotes?.map((names) => {
-          return {
-            name: `${format(new Date(names.startDate), "M/d/yy")} - ${format(
-              new Date(names.endDate),
-              "M/d/yy"
-            )}`,
-            id: names.pollId,
-          };
-        });
-        let dCounts = dNames
-          ?.map((opt) =>
-            allDVotes
-              .filter(
-                (dCounts) =>
-                  `${format(new Date(dCounts.startDate), "M/d/yy")} - ${format(
-                    new Date(dCounts.endDate),
-                    "M/d/yy"
-                  )}` === opt.name
-              )
-              .map((data) => data?.votes?.length ?? 0)
-          )
-          .flat();
-
-        setDateVotes(totalPollVotes(allDVotes));
-
-        allDVotes?.map((item) =>
-          pullVoteNames(PollEnums.Dates, item.pollId, item?.votes?.join("&"))
-        );
-        setDateData({ names: dNames, counts: dCounts });
-        setIsLoading(false);
-      });
     } catch (err) {
       if (axios.isCancel(err)) {
         return "axios request cancelled";
@@ -121,7 +126,9 @@ export const Results = () => {
         return null;
       case PollEnums.Dates:
         try {
-          const resp = await axios.get(`/users/names/${names}`);
+          const resp = await axios.get(
+            `https://pollroll-api.herokuapp.com/users/names/${names}`
+          );
           setDateVoteNames((state) => [
             ...state,
             {
@@ -137,7 +144,9 @@ export const Results = () => {
         break;
       case PollEnums.List:
         try {
-          const resp = await axios.get(`/users/names/${names}`);
+          const resp = await axios.get(
+            `https://pollroll-api.herokuapp.com/users/names/${names}`
+          );
           setListVoteNames((state) => [
             ...state,
             {

@@ -1,10 +1,14 @@
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { auth } from "../Firebase/firebase";
 import axios from "axios";
+
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Container, Stack } from "@mui/material";
 
 const Signup = ({ history }) => {
   const { voteIdParam, setUser } = useContext(GlobalContext);
@@ -14,109 +18,138 @@ const Signup = ({ history }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => handleSignUp();
 
-  const handleSignUp = useCallback(
-    async (event) => {
-      event.preventDefault();
+  const handleSignUp = async (data) => {
+    const { emailS, passwordS, confirmPwdS, fnameS, lnameS } = data;
 
-      const { emailS, passwordS, confirmPwdS, fnameS, lnameS } =
-        event.target.elements;
+    if (passwordS !== confirmPwdS) {
+      alert("Password does not match");
+      return;
+    }
 
-      if (passwordS.value !== confirmPwdS.value) {
-        alert("Password does not match");
-        return;
-      }
+    try {
+      await auth.createUserWithEmailAndPassword(emailS, passwordS).then(() => {
+        const newUser = {
+          fname: fnameS,
+          lname: lnameS,
+          authId: auth.currentUser.uid,
+          email: emailS,
+        };
 
-      try {
-        await auth
-          .createUserWithEmailAndPassword(emailS.value, passwordS.value)
-          .then(() => {
-            const newUser = {
-              fname: fnameS.value,
-              lname: lnameS.value,
-              authId: auth.currentUser.uid,
-              email: emailS.value,
-            };
+        axios
+          .post("https://pollroll-api.herokuapp.com/users/post", newUser)
+          .then((user) => {
+            setUser(user.data);
 
-            axios.post("/users/post", newUser).then((user) => {
-              setUser(user.data);
-
-              voteIdParam
-                ? history.push(`/voting/${voteIdParam}`)
-                : history.push("/home");
-            });
+            voteIdParam
+              ? history.push(`/voting/${voteIdParam}`)
+              : history.push(`/home/${auth.currentUser.uid}`);
           });
-      } catch (error) {
-        console.log(error);
-        alert(error);
-      }
-    },
-    [history]
-  );
+      });
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
 
   return (
-    <div className="signUpContainer">
-      <h1 className="signUp">Sign Up</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="nameContainer">
-          <h4>First name</h4>
-          <input
-            name="fnameS"
-            type="text"
-            {...register("fnameS", { required: true, pattern: /^[A-Za-z]+$/i })}
-          />
-          {errors.fnameS && "First name is required"}
-          <h4>Last name</h4>
-          <input
-            name="lnameS"
-            type="text"
-            {...register("lnameS", { required: true, pattern: /^[A-Za-z]+$/i })}
-          />
-          {errors.lnameS && "Last name is required"}
-        </div>
-        <div>
-          <h4>Email</h4>
-          <input
-            name="emailS"
-            type="email"
-            {...register("emailS", { required: true })}
-          />
-          {errors.emailS && "email is required"}
-
-          <h4>Password</h4>
-          <input
-            name="passwordS"
-            type="password"
-            {...register("passwordS", { required: true })}
-          />
-          <h4>Confirm Password</h4>
-          <input
-            name="confirmPwdS"
-            type="password"
-            {...register("confirmPwdS", {
-              required: "Please confirm password!",
-              validate: {
-                matchesPreviousPassword: (value) => {
-                  const { passwordS } = getValues();
-                  return passwordS === value || "Passwords should match!";
-                },
-              },
-            })}
-          />
-          {errors.confirmPwdS && (
-            <p style={{ color: "red" }}>{errors.confirmPwdS.message}</p>
-          )}
-        </div>
-        <div className="center" id="logInDiv">
-          <button type="submit">Sign Up</button>
-        </div>
-      </form>
+    <div className="flex flex-col">
       <div>
-        <h3 className="center">
-          already have an account?<Link to="/login"> Log in</Link> here
-        </h3>
+        <h1 className="text-3xl font-bold text-center py-8">Sign up</h1>
       </div>
+      <Container maxWidth="lg">
+        <div className="flex place-content-center">
+          <form
+            onSubmit={handleSubmit(handleSignUp)}
+            className="flex flex-col no-wrap items-center"
+          >
+            <Stack spacing={4}>
+              <TextField
+                name="fnameS"
+                label="First Name"
+                variant="outlined"
+                error={errors.fnameS}
+                className="w-full max-w-md"
+                helperText={errors.fnameS && "Valid first name is required"}
+                {...register("fnameS", {
+                  required: true,
+                  pattern: /^[A-Za-z]+$/i,
+                })}
+              />
+              <TextField
+                name="lnameS"
+                label="Last Name"
+                variant="outlined"
+                error={errors.lnameS}
+                helperText={errors.lnameS && "Valid last name is required"}
+                {...register("lnameS", {
+                  required: true,
+                  pattern: /^[A-Za-z]+$/i,
+                })}
+              />
+              <TextField
+                name="emailS"
+                label="Email"
+                variant="outlined"
+                error={errors.emailS}
+                type="email"
+                helperText={errors.emailS && "Valid email is required"}
+                {...register("emailS", { required: true })}
+              />
+              <TextField
+                name="passwordS"
+                label="Password"
+                variant="outlined"
+                type="password"
+                error={errors.passwordS}
+                helperText={errors.passwordS && "Password is required"}
+                {...register("passwordS", { required: true })}
+              />
+              <TextField
+                name="confirmPwdS"
+                label="Confirm Password"
+                variant="outlined"
+                type="password"
+                error={errors.confirmPwdS}
+                helperText={errors.confirmPwdS && errors.confirmPwdS.message}
+                {...register("confirmPwdS", {
+                  required: "Please confirm password!",
+                  validate: {
+                    matchesPreviousPassword: (value) => {
+                      const { passwordS } = getValues();
+                      return passwordS === value || "Passwords don't match";
+                    },
+                  },
+                })}
+              />
+              <Button
+                variant="contained"
+                type="submit"
+                className="place-self-center"
+                style={{ width: 250 }}
+              >
+                Sign Up
+              </Button>
+              <div>
+                <h3>
+                  Already have an account?
+                  <Link
+                    className="px-2"
+                    style={{
+                      textDecoration: "underline",
+                      color: "#27A6F9",
+                    }}
+                    to="/login"
+                  >
+                    Log in
+                  </Link>
+                  here
+                </h3>
+              </div>
+            </Stack>
+          </form>
+        </div>
+      </Container>
     </div>
   );
 };
