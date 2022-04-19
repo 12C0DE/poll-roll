@@ -104,7 +104,7 @@ export const DatePoll = ({ id, pollStart, pollEnd }) => {
   };
 
   return (
-    <div className="flex flex-row flex-wrap m-4 space-x-4 place-content-center">
+    <div className="flex flex-row flex-wrap my-4 space-y-4 place-content-stretch sm:space-y-0 sm:place-content-center sm:space-x-4">
       <FormControl>
         <TextField
           type="date"

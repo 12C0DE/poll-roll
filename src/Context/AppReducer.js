@@ -91,23 +91,21 @@ export default (state, action) => {
         let foundIndex;
 
         if (action.payload.voted) {
-          foundIndex = updatedB.pollOptions[indexB].votes.F.indexOf(
-            action.payload.uid
-          );
+          //voting TRUE
 
-          foundIndex !== -1 &&
-            updatedB.pollOptions[indexB].votes.F.splice(foundIndex, 1);
+          updatedB.pollOptions[indexB].votes.F = updatedB.pollOptions[
+            indexB
+          ].votes.F.filter((vote) => vote !== action.payload.uid);
 
-          updatedB.pollOptions[indexB].votes.T.unshift(action.payload.uid);
+          updatedB.pollOptions[indexB].votes.T.push(action.payload.uid);
         } else {
-          foundIndex = updatedB.pollOptions[indexB].votes.T.indexOf(
-            action.payload.uid
-          );
+          //voting FALSE
 
-          foundIndex !== -1 &&
-            updatedB.pollOptions[indexB].votes.T.splice(foundIndex, 1);
+          updatedB.pollOptions[indexB].votes.T = updatedB.pollOptions[
+            indexB
+          ].votes.T.filter((vote) => vote !== action.payload.uid);
 
-          updatedB.pollOptions[indexB].votes.F.unshift(action.payload.uid);
+          updatedB.pollOptions[indexB].votes.F.push(action.payload.uid);
         }
       } else {
         action.payload.voted

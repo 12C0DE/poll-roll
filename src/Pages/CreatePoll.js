@@ -99,7 +99,7 @@ const CreatePoll = ({ history }) => {
       <div>
         <h1 className="text-3xl font-bold text-center py-8">Create a Poll</h1>
       </div>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" style={{ minWidth: 250 }}>
         <div className="flex w-full place-content-center">
           <form
             onSubmit={handleSubmit(submitPoll)}
@@ -128,12 +128,13 @@ const CreatePoll = ({ history }) => {
                   required: "Details are required",
                 })}
               />
-              <div className="flex flex-row space-x-4 place-content-center">
+              <div className="flex flex-row place-content-center flex-wrap space-x-4 space-y-4 md:space-y-0">
                 <TextField
                   id="rsvpDate"
                   label="Vote by"
                   type="date"
-                  sx={{ width: 220 }}
+                  className="min-w-sm"
+                  sx={{ width: 220, minWidth: 100 }}
                   error={errors.rsvpDate}
                   helperText={errors.rsvpDate && errors.rsvpDate.message}
                   InputLabelProps={{

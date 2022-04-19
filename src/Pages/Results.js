@@ -220,7 +220,7 @@ export const Results = () => {
               {listData?.counts.reduce((a, b) => a + b, 0) > 0 ? (
                 <>
                   {listData.names.map((el) => (
-                    <Accordion>
+                    <Accordion key={`accrd_${el.id}`}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -234,7 +234,12 @@ export const Results = () => {
                             .filter((pl) => pl.optionId === el.id)
                             .map((voters) =>
                               voters.voters?.map((v) => (
-                                <Card className="mx-2 mb-2 p-2">{v}</Card>
+                                <Card
+                                  key={`card_${v}`}
+                                  className="mx-2 mb-2 p-2"
+                                >
+                                  {v}
+                                </Card>
                               ))
                             )}
                         </div>
@@ -269,7 +274,7 @@ export const Results = () => {
               {dateData?.counts.reduce((a, b) => a + b, 0) > 0 ? (
                 <>
                   {dateData.names.map((el) => (
-                    <Accordion>
+                    <Accordion key={`dDaccrd_${el.id}`}>
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2a-content"
@@ -283,7 +288,12 @@ export const Results = () => {
                             .filter((pd) => pd.optionId === el.id)
                             .map((voters) =>
                               voters.voters?.map((v) => (
-                                <Card className="mx-2 mb-2 p-2">{v}</Card>
+                                <Card
+                                  key={`crd_${v}`}
+                                  className="mx-2 mb-2 p-2"
+                                >
+                                  {v}
+                                </Card>
                               ))
                             )}
                         </div>

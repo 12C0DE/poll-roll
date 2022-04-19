@@ -10,7 +10,6 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
-import { Typography } from "@mui/material";
 import { format } from "date-fns";
 
 const Voting = ({ history }) => {

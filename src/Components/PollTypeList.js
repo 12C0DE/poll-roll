@@ -27,8 +27,11 @@ export const PollTypeList = ({ add }) => {
           <MenuItem value={PollEnums.Bool}>T/F</MenuItem>
         </Select>
       </FormControl>
-      {/* <input type="button" value="Add Poll" onClick={() => add(selLocalPoll)} /> */}
-      <Button size="small" onClick={() => add(selLocalPoll)}>
+      <Button
+        size="small"
+        style={{ margin: "auto" }}
+        onClick={() => add(selLocalPoll)}
+      >
         Add Poll
       </Button>
     </div>

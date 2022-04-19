@@ -4,6 +4,7 @@ import uuid from "react-uuid";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { PollTypeList } from "../Components/PollTypeList";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { PollEnums } from "../Enums/PollEnums";
 import { GlobalContext } from "../Context/GlobalState";
 import { generatePollComps } from "../functions/funcs";
@@ -23,6 +24,7 @@ export const EditPolls2 = () => {
   const [details, setDetails] = useState("");
   const [rsvp, setRsvp] = useState("");
   const [updatedStatus, setUpdatedStatus] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -34,6 +36,7 @@ export const EditPolls2 = () => {
 
         setRsvp(rDate);
       });
+    setIsLoading(false);
   }, []);
 
   //status appers for 3 secs on update
@@ -87,95 +90,102 @@ export const EditPolls2 = () => {
 
   return (
     <div className="flex flex-col">
-      <div>
-        <h1 className="text-3xl font-bold text-center py-8">Edit Poll</h1>
-      </div>
-      <Container>
-        <Stack spacing={2}>
-          <h2
-            className="text-center italic text-2xl"
-            style={{ color: "#637c7e" }}
-          >
-            {polls.pollName}
-          </h2>
-          <hr />
-          <div className="flex flex-row justify-between">
-            <Link to={`/voting/${_id}`}>
-              <DoubleArrowRoundedIcon className="rotate-180" />
-              Go to Voting
-            </Link>
-            <Link to={`/results/${_id}`}>
-              Go to Results <DoubleArrowRoundedIcon />
-            </Link>
+      {isLoading ? (
+        <LoadingSkeleton />
+      ) : (
+        <>
+          <div>
+            <h1 className="text-3xl font-bold text-center py-8">Edit Poll</h1>
           </div>
-          <div className="flex flex-row justify-center gap-2 pb-4">
-            <h4>Send to Voters: </h4>
-            <label
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/voting/${_id}`
-                );
-              }}
-            >
-              {window.location.origin}/voting/{_id}
-            </label>
-          </div>
-          <TextField
-            id="outlined-multiline-static"
-            label="Details"
-            defaultValue={details}
-            className="mt-8"
-            multiline
-            rows={4}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onBlur={(e) => setDetails(e.target.value)}
-          />
-          <div className="flex flex-row mt-4 space-x-4 place-content-center">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Vote by:"
-                value={rsvp}
-                required={true}
-                onChange={(newValue) => {
-                  setRsvp(newValue);
+          <Container>
+            <Stack spacing={2}>
+              <h2
+                className="text-center italic text-2xl"
+                style={{ color: "#637c7e" }}
+              >
+                {polls.pollName}
+              </h2>
+              <hr />
+              <div className="flex flex-row justify-between">
+                <Link to={`/voting/${_id}`}>
+                  <DoubleArrowRoundedIcon className="rotate-180" />
+                  Go to Voting
+                </Link>
+                <Link to={`/results/${_id}`}>
+                  Go to Results <DoubleArrowRoundedIcon />
+                </Link>
+              </div>
+              <div className="flex flex-col justify-center gap-2 pb-4 px-4 sm:px-0 sm:flex-row">
+                <h4>Send to Voters: </h4>
+                <label
+                  className="mx-2 flex-wrap sm:mx-0"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/voting/${_id}`
+                    );
+                  }}
+                >
+                  {window.location.origin}/voting/{_id}
+                </label>
+              </div>
+              <TextField
+                id="outlined-multiline-static"
+                label="Details"
+                defaultValue={details}
+                className="mt-8"
+                multiline
+                rows={4}
+                InputLabelProps={{
+                  shrink: true,
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                onBlur={(e) => setDetails(e.target.value)}
               />
-            </LocalizationProvider>
-            <PollTypeList add={add2Polls} />
-          </div>
-        </Stack>
-        <div>
-          <ul>
-            {polls.pollOptions?.map((p) =>
-              generatePollComps(
-                +p.pollType,
-                p.pollId,
-                p.option,
-                p.startDate,
-                p.endDate
-              )
-            )}
-          </ul>
-        </div>
-        <div className="flex flex-row space-x-6 my-8 place-content-center">
-          <Button
-            type="button"
-            variant="contained"
-            onClick={(e) => submitUpdate(e)}
-          >
-            Update
-          </Button>
-          <Button type="submit">Delete</Button>
-        </div>
-        <div className="text-center mb-2">
-          {updatedStatus && (
-            <SnackbarAlert showSb={updatedStatus} msg="Vote saved" />
-          )}
-        </div>
-      </Container>
+              <div className="flex flex-row flex-wrap mt-4 space-x-4 space-y-4 md:space-y-0 place-content-center">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Vote by:"
+                    value={rsvp}
+                    required={true}
+                    onChange={(newValue) => {
+                      setRsvp(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                <PollTypeList add={add2Polls} />
+              </div>
+            </Stack>
+            <div>
+              <ul>
+                {polls.pollOptions?.map((p) =>
+                  generatePollComps(
+                    +p.pollType,
+                    p.pollId,
+                    p.option,
+                    p.startDate,
+                    p.endDate
+                  )
+                )}
+              </ul>
+            </div>
+            <div className="flex flex-row space-x-6 my-8 place-content-center">
+              <Button
+                type="button"
+                variant="contained"
+                onClick={(e) => submitUpdate(e)}
+              >
+                Update
+              </Button>
+              <Button type="submit">Delete</Button>
+            </div>
+            <div className="text-center mb-2">
+              {updatedStatus && (
+                <SnackbarAlert showSb={updatedStatus} msg="Vote saved" />
+              )}
+            </div>
+          </Container>
+        </>
+      )}
     </div>
   );
 };

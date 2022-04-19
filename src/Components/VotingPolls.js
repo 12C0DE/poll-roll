@@ -40,6 +40,7 @@ export const BoolVote = ({ id, pollValue, dv }) => {
       <Stack direction="row" spacing={4} alignItems="center" className="mt-4">
         <Button
           onClick={() => voteForBool(true)}
+          disabled={vote === true}
           style={{ borderRadius: 100 }}
           className={vote && "grnGradient"}
         >
@@ -57,6 +58,7 @@ export const BoolVote = ({ id, pollValue, dv }) => {
         </Button>
         <Button
           onClick={() => voteForBool(false)}
+          disabled={vote === false}
           className={!vote && "redGradient"}
           style={{ borderRadius: 100 }}
         >
