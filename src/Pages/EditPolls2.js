@@ -125,7 +125,7 @@ export const EditPolls2 = () => {
                     );
                   }}
                 >
-                  {window.location.origin}/voting/{_id}
+                  {window.location.origin}/voteat/{_id}
                 </label>
               </div>
               <TextField
