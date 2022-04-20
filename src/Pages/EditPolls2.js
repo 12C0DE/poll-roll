@@ -121,7 +121,7 @@ export const EditPolls2 = () => {
                   className="mx-2 flex-wrap sm:mx-0"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/voting/${_id}`
+                      `${window.location.origin}/voteat/${_id}`
                     );
                   }}
                 >
