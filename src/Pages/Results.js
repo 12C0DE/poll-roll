@@ -13,6 +13,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
+import { Chip } from "@mui/material";
+import FaceIcon from "@mui/icons-material/Face";
 import Alert from "@mui/material/Alert";
 
 import { format } from "date-fns";
@@ -234,12 +236,13 @@ export const Results = () => {
                             .filter((pl) => pl.optionId === el.id)
                             .map((voters) =>
                               voters.voters?.map((v) => (
-                                <Card
-                                  key={`card_${v}`}
+                                <Chip
+                                  key={`chip_${v}`}
+                                  variant="outlined"
+                                  icon={<FaceIcon />}
+                                  label={v}
                                   className="mx-2 mb-2 p-2"
-                                >
-                                  {v}
-                                </Card>
+                                />
                               ))
                             )}
                         </div>
@@ -288,12 +291,13 @@ export const Results = () => {
                             .filter((pd) => pd.optionId === el.id)
                             .map((voters) =>
                               voters.voters?.map((v) => (
-                                <Card
-                                  key={`crd_${v}`}
+                                <Chip
+                                  key={`chp_${v}`}
+                                  variant="outlined"
+                                  icon={<FaceIcon />}
+                                  label={v}
                                   className="mx-2 mb-2 p-2"
-                                >
-                                  {v}
-                                </Card>
+                                />
                               ))
                             )}
                         </div>

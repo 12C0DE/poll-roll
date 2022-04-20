@@ -26,7 +26,7 @@ export const BoolVote = ({ id, pollValue, dv }) => {
   };
 
   return (
-    <Box className="justify-center">
+    <Box className="justify-center mx-2">
       <TextField
         label="Statement"
         value={pollValue}
@@ -37,7 +37,12 @@ export const BoolVote = ({ id, pollValue, dv }) => {
         }}
         className="w-full mb-4"
       />
-      <Stack direction="row" spacing={4} alignItems="center" className="mt-4">
+      <Stack
+        direction="row"
+        spacing={4}
+        alignItems="center"
+        className="mt-4 justify-evenly"
+      >
         <Button
           onClick={() => voteForBool(true)}
           disabled={vote === true}
@@ -47,9 +52,9 @@ export const BoolVote = ({ id, pollValue, dv }) => {
           <Card
             sx={{
               maxWidth: 345,
-              minWidth: 210,
+              minWidth: 150,
               height: 100,
-              width: "25%",
+              maxHeight: 200,
               borderRadius: 100,
             }}
           >
@@ -65,9 +70,9 @@ export const BoolVote = ({ id, pollValue, dv }) => {
           <Card
             sx={{
               maxWidth: 345,
-              minWidth: 210,
+              minWidth: 150,
               height: 100,
-              width: "25%",
+              maxHeight: 200,
               borderRadius: 100,
             }}
           >
@@ -88,7 +93,7 @@ export const ListVote = ({ id, pollValue, currVoteId }) => {
   };
 
   return (
-    <Box className="justify-center my-2">
+    <Box>
       <Button
         onClick={() => voteOne(currVote)}
         style={{ borderRadius: 100 }}
@@ -96,10 +101,9 @@ export const ListVote = ({ id, pollValue, currVoteId }) => {
       >
         <Card
           sx={{
-            maxWidth: 645,
-            minWidth: 500,
+            maxWidth: 650,
+            minWidth: 250,
             minHeight: "6em",
-            // width: "75%",
             borderRadius: 100,
           }}
         >
@@ -119,7 +123,7 @@ export const DateVote = ({ id, pollValue, currVoteId }) => {
   };
 
   return (
-    <Box className="justify-center my-2">
+    <Box className="shrink justify-center my-2">
       <Button
         onClick={() => voteOne(currVote)}
         style={{ borderRadius: 100 }}
@@ -127,9 +131,9 @@ export const DateVote = ({ id, pollValue, currVoteId }) => {
       >
         <Card
           sx={{
-            maxWidth: 6000,
-            minWidth: 450,
-            minHeight: "6em",
+            maxWidth: 540,
+            minWidth: 180,
+            minHeight: "5em",
             borderRadius: 100,
           }}
         >

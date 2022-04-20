@@ -106,7 +106,7 @@ export const GenerateVotingPolls = (
           className="mb-8"
           style={{
             backgroundColor: "#f6f5fa",
-            padding: "20px",
+            padding: "15px",
             borderRadius: 15,
           }}
         >
@@ -123,11 +123,7 @@ export const GenerateVotingPolls = (
       const currVoteIdL = checkTypeVote(polls.pollOptions, uid, PollEnums.List);
 
       return (
-        <div
-          key={`rf${pollID}`}
-          style={{ backgroundColor: "#FBF9F6", borderRadius: 15 }}
-          className="p-2"
-        >
+        <React.Fragment key={`rf${pollID}`}>
           <ListVote
             key={`elist${pollID}`}
             id={pollID}
@@ -156,9 +152,10 @@ export const GenerateVotingPolls = (
                   },
                 ],
               }}
+              className="w-lg max-w-lg mb-4"
             />
           ) : null}
-        </div>
+        </React.Fragment>
       );
     case PollEnums.Dates:
       const currVoteIdD = checkTypeVote(
@@ -168,10 +165,10 @@ export const GenerateVotingPolls = (
       );
 
       return (
-        <div
+        <React.Fragment
           key={`rf${pollID}`}
-          style={{ backgroundColor: "#FBF9c6", borderRadius: 15 }}
-          className="p-2"
+          // style={{ backgroundColor: "#FBF9c6", borderRadius: 15 }}
+          // className="p-2"
         >
           <DateVote
             key={`date${pollID}`}
@@ -210,7 +207,7 @@ export const GenerateVotingPolls = (
               }}
             />
           ) : null}
-        </div>
+        </React.Fragment>
       );
     default:
       return null;

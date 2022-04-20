@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { format } from "date-fns";
 
 const Voting = ({ history }) => {
@@ -121,7 +122,9 @@ const Voting = ({ history }) => {
 
   return (
     <div>
-      {isLoading ? null : (
+      {isLoading ? (
+        <LoadingSkeleton />
+      ) : (
         <React.Fragment>
           <div className="flex flex-col">
             <div>
@@ -153,7 +156,7 @@ const Voting = ({ history }) => {
                   label="Vote by"
                   type="text"
                   value={rsvp}
-                  className="mt-8 mb-4 w-1/2 text-center"
+                  className="flex-grow-1 sm:flex-grow-0 mt-8 mb-4 w-3/4 sm:w-1/2 max-w-xl text-center"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -164,22 +167,72 @@ const Voting = ({ history }) => {
               </Stack>
             </Container>
           </div>
-          <ul className="flex flex-col items-center mt-12">
-            {polls.pollOptions?.map((p, index) =>
-              GenerateVotingPolls(
-                +p.pollType,
-                p.pollId,
-                p.option,
-                p.startDate,
-                p.endDate,
-                p.votes,
-                user._id,
-                boolVotes,
-                dateVotes,
-                listVotes
-              )
-            )}
-          </ul>
+          <div className="flex flex-col flex-wrap lg:flex-row lg:gap-4 lg:justify-center items-center mt-12">
+            <ul className="flex flex-col flex-wrap lg:flex-row lg:gap-4 lg:justify-center items-center">
+              {polls.pollOptions
+                ?.filter((item) => item.pollType === PollEnums.Bool)
+                .map((p) =>
+                  GenerateVotingPolls(
+                    +p.pollType,
+                    p.pollId,
+                    p.option,
+                    p.startDate,
+                    p.endDate,
+                    p.votes,
+                    user._id,
+                    boolVotes,
+                    dateVotes,
+                    listVotes
+                  )
+                )}
+            </ul>
+            <div
+              style={{ backgroundColor: "#FBF9F6", borderRadius: 15 }}
+              className="min-w-xs w-lg max-w-2xl p-4 mb-4"
+            >
+              <ul className="flex flex-row flex-wrap place-content-center items-stretch">
+                {polls.pollOptions
+                  ?.filter((item) => item.pollType === PollEnums.List)
+                  .map((p) =>
+                    GenerateVotingPolls(
+                      +p.pollType,
+                      p.pollId,
+                      p.option,
+                      p.startDate,
+                      p.endDate,
+                      p.votes,
+                      user._id,
+                      boolVotes,
+                      dateVotes,
+                      listVotes
+                    )
+                  )}
+              </ul>
+            </div>
+            <div
+              style={{ backgroundColor: "#FBF9c6", borderRadius: 15 }}
+              className="min-w-xs w-lg max-w-2xl py-8 px-4 mb-4"
+            >
+              <ul className="flex flex-row flex-wrap place-content-center items-stretch">
+                {polls.pollOptions
+                  ?.filter((item) => item.pollType === PollEnums.Dates)
+                  .map((p) =>
+                    GenerateVotingPolls(
+                      +p.pollType,
+                      p.pollId,
+                      p.option,
+                      p.startDate,
+                      p.endDate,
+                      p.votes,
+                      user._id,
+                      boolVotes,
+                      dateVotes,
+                      listVotes
+                    )
+                  )}
+              </ul>
+            </div>
+          </div>
           <div className="flex flex-row space-x-6 my-8 place-content-center">
             <Button type="button" variant="contained" onClick={submitVote}>
               Submit
