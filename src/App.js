@@ -30,7 +30,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/results/poll/:_id" component={Results} />
             <Route exact path="/results/:aid" component={ResultsAll} />
-            <Route path="/voteat/:pollId" component={VoteAt} />
+            <Route exact path="/voteat/:pollId" component={VoteAt} />
             <Route exact path="/voting/:_id" component={Voting} />
             <Route path="/404" component={NotFound} />
             <Redirect to="/404" />
