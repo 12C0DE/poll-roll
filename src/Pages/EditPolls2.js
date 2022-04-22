@@ -17,6 +17,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
+import { ActionAlert } from "../Components/ActionAlert";
 
 export const EditPolls2 = () => {
   const { _id, authId } = useParams();
@@ -24,6 +25,7 @@ export const EditPolls2 = () => {
   const [details, setDetails] = useState("");
   const [rsvp, setRsvp] = useState("");
   const [updatedStatus, setUpdatedStatus] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,10 +45,11 @@ export const EditPolls2 = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setUpdatedStatus(false);
+      setCopied(false);
     }, [4000]);
 
     return () => clearTimeout(timer);
-  }, [updatedStatus, setUpdatedStatus]);
+  }, [updatedStatus, setUpdatedStatus, copied, setCopied]);
 
   const add2Polls = (poll) => {
     if (+poll === PollEnums.None) {
@@ -118,15 +121,18 @@ export const EditPolls2 = () => {
               <div className="flex flex-col justify-center gap-2 pb-4 px-4 sm:px-0 sm:flex-row">
                 <h4>Send to Voters: </h4>
                 <label
-                  className="mx-2 flex-wrap sm:mx-0"
+                  className="mx-2 flex-wrap sm:mx-0 underline hover:decoration-orange"
+                  style={{ color: "#27A6F9" }}
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/voteat/${_id}`
+                      `${window.location.origin}/login/${_id}`
                     );
+                    setCopied(true);
                   }}
                 >
-                  {window.location.origin}/voteat/{_id}
+                  {window.location.origin}/login/{_id}
                 </label>
+                {copied && <ActionAlert showSb={copied} msg="Copied!" />}
               </div>
               <TextField
                 id="outlined-multiline-static"

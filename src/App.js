@@ -26,7 +26,11 @@ function App() {
             <PrivateRoute exact path="/home/:aid" component={Home} />
             <Route exact path="/createPoll" component={CreatePoll} />
             <Route exact path="/editPoll/:_id/:authId" component={EditPolls2} />
-            <Route exact path={["/login", "/"]} component={Login} />
+            <Route
+              exact
+              path={["/login", "/", "/login/:pollId"]}
+              component={Login}
+            />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/results/poll/:_id" component={Results} />
             <Route exact path="/results/:aid" component={ResultsAll} />

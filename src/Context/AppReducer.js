@@ -88,8 +88,6 @@ export default (state, action) => {
       let updatedB = state.polls;
 
       if (updatedB.pollOptions[indexB].hasOwnProperty("votes")) {
-        let foundIndex;
-
         if (action.payload.voted) {
           //voting TRUE
 

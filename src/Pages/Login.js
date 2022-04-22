@@ -1,5 +1,5 @@
-import React, { useCallback, useContext } from "react";
-import { withRouter } from "react-router";
+import React, { useCallback, useContext, useEffect } from "react";
+import { withRouter, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import { GlobalContext } from "../Context/GlobalState";
@@ -9,7 +9,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const Login = ({ history }) => {
-  const { setUser, voteIdParam } = useContext(GlobalContext);
+  const { pollId } = useParams();
+  const { setUser, setVoteIdParam } = useContext(GlobalContext);
+
+  useEffect(() => {
+    pollId && setVoteIdParam(pollId);
+  }, []);
 
   const handleLogin = useCallback(async (event) => {
     event.preventDefault();
@@ -28,8 +33,8 @@ const Login = ({ history }) => {
             });
         })
         .then(() => {
-          voteIdParam
-            ? history.push(`/voting/${voteIdParam}`)
+          pollId
+            ? history.push(`/voting/${pollId}`)
             : history.push(`/home/${auth.currentUser.uid}`);
         });
     } catch (error) {

@@ -651,6 +651,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+.hover\:decoration-orange:hover {
+  text-decoration-color: #ff7849;
+}
 @media (min-width: 480px) {
 
   .sm\:mx-0 {
