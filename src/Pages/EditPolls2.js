@@ -125,12 +125,12 @@ export const EditPolls2 = () => {
                   style={{ color: "#27A6F9" }}
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `https://pollroll-api.herokuapp.com/voteat/${_id}`
+                      `https://pollroll-api.herokuapp.com/voteat/add/${_id}`
                     );
                     setCopied(true);
                   }}
                 >
-                  https://pollroll-api.herokuapp.com/voteat/{_id}
+                  https://pollroll-api.herokuapp.com/voteat/add/{_id}
                 </label>
                 {copied && <ActionAlert showSb={copied} msg="Copied!" />}
               </div>
