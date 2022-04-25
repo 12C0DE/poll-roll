@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from "react";
-import { withRouter, useParams } from "react-router";
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import { GlobalContext } from "../Context/GlobalState";
@@ -9,11 +9,16 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const Login = ({ history }) => {
-  const { pollId } = useParams();
-  const { setUser, setVoteIdParam } = useContext(GlobalContext);
+  const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
 
   useEffect(() => {
-    pollId && setVoteIdParam(pollId);
+    axios
+      .get("https://pollroll-api.herokuapp.com/voteat/pollId")
+      .then((res) => {
+        res.data && setVoteIdParam(res.data);
+      });
+
+    axios.get("https://pollroll-api.herokuapp.com/voteat/clear");
   }, []);
 
   const handleLogin = useCallback(async (event) => {
@@ -33,8 +38,8 @@ const Login = ({ history }) => {
             });
         })
         .then(() => {
-          pollId
-            ? history.push(`/voting/${pollId}`)
+          voteIdParam
+            ? history.push(`/voting/${voteIdParam}`)
             : history.push(`/home/${auth.currentUser.uid}`);
         });
     } catch (error) {
