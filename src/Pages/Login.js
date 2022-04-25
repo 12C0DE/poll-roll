@@ -18,7 +18,7 @@ const Login = ({ history }) => {
         res.data && setVoteIdParam(res.data);
       });
 
-    axios.get("https://pollroll-api.herokuapp.com/voteat/clear");
+    // axios.get("https://pollroll-api.herokuapp.com/voteat/clear");
   }, []);
 
   const handleLogin = useCallback(async (event) => {
