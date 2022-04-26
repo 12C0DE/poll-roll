@@ -13,6 +13,8 @@ import { SnackbarAlert } from "../Components/SnackbarAlert";
 import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { format } from "date-fns";
 
+const ip = require("ip");
+
 const Voting = ({ history }) => {
   const { _id } = useParams();
   const {
@@ -26,6 +28,7 @@ const Voting = ({ history }) => {
     setListData,
     setListVotes,
     user,
+    voteIdParam,
   } = useContext(GlobalContext);
   const [rsvp, setRsvp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +39,12 @@ const Voting = ({ history }) => {
     const source = cancelToken.source();
 
     try {
+      if (voteIdParam) {
+        axios.get(
+          `https://pollroll-api.herokuapp.com/voteat/clear/${ip.address()}`
+        );
+      }
+
       axios
         .get(`https://pollroll-api.herokuapp.com/polls/${_id}`, {
           signal: source,

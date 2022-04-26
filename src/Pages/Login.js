@@ -4,21 +4,20 @@ import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
 import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+
+const ip = require("ip");
 
 const Login = ({ history }) => {
   const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
 
   useEffect(() => {
     axios
-      .get("https://pollroll-api.herokuapp.com/voteat/pollId")
+      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address()}`)
       .then((res) => {
-        res.data && setVoteIdParam(res.data);
+        res.data && setVoteIdParam(res.data.pollId);
       });
-
-    // axios.get("https://pollroll-api.herokuapp.com/voteat/clear");
   }, []);
 
   const handleLogin = useCallback(async (event) => {
