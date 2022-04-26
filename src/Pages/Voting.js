@@ -12,8 +12,8 @@ import Button from "@mui/material/Button";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
 import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { format } from "date-fns";
-
-const ip = require("ip");
+import publicIp from "public-ip";
+// const ip = require("ip");
 
 const Voting = ({ history }) => {
   const { _id } = useParams();
@@ -41,7 +41,7 @@ const Voting = ({ history }) => {
     try {
       if (voteIdParam) {
         axios.get(
-          `https://pollroll-api.herokuapp.com/voteat/clear/${ip.address()}`
+          `https://pollroll-api.herokuapp.com/voteat/clear/${publicIp.v6()}`
         );
       }
 

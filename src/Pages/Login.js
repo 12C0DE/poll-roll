@@ -6,15 +6,15 @@ import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
-const ip = require("ip");
+import publicIp from "public-ip";
+// const ip = require("ip");
 
 const Login = ({ history }) => {
   const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
 
   useEffect(() => {
     axios
-      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address()}`)
+      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${publicIp.v6()}`)
       .then((res) => {
         res.data && setVoteIdParam(res.data.pollId);
       });
