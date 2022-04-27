@@ -15,7 +15,7 @@ const Login = ({ history }) => {
     axios
       .get(
         `https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address(
-          "public",
+          "private",
           "ipv4"
         )}`
       )

@@ -41,7 +41,7 @@ const Voting = ({ history }) => {
       if (voteIdParam) {
         axios.get(
           `https://pollroll-api.herokuapp.com/voteat/clear/${ip.address(
-            "public",
+            "private",
             "ipv4"
           )}`
         );
