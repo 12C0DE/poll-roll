@@ -32,18 +32,22 @@ const Voting = ({ history }) => {
   const [rsvp, setRsvp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [voteSaved, setVoteSaved] = useState(false);
+  const ipaddr = require("ipaddr.js");
 
   useEffect(() => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
+    let remoteAdd = ip.address("private", "ipv4");
+
+    if (ipaddr.isValid(remoteAdd)) {
+      remoteAdd = ipaddr.process(ip.address("private", "ipv4")).toString();
+    }
+
     try {
       if (voteIdParam) {
         axios.get(
-          `https://pollroll-api.herokuapp.com/voteat/clear/${ip.address(
-            "private",
-            "ipv4"
-          )}`
+          `https://pollroll-api.herokuapp.com/voteat/clear/${remoteAdd}`
         );
       }
 

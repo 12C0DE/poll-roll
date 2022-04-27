@@ -7,18 +7,20 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 const ip = require("ip");
+const ipaddr = require("ipaddr.js");
 
 const Login = ({ history }) => {
   const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
 
   useEffect(() => {
+    let remoteAdd = ip.address("private", "ipv4");
+
+    if (ipaddr.isValid(remoteAdd)) {
+      remoteAdd = ipaddr.process(ip.address("private", "ipv4")).toString();
+    }
+
     axios
-      .get(
-        `https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address(
-          "private",
-          "ipv4"
-        )}`
-      )
+      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${remoteAdd}`)
       .then((res) => {
         res.data && setVoteIdParam(res.data.pollId);
       });
