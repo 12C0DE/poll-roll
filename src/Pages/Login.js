@@ -16,7 +16,7 @@ const Login = ({ history }) => {
       .get(
         `https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address(
           "public",
-          "ipv6"
+          "ipv4"
         )}`
       )
       .then((res) => {
