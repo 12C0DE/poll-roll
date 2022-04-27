@@ -38,10 +38,10 @@ const Voting = ({ history }) => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
-    let remoteAdd = ip.address("private", "ipv4");
+    let remoteAdd = ip.address("public", "ipv4");
 
     if (ipaddr.isValid(remoteAdd)) {
-      remoteAdd = ipaddr.process(ip.address("private", "ipv4")).toString();
+      remoteAdd = ipaddr.process(ip.address("public", "ipv4")).toString();
     }
 
     try {

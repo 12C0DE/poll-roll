@@ -13,10 +13,10 @@ const Login = ({ history }) => {
   const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
 
   useEffect(() => {
-    let remoteAdd = ip.address("private", "ipv4");
+    let remoteAdd = ip.address("public", "ipv4");
 
     if (ipaddr.isValid(remoteAdd)) {
-      remoteAdd = ipaddr.process(ip.address("private", "ipv4")).toString();
+      remoteAdd = ipaddr.process(ip.address("public", "ipv4")).toString();
     }
 
     axios
