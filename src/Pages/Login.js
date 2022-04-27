@@ -14,7 +14,12 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     axios
-      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address()}`)
+      .get(
+        `https://pollroll-api.herokuapp.com/voteat/pollId/${ip.address(
+          "public",
+          "ipv6"
+        )}`
+      )
       .then((res) => {
         res.data && setVoteIdParam(res.data.pollId);
       });
