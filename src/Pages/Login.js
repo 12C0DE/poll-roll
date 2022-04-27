@@ -6,7 +6,6 @@ import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
 const ip = require("ip");
 
 const Login = ({ history }) => {

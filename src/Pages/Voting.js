@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
 import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { format } from "date-fns";
-
 const ip = require("ip");
 
 const Voting = ({ history }) => {
