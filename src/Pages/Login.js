@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase";
@@ -6,25 +6,36 @@ import { GlobalContext } from "../Context/GlobalState";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-const ip = require("ip");
 const ipaddr = require("ipaddr.js");
 
 const Login = ({ history }) => {
-  const { setUser, voteIdParam, setVoteIdParam } = useContext(GlobalContext);
+  const { setUser, voteIdParam, setVoteIdParam, ip, setIP } =
+    useContext(GlobalContext);
 
   useEffect(() => {
-    let remoteAdd = ip.address("public", "ipv4");
+    async function getIP() {
+      const remoteAdd = await axios.get("https://geolocation-db.com/json/");
 
-    if (ipaddr.isValid(remoteAdd)) {
-      remoteAdd = ipaddr.process(ip.address("public", "ipv4")).toString();
+      if (ipaddr.isValid(remoteAdd.data.IPv4)) {
+        const rAdd = ipaddr.process(remoteAdd.data.IPv4).toString();
+
+        setIP(rAdd);
+      }
+    }
+    getIP();
+  }, []);
+
+  useEffect(() => {
+    if (!ip) {
+      return;
     }
 
     axios
-      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${remoteAdd}`)
+      .get(`https://pollroll-api.herokuapp.com/voteat/pollId/${ip}`)
       .then((res) => {
         res.data && setVoteIdParam(res.data.pollId);
       });
-  }, []);
+  }, [ip]);
 
   const handleLogin = useCallback(async (event) => {
     event.preventDefault();

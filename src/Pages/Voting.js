@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import { SnackbarAlert } from "../Components/SnackbarAlert";
 import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 import { format } from "date-fns";
-const ip = require("ip");
 
 const Voting = ({ history }) => {
   const { _id } = useParams();
@@ -20,6 +19,7 @@ const Voting = ({ history }) => {
     boolVotes,
     dateVotes,
     listVotes, //total count of votes
+    ip,
     polls,
     setPolls,
     setDateData,
@@ -32,23 +32,14 @@ const Voting = ({ history }) => {
   const [rsvp, setRsvp] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [voteSaved, setVoteSaved] = useState(false);
-  const ipaddr = require("ipaddr.js");
 
   useEffect(() => {
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
-    let remoteAdd = ip.address("public", "ipv4");
-
-    if (ipaddr.isValid(remoteAdd)) {
-      remoteAdd = ipaddr.process(ip.address("public", "ipv4")).toString();
-    }
-
     try {
       if (voteIdParam) {
-        axios.get(
-          `https://pollroll-api.herokuapp.com/voteat/clear/${remoteAdd}`
-        );
+        axios.get(`https://pollroll-api.herokuapp.com/voteat/clear/${ip}`);
       }
 
       axios

@@ -66,6 +66,11 @@ export default (state, action) => {
         ...state,
         listVotes: action.payload,
       };
+    case "SET_IP":
+      return {
+        ...state,
+        ip: action.payload,
+      };
     case "SET_PHONE":
       return {
         ...state,

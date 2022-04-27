@@ -11,6 +11,7 @@ const initialState = {
   listVotes: 0,
   dateData: {},
   dateVotes: 0,
+  ip: null,
   user: null,
   voteIdParam: null,
 };
@@ -31,6 +32,9 @@ export const GlobalProvider = ({ children }) => {
   }
   function clearPolls() {
     dispatch({ type: "CLEAR_POLLS" });
+  }
+  function setIP(ip) {
+    dispatch({ type: "SET_IP", payload: ip });
   }
   function setPolls(polls) {
     dispatch({ type: "SET_POLLS", payload: polls });
@@ -81,6 +85,7 @@ export const GlobalProvider = ({ children }) => {
         listData: state.listData,
         listVotes: state.listVotes,
         code: state.code,
+        ip: state.ip,
         polls: state.polls,
         phone: state.phone,
         user: state.user,
@@ -89,6 +94,7 @@ export const GlobalProvider = ({ children }) => {
         delPollOption,
         clearPolls,
         setCode,
+        setIP,
         setPhone,
         setPolls,
         setBoolVotes,
