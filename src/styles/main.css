@@ -417,9 +417,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .m-4 {
   margin: 1rem;
 }
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.m-auto {
+  margin: auto;
+}
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 .mx-2 {
   margin-left: 0.5rem;
@@ -435,6 +438,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .mb-8 {
   margin-bottom: 2rem;
+}
+.mb-6 {
+  margin-bottom: 1.5rem;
 }
 .mb-4 {
   margin-bottom: 1rem;
@@ -460,11 +466,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-full {
   width: 100%;
 }
-.w-3\/4 {
-  width: 75%;
-}
 .w-1\/2 {
   width: 50%;
+}
+.w-3\/4 {
+  width: 75%;
 }
 .max-w-md {
   max-width: 28rem;
@@ -483,6 +489,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .shrink {
   flex-shrink: 1;
+}
+.grow {
+  flex-grow: 1;
 }
 .basis-1\/6 {
   flex-basis: 16.666667%;
@@ -508,9 +517,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .place-content-center {
   place-content: center;
-}
-.place-content-stretch {
-  place-content: stretch;
 }
 .content-center {
   align-content: center;
@@ -573,6 +579,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .justify-self-end {
   justify-self: end;
+}
+.justify-self-center {
+  justify-self: center;
 }
 .overflow-auto {
   overflow: auto;
@@ -673,28 +682,42 @@ Ensure the default browser behavior of the `hidden` attribute.
     flex-direction: row;
   }
 
-  .sm\:place-content-center {
-    place-content: center;
-  }
-
-  .sm\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0px * var(--tw-space-y-reverse));
-  }
-
-  .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-x-reverse: 0;
-    margin-right: calc(1rem * var(--tw-space-x-reverse));
-    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
-  }
-
   .sm\:px-0 {
     padding-left: 0px;
     padding-right: 0px;
   }
 }
 @media (min-width: 768px) {
+
+  .md\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
+  .md\:w-3\/4 {
+    width: 75%;
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:place-content-center {
+    place-content: center;
+  }
+
+  .md\:items-baseline {
+    align-items: baseline;
+  }
+
+  .md\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
 
   .md\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;

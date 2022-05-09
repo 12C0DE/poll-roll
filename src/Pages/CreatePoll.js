@@ -11,21 +11,34 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import InputAdornment from "@mui/material/InputAdornment";
+import { generateSlug } from "random-word-slugs";
+import { IconButton } from "@mui/material";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import Tooltip from "@mui/material/Tooltip";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import { Controller } from "react-hook-form";
 
 const CreatePoll = ({ history }) => {
   const { polls, addPollOption, clearPolls, setPolls, user } =
     useContext(GlobalContext);
   const {
+    control,
     register,
     reset,
     handleSubmit,
     formState: { errors },
+    getValues,
+    setValue,
   } = useForm();
 
   useEffect(() => {
     reset({
       titleName: "",
       txtDetails: "",
+      keyPhrase: "",
       rsvpDate: "",
     });
 
@@ -50,11 +63,28 @@ const CreatePoll = ({ history }) => {
     await addPollOption(newPoll);
   };
 
-  const submitPoll = (data) => {
+  const submitPoll = async (data) => {
     console.log("submitPoll");
+    let isUnique = null;
 
     if (!polls.pollOptions.length > 0) {
       console.log("polls length = 0");
+      return;
+    }
+
+    //check if key phrase is available
+    await axios
+      .get(
+        `https://pollroll-api.herokuapp.com/polls/keyphrase/${data.keyPhrase}`
+      )
+      .then((res) => {
+        isUnique = res.data.isUnique;
+      });
+
+    if (isUnique === null) {
+      return;
+    } else if (!isUnique) {
+      alert("Key Phrase is already in use. Change your Key Phrase.");
       return;
     }
 
@@ -71,6 +101,7 @@ const CreatePoll = ({ history }) => {
     const newPoll = {
       pollName: data.titleName,
       details: data.txtDetails,
+      keyPhrase: data.keyPhrase,
       rsvpDate: data.rsvpDate,
       pollOptions: polls.pollOptions,
       pollKind: pollKind,
@@ -103,7 +134,7 @@ const CreatePoll = ({ history }) => {
         <div className="flex w-full place-content-center">
           <form
             onSubmit={handleSubmit(submitPoll)}
-            className="w-3/4 place-self-start"
+            className="place-self-start w-full md:w-3/4"
           >
             <Stack spacing={2}>
               <TextField
@@ -128,31 +159,75 @@ const CreatePoll = ({ history }) => {
                   required: "Details are required",
                 })}
               />
-              <div className="flex flex-row place-content-center flex-wrap space-x-4 space-y-4 md:space-y-0">
-                <TextField
-                  id="rsvpDate"
-                  label="Vote by"
-                  type="date"
-                  className="min-w-sm"
-                  sx={{ width: 220, minWidth: 100 }}
-                  error={errors.rsvpDate}
-                  helperText={errors.rsvpDate && errors.rsvpDate.message}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  {...register("rsvpDate", {
-                    required: "Enter a valid RSVP date",
-                    validate: {
-                      setLaterDate: (value) => {
-                        return (
-                          new Date(value).getTime() >
-                            new Date(Date.now()).getTime() ||
-                          "Can't pick a date in the past"
-                        );
-                      },
-                    },
-                  })}
-                />
+              <TextField
+                name="keyphrase"
+                variant="outlined"
+                label="Key Phrase"
+                error={errors.keyPhrase}
+                helperText={errors.keyPhrase && errors.keyPhrase.message}
+                {...register("keyPhrase", {
+                  required:
+                    "Key Phrase is required. Allows users to search for Poll.",
+                })}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip title="Generate random key phrase" arrow>
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() =>
+                            setValue(
+                              "keyPhrase",
+                              generateSlug(3, { format: "lower" })
+                            )
+                          }
+                          edge="end"
+                        >
+                          <AutorenewIcon color="primary" />
+                        </IconButton>
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <div className="flex flex-row place-content-center flex-wrap space-x-4 space-y-4 mb-4 md:mb-0">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Controller
+                    name="rsvpDate"
+                    control={control}
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error, invalid },
+                    }) => (
+                      <DatePicker
+                        disablePast
+                        label="Vote by:"
+                        value={getValues("rsvpDate")}
+                        onChange={(newValue) => {
+                          setValue("rsvpDate", newValue);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            id="rsvpDate"
+                            className="w-full md:w-1/2"
+                            error={errors.rsvpDate}
+                            helperText={
+                              errors.rsvpDate && errors.rsvpDate.message
+                            }
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            {...register("rsvpDate", {
+                              required: "Enter a valid RSVP date",
+                            })}
+                            {...params}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
                 <PollTypeList add={add2Polls} />
               </div>
             </Stack>

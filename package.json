@@ -19,6 +19,7 @@
     "ipaddr": "^0.1.0",
     "postcss-cli": "^9.1.0",
     "public-ip": "^5.0.0",
+    "random-word-slugs": "^0.1.6",
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.1",
     "react-charts": "^3.0.0-beta.35",

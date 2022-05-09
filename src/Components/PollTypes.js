@@ -26,18 +26,18 @@ export const BoolPoll = ({ id, pollValue }) => {
   return (
     <div>
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
         spacing={1}
-        className="space-x-4 my-4 justify-center"
+        className="space-x-4 my-6"
         alignItems="center"
       >
         <TextField
           name="statement"
           variant="outlined"
           label="Statement"
-          style={{ width: "60%" }}
           defaultValue={pollValue}
           onBlur={(e) => updatingPoll(e)}
+          className="w-full grow shrink"
         />
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>True</Typography>
@@ -73,12 +73,7 @@ export const ListPoll = ({ id, pollValue }) => {
         label="Option"
         defaultValue={pollValue}
         onBlur={(e) => updatingPoll(e)}
-        className="p-2"
-        style={{
-          width: "75%",
-          maxWidth: 700,
-          minWidth: 200,
-        }}
+        className="grow shrink"
       />
       <DeletePollOption key={`del${id}`} id={id} />
     </div>
@@ -104,25 +99,23 @@ export const DatePoll = ({ id, pollStart, pollEnd }) => {
   };
 
   return (
-    <div className="flex flex-row flex-wrap my-4 space-y-4 place-content-stretch sm:space-y-0 sm:place-content-center sm:space-x-4">
-      <FormControl>
+    <div className="flex flex-col space-y-4 mb-6 md:mb-0 md:space-x-4 md:place-content-center md:flex-row md:items-baseline">
+      <FormControl className="w-full">
         <TextField
           type="date"
           id={`sd${id}`}
           inputRef={startRef}
-          sx={{ width: 220 }}
           label="Start Date"
           InputLabelProps={{ shrink: true }}
           defaultValue={pollStart}
           onChangeCapture={updatingPoll}
         />
       </FormControl>
-      <FormControl>
+      <FormControl className="w-full">
         <TextField
           type="date"
           id={`ed${id}`}
           inputRef={endRef}
-          sx={{ width: 220 }}
           label="End Date"
           InputLabelProps={{ shrink: true }}
           defaultValue={pollEnd}

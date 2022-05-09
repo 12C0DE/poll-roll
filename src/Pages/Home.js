@@ -1,18 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useParams } from "react-router";
+import { useParams, Redirect } from "react-router";
 import axios from "axios";
 
 import { GlobalContext } from "../Context/GlobalState";
 import { PollCard } from "../Components/PollCard";
 import { LoadingSkeleton } from "../Components/LoadingSkeleton";
-
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+  Container,
+  Stack,
+  TextField,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Button,
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 export const Home = () => {
   const { aid } = useParams();
@@ -21,6 +26,8 @@ export const Home = () => {
   const [pollVotingNames, setPollVotingNames] = useState([{}]);
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
+  const [keyphrase, setKeyphrase] = useState("");
+  const [keyphraseError, setKeyphraseError] = useState(false);
 
   useEffect(() => {
     let unmounted = false;
@@ -81,6 +88,19 @@ export const Home = () => {
     }
   }, [user]);
 
+  const keyPhraseSearch = () => {
+    axios
+      .get(`https://pollroll-api.herokuapp.com/polls/pollsearch/${keyphrase}`)
+      .then((res) => {
+        if (res.data !== null) {
+          setKeyphraseError(false);
+          history.push(`/voting/${res.data._id}`);
+        } else {
+          setKeyphraseError(true);
+        }
+      });
+  };
+
   return (
     <div className="flex flex-col">
       {isLoading ? (
@@ -92,6 +112,38 @@ export const Home = () => {
           </div>
 
           <Container maxWidth="lg">
+            <Stack
+              direction="row"
+              spacing={2}
+              width="80%"
+              maxWidth="800px"
+              className="justify-self-center m-auto"
+              mb={4}
+            >
+              <TextField
+                name="keyPhrase"
+                variant="outlined"
+                label="Search for a Poll with a Key Phrase"
+                color="secondary"
+                value={keyphrase}
+                onChange={(e) => setKeyphrase(e.target.value)}
+                fullWidth
+                inputProps={{
+                  inputMode: "text",
+                  pattern: "[a-zA-Z0-9_]*",
+                }}
+                error={keyphraseError}
+                helperText={keyphraseError && "Key Phrase does not exist"}
+              />
+              <IconButton
+                aria-label="search"
+                color="secondary"
+                onClick={keyPhraseSearch}
+                disabled={keyphrase.length > 0 ? false : true}
+              >
+                <SearchIcon />
+              </IconButton>
+            </Stack>
             <div className="flex flex-row flex-wrap justify-evenly gap-4">
               <Card sx={{ minWidth: 275 }} style={{ backgroundColor: "#eee" }}>
                 <CardContent>

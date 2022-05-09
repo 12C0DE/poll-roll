@@ -78,6 +78,7 @@ export const EditPolls2 = () => {
     const updatedPoll = {
       pollName: polls.pollName,
       details: details,
+      keyPhrase: polls.keyPhrase,
       rsvpDate: rsvp,
       pollOptions: polls.pollOptions,
       authId: polls.authId,
@@ -131,6 +132,20 @@ export const EditPolls2 = () => {
                   }}
                 >
                   https://pollroll-api.herokuapp.com/voteat/add/{_id}
+                </label>
+                {copied && <ActionAlert showSb={copied} msg="Copied!" />}
+              </div>
+              <div className="flex flex-col justify-center gap-2 pb-4 px-4 sm:px-0 sm:flex-row">
+                <h4>Key Phrase: </h4>
+                <label
+                  className="mx-2 flex-wrap sm:mx-0 underline hover:decoration-orange"
+                  style={{ color: "#27A6F9" }}
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${polls.keyPhrase}`);
+                    setCopied(true);
+                  }}
+                >
+                  {polls.keyPhrase}
                 </label>
                 {copied && <ActionAlert showSb={copied} msg="Copied!" />}
               </div>

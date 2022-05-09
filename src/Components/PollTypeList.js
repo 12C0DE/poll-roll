@@ -10,16 +10,15 @@ export const PollTypeList = ({ add }) => {
   const [selLocalPoll, setSelLocalPoll] = useState(PollEnums.None);
 
   return (
-    <div className="flex flex-row flex-wrap gap-2 mb-8">
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Select a Poll</InputLabel>
+    <div className="flex flex-col gap-2 w-full md:w-1/2 md:flex-row">
+      <FormControl className="w-full grow shrink">
+        <InputLabel id="simple-select-label">Select a Poll</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="simple-select-label"
+          id="simple-select"
           value={selLocalPoll}
           label="Select a Poll"
           onChange={(e) => setSelLocalPoll(e.target.value)}
-          style={{ width: "250px" }}
         >
           <MenuItem value={PollEnums.None}>-- Select One --</MenuItem>
           <MenuItem value={PollEnums.Dates}>Dates</MenuItem>
@@ -29,7 +28,7 @@ export const PollTypeList = ({ add }) => {
       </FormControl>
       <Button
         size="small"
-        style={{ margin: "auto" }}
+        className="mb-8 md:mb-0"
         onClick={() => add(selLocalPoll)}
       >
         Add Poll

@@ -10535,6 +10535,11 @@
   dependencies:
     "performance-now" "^2.1.0"
 
+"random-word-slugs@^0.1.6":
+  "integrity" "sha512-EVPGKyhXTdnBlMCrqBvby3nf9Jz+W/rVuP2nOi68aDZa6VJ2OXvz+VDCwl8jULBLZ1Ht8wscRA+/SogeI9NYGw=="
+  "resolved" "https://registry.npmjs.org/random-word-slugs/-/random-word-slugs-0.1.6.tgz"
+  "version" "0.1.6"
+
 "randombytes@^2.0.0", "randombytes@^2.0.1", "randombytes@^2.0.5", "randombytes@^2.1.0":
   "integrity" "sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ=="
   "resolved" "https://registry.npmjs.org/randombytes/-/randombytes-2.1.0.tgz"
