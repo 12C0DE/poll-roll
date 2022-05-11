@@ -16,6 +16,7 @@ import Card from "@mui/material/Card";
 import { Chip } from "@mui/material";
 import FaceIcon from "@mui/icons-material/Face";
 import Alert from "@mui/material/Alert";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
 
 import { format } from "date-fns";
 import { getChartColors } from "../functions/funcs";
@@ -131,15 +132,17 @@ export const Results = () => {
           const resp = await axios.get(
             `https://pollroll-api.herokuapp.com/users/names/${names}`
           );
-          setDateVoteNames((state) => [
-            ...state,
-            {
-              voters: resp.data[0]?.hasOwnProperty("fname")
-                ? resp.data.map((voter) => `${voter.fname} ${voter.lname}`)
-                : null,
-              optionId: optionId,
-            },
-          ]);
+
+          resp.data &&
+            setDateVoteNames((state) => [
+              ...state,
+              {
+                voters: resp.data[0]?.hasOwnProperty("fname")
+                  ? resp.data.map((voter) => `${voter.fname} ${voter.lname}`)
+                  : null,
+                optionId: optionId,
+              },
+            ]);
         } catch (err) {
           console.error(err);
         }
@@ -171,7 +174,7 @@ export const Results = () => {
   return (
     <div>
       {isLoading ? (
-        <h1>Loading</h1>
+        <LoadingSkeleton />
       ) : (
         <React.Fragment>
           <div className="flex flex-col">
@@ -207,7 +210,7 @@ export const Results = () => {
                     label="Vote by"
                     type="text"
                     value={rsvp}
-                    className="mt-8 mb-4 w-1/2 text-center"
+                    className="flex-grow-1 sm:flex-grow-0 mt-8 mb-4 w-3/4 sm:w-1/2 max-w-xl text-center"
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -218,9 +221,9 @@ export const Results = () => {
                 )}
               </Stack>
             </Container>
-            <Container maxWidth="lg">
+            <div className="flex flex-row flex-wrap justify-center gap-2">
               {listData?.counts.reduce((a, b) => a + b, 0) > 0 ? (
-                <>
+                <div className="min-w-xs w-3/5 max-w-lg py-8 px-4 mb-4">
                   {listData.names.map((el) => (
                     <Accordion key={`accrd_${el.id}`}>
                       <AccordionSummary
@@ -271,11 +274,12 @@ export const Results = () => {
                         },
                       ],
                     }}
+                    className="mb-4"
                   />
-                </>
+                </div>
               ) : null}
               {dateData?.counts.reduce((a, b) => a + b, 0) > 0 ? (
-                <>
+                <div className="min-w-xs w-3/5 max-w-lg py-8 px-4 mb-4">
                   {dateData.names.map((el) => (
                     <Accordion key={`dDaccrd_${el.id}`}>
                       <AccordionSummary
@@ -327,9 +331,9 @@ export const Results = () => {
                       ],
                     }}
                   />
-                </>
+                </div>
               ) : null}
-            </Container>
+            </div>
           </div>
         </React.Fragment>
       )}

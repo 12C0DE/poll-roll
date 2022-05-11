@@ -300,16 +300,26 @@ export const totalBoolVotes = (data) => {
 
 export const getChartColors = (arrLength) => {
   const colors = [
-    "purple",
-    "green",
-    "red",
-    "blue",
-    "yellow",
-    "orange",
-    "pink",
-    "black",
-    "gray",
-    "white",
+    "#009fff",
+    "#ec2f4b",
+    "#A354AF",
+    "#f8d738",
+    "#c2d5a8",
+    "#A44F72",
+    "#2C4096",
+    "#a5d5d5",
+    "#44678A",
+    "#16ECA8",
+    "#e3a7c0",
+    "#5D233B",
+    "#5B68A0",
+    "#a5d5d5",
+    "#2776C6",
+    "#1E9F76",
+    "#00FF48",
+    "#EE6007",
+    "#696969",
+    "#040404",
   ];
 
   return colors.slice(0, arrLength);

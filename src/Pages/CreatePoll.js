@@ -46,6 +46,7 @@ const CreatePoll = ({ history }) => {
   }, [reset]);
 
   const clearPollCtrls = () => {
+    setValue("rsvpDate", null);
     reset();
     clearPolls();
   };
@@ -191,36 +192,38 @@ const CreatePoll = ({ history }) => {
                   ),
                 }}
               />
-              <div className="flex flex-row place-content-center flex-wrap space-x-4 space-y-4 mb-4 md:mb-0">
+              <div className="flex flex-row place-content-center flex-wrap space-x-4 space-y-4 mb-4 md:mb-0 md:items-baseline">
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <Controller
                     name="rsvpDate"
                     control={control}
+                    defaultValue={null}
                     render={({
                       field: { onChange, value },
                       fieldState: { error, invalid },
                     }) => (
                       <DatePicker
-                        disablePast
                         label="Vote by:"
                         value={getValues("rsvpDate")}
+                        // required={true}
+                        id="rsvpDate"
+                        disablePast
+                        {...register("rsvpDate", {
+                          required: "Enter a valid RSVP date",
+                        })}
                         onChange={(newValue) => {
                           setValue("rsvpDate", newValue);
                         }}
                         renderInput={(params) => (
                           <TextField
-                            id="rsvpDate"
-                            className="w-full md:w-1/2"
                             error={errors.rsvpDate}
+                            className="w-full md:w-1/3"
                             helperText={
                               errors.rsvpDate && errors.rsvpDate.message
                             }
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            {...register("rsvpDate", {
-                              required: "Enter a valid RSVP date",
-                            })}
                             {...params}
                           />
                         )}
@@ -228,6 +231,7 @@ const CreatePoll = ({ history }) => {
                     )}
                   />
                 </LocalizationProvider>
+
                 <PollTypeList add={add2Polls} />
               </div>
             </Stack>
