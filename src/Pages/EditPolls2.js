@@ -201,7 +201,7 @@ export const EditPolls2 = () => {
             </div>
             <div className="text-center mb-2">
               {updatedStatus && (
-                <SnackbarAlert showSb={updatedStatus} msg="Vote saved" />
+                <SnackbarAlert showSb={updatedStatus} msg="Updates saved" />
               )}
             </div>
           </Container>
