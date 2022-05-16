@@ -152,15 +152,17 @@ export const Results = () => {
           const resp = await axios.get(
             `https://pollroll-api.herokuapp.com/users/names/${names}`
           );
-          setListVoteNames((state) => [
-            ...state,
-            {
-              voters: resp.data[0]?.hasOwnProperty("fname")
-                ? resp.data.map((voter) => `${voter.fname} ${voter.lname}`)
-                : null,
-              optionId: optionId,
-            },
-          ]);
+
+          resp.data &&
+            setListVoteNames((state) => [
+              ...state,
+              {
+                voters: resp.data[0]?.hasOwnProperty("fname")
+                  ? resp.data.map((voter) => `${voter.fname} ${voter.lname}`)
+                  : null,
+                optionId: optionId,
+              },
+            ]);
         } catch (err) {
           console.error(err);
         }
