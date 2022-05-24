@@ -3,6 +3,7 @@ import { auth } from "../Firebase/firebase";
 import { GlobalContext } from "../Context/GlobalState";
 import { Link } from "react-router-dom";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import "../styles/Logout.css";
 
 export const Logout = () => {
   const { setVoteIdParam } = useContext(GlobalContext);
@@ -18,7 +19,7 @@ export const Logout = () => {
       style={{ color: "white" }}
       onClick={() => logOutHandler()}
     >
-      <LogoutRoundedIcon />
+      <LogoutRoundedIcon className="icon" />
     </Link>
   );
 };

@@ -128,6 +128,7 @@ export const Home = () => {
                 value={keyphrase}
                 onChange={(e) => setKeyphrase(e.target.value)}
                 fullWidth
+                InputLabelProps={{ shrink: true }}
                 inputProps={{
                   inputMode: "text",
                   pattern: "[a-zA-Z0-9_]*",
@@ -204,15 +205,25 @@ export const Home = () => {
               </h1>
             </div>
             <Container maxWidth="lg" className="overflow-auto">
-              <ul className="flex flex-row flex-wrap justify-evenly gap-3 pt-2 pb-8">
-                {pollNames?.map((poll) => (
-                  <PollCard
-                    poll={poll}
-                    key={`pc_${poll._id}`}
-                    justVote={false}
-                  />
-                ))}
-              </ul>
+              <div
+                style={{
+                  height: "45%",
+                  backgroundColor: "#EBEBEB4A",
+                  borderRadius: 40,
+                  maxHeight: "600px",
+                  overflowY: "auto",
+                }}
+              >
+                <ul className="flex flex-row flex-wrap justify-evenly gap-3 pt-2 pb-8">
+                  {pollNames?.map((poll) => (
+                    <PollCard
+                      poll={poll}
+                      key={`pc_${poll._id}`}
+                      justVote={false}
+                    />
+                  ))}
+                </ul>
+              </div>
             </Container>
           </div>
           <div>
@@ -222,15 +233,26 @@ export const Home = () => {
               </h1>
             </div>
             <Container maxWidth="lg">
-              <ul className="flex flex-row flex-wrap justify-evenly gap-3 pt-2 pb-8">
-                {pollVotingNames?.map((poll) => (
-                  <PollCard
-                    key={`pcv_${poll._id}`}
-                    poll={poll}
-                    justVote={true}
-                  />
-                ))}
-              </ul>
+              <div
+                style={{
+                  height: "45%",
+                  maxHeight: "600px",
+                  overflowY: "auto",
+                  backgroundColor: "#EBEBEB4A",
+                  borderRadius: 40,
+                  padding: 10,
+                }}
+              >
+                <ul className="flex flex-row flex-wrap justify-evenly gap-3 pt-2 pb-8">
+                  {pollVotingNames?.map((poll) => (
+                    <PollCard
+                      key={`pcv_${poll._id}`}
+                      poll={poll}
+                      justVote={true}
+                    />
+                  ))}
+                </ul>
+              </div>
             </Container>
           </div>
         </>

@@ -5,56 +5,55 @@
 }
 
 .boolCard {
-  background: #fdc830; /* fallback for old browsers */
+  background: #c91d4b; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #e1a54b,
-    #fdc830
+    #b7284e,
+    #de174c
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #d78d1f,
-    #fdc830
+    #df2859,
+    #cd1042
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 .listCard {
-  background: #0cebeb; /* fallback for old browsers */
+  background: #233dcf; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #29ffc6,
-    #20e3b2,
-    #0cebeb
+    #233dcf,
+    #233dcf
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #29ffc6,
-    #20e3b2,
-    #0cebeb
+    #233dcf,
+    #233dcf
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .datesCard {
-  background: #4225c6; /* fallback for old browsers */
+  background: #642ab6; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #3382d6,
-    #2049a1
+    #642ab6,
+    #642ab6
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #04358f,
-    #061179
+    #642ab6,
+    #642ab6
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .comboCard {
-  background: #9f2a99; /* fallback for old browsers */
+  background: #7779ff; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #a854af,
-    #7e1b60
+    #7779ff,
+    #7779ff
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #c94ae2,
-    #652268
+    #7779ff,
+    #7779ff
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
